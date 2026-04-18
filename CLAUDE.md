@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context
+
+- PRD 문서: @docs/PRD.md
+- 개발 로드맵: @docs/ROADMAP.md
+
 ## 프로젝트 개요
 
 Next.js 16 기반 스타터 템플릿입니다. React 19, TypeScript, Tailwind CSS, 그리고 shadcn/ui를 사용하여 빠르게 웹 애플리케이션을 시작할 수 있도록 설계되었습니다.
