@@ -188,6 +188,94 @@
   - 보안 체크 (env 노출 방지, CSRF 대비, next-auth 세션 설정)
   - 모니터링 및 로깅 전략 (Vercel Analytics, 노션 API 호출 로깅)
 
+### Phase 5: SEO 최적화 및 프로덕션 배포
+
+- **Task 012: SEO 최적화**
+  - 메타 태그 최적화
+    - Open Graph 태그 구성 (`og:title`, `og:description`, `og:image`, `og:url`, `og:type`)
+    - Twitter Card 태그 구성 (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`)
+    - Next.js 16 `generateMetadata` API를 활용한 동적 메타데이터 생성
+  - 구조화된 데이터 (Schema.org JSON-LD) 구현
+    - 랜딩 페이지에 `Organization` / `WebSite` 스키마 적용
+    - 견적서 상세 페이지에 `Invoice` 또는 `Offer` 스키마 적용 (공유 페이지 한정)
+    - `BreadcrumbList` 스키마로 네비게이션 경로 노출
+  - 사이트맵 및 robots.txt 동적 생성
+    - `app/sitemap.ts`로 공개 경로만 포함한 사이트맵 자동 생성
+    - `app/robots.ts`로 `/dashboard`, `/api`, `/quotes/[token]` 크롤링 차단
+    - 관리자/공유 토큰 경로는 `noindex, nofollow` 메타 태그 적용
+  - 페이지별 메타 데이터 설정
+    - 랜딩/로그인/대시보드/견적서 상세/404 페이지 각각 title 템플릿 및 description 정의
+    - 언어 설정 (`lang="ko"`) 및 canonical URL 지정
+  - 멀티미디어 최적화
+    - `next/image` 기반 이미지 lazy loading 및 WebP/AVIF 변환
+    - `next/font`로 Noto Sans KR 서브셋 적용 및 FOUT 방지
+    - OG 이미지 동적 생성 (`app/opengraph-image.tsx`)
+  - 모바일 친화성 검증
+    - Google Mobile-Friendly Test 통과 확인
+    - 뷰포트 메타 태그, 터치 타겟 크기(44px 이상), 폰트 크기 검증
+    - Playwright MCP로 다양한 디바이스 뷰포트 렌더링 E2E 테스트
+
+- **Task 013: 보안 및 성능 감사**
+  - OWASP Top 10 보안 체크
+    - A01 접근 제어 결함: 보호 라우트 미들웨어 재검증
+    - A02 암호화 실패: 비밀번호 해싱, 세션 쿠키 Secure/HttpOnly/SameSite 검증
+    - A03 인젝션: 노션 API 요청 파라미터 검증, XSS 방지 (`dangerouslySetInnerHTML` 사용 금지)
+    - A05 보안 설정 오류: 프로덕션 환경에서 디버그 모드 비활성화
+    - A07 인증 실패: 로그인 시도 제한(rate limiting), 세션 만료 정책
+  - SSL/TLS 검증
+    - Vercel 자동 발급 SSL 인증서 유효성 확인
+    - HSTS 헤더 설정 (`Strict-Transport-Security: max-age=31536000; includeSubDomains`)
+    - SSL Labs 스캔 A 등급 이상 확보
+  - CORS 정책 검증
+    - API Route `Access-Control-Allow-Origin` 화이트리스트 구성
+    - Preflight 요청 처리 및 허용 메소드 최소화
+  - 환경 변수 노출 방지
+    - `NEXT_PUBLIC_` 접두사 미사용 민감 정보 클라이언트 번들 제외 검증
+    - `.env.local`, `.env.production` Git ignore 확인
+    - Vercel 환경 변수 대시보드에서 production/preview/development 분리
+  - 콘텐츠 보안 정책(CSP) 설정
+    - `Content-Security-Policy` 헤더 구성 (`default-src 'self'`, `script-src`, `img-src`, `connect-src`)
+    - 노션 API 도메인 및 Vercel Analytics 도메인 허용 목록 추가
+    - CSP Report-Only 모드 검증 후 enforce 전환
+    - 추가 보안 헤더 (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`)
+  - 성능 프로파일링 (Core Web Vitals)
+    - LCP (Largest Contentful Paint) 2.5초 이하 달성
+    - FID/INP (Interaction to Next Paint) 200ms 이하 달성
+    - CLS (Cumulative Layout Shift) 0.1 이하 달성
+    - Lighthouse CI로 배포 시마다 자동 측정
+    - Playwright MCP로 주요 페이지 성능 지표 수집 및 회귀 테스트
+
+- **Task 014: 프로덕션 배포**
+  - Vercel 최종 설정 및 배포
+    - 프로덕션 프로젝트 생성 및 GitHub 연동
+    - 빌드 명령어 및 출력 디렉토리 설정 확인
+    - Edge/Serverless 함수 리전 설정 (서울 `icn1` 권장)
+    - 프리뷰 배포 환경 구성 및 브랜치 보호 규칙 설정
+  - 도메인 연결 및 SSL 인증서
+    - 커스텀 도메인 DNS (A/CNAME) 레코드 설정
+    - Vercel 자동 SSL 인증서 발급 및 갱신 확인
+    - `www` 및 루트 도메인 리디렉션 정책 결정
+  - CI/CD 파이프라인 구성
+    - GitHub Actions 워크플로우 작성 (`.github/workflows/ci.yml`)
+    - 린트 (`npm run lint`), 타입체크 (`tsc --noEmit`), 빌드 (`npm run build`) 단계
+    - Playwright MCP E2E 테스트 단계 (PR 머지 전 필수 통과)
+    - main 브랜치 푸시 시 Vercel 자동 배포 트리거
+  - 모니터링 및 로깅 설정
+    - Sentry 통합 (`@sentry/nextjs`) 및 DSN 환경 변수 등록
+    - Sentry source map 업로드 자동화
+    - Vercel Analytics 활성화 (Web Analytics + Speed Insights)
+    - 노션 API 호출 로그 구조화 (요청 ID, 응답 시간, 에러 코드)
+  - 에러 추적 및 성능 모니터링
+    - 클라이언트/서버 에러 Sentry 자동 캡처
+    - 주요 사용자 플로우 (로그인, PDF 다운로드, 공유 링크 접근) 커스텀 트랜잭션 측정
+    - 알림 규칙 구성 (에러율 임계값 초과 시 이메일/Slack 알림)
+    - Playwright MCP로 프로덕션 스모크 테스트 시나리오 실행
+  - 백업 및 복구 계획
+    - 노션 DB 주기적 백업 전략 (노션 내장 내보내기 또는 별도 스크립트)
+    - 환경 변수 백업 (1Password 등 비밀 관리 도구 활용)
+    - 롤백 절차 문서화 (Vercel Deployment 이전 버전 승격)
+    - 장애 대응 런북 (`docs/RUNBOOK.md`) 작성
+
 ## 참고: PRD 기능 ↔ Task 매핑
 
 | PRD 기능 ID | 기능명 | 관련 Task |
@@ -212,5 +300,31 @@ Task 001 (라우팅 골격)
                             │                       └── Task 008-1 (통합 테스트)
                             │                               ├── Task 009 (UX 향상)
                             │                               ├── Task 010 (최적화)
-                            │                               └── Task 011 (배포)
+                            │                               └── Task 011 (배포 준비)
+                            │                                       └── Task 012 (SEO 최적화)
+                            │                                               └── Task 013 (보안/성능 감사)
+                            │                                                       └── Task 014 (프로덕션 배포)
+```
+
+### Phase 5 세부 의존성
+
+```
+Task 011 (배포 준비)
+    ├── Task 012 (SEO 최적화)
+    │       ├── 메타 태그 / OG / Twitter Card
+    │       ├── JSON-LD 구조화 데이터
+    │       ├── sitemap.ts / robots.ts
+    │       └── 모바일 친화성 검증
+    │
+    ├── Task 013 (보안 및 성능 감사)  ← Task 012 완료 후 전체 감사
+    │       ├── OWASP Top 10 체크
+    │       ├── SSL/TLS, CORS, CSP 설정
+    │       ├── 환경 변수 노출 방지
+    │       └── Core Web Vitals 측정
+    │
+    └── Task 014 (프로덕션 배포)       ← Task 012, 013 완료 후 최종 배포
+            ├── Vercel 프로덕션 배포 및 도메인 연결
+            ├── CI/CD 파이프라인 (GitHub Actions)
+            ├── Sentry / Vercel Analytics 연동
+            └── 백업 및 장애 대응 런북
 ```
