@@ -1,44 +1,42 @@
-import { FileTextIcon } from 'lucide-react';
-import { QuoteItem } from '@/lib/types/quote';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Quote } from '@/lib/types/quote';
 
 interface QuoteItemsTableProps {
-  items: QuoteItem[];
+  quote: Quote;
 }
 
-function formatCurrency(amount: number) {
-  return `₩${amount.toLocaleString('ko-KR')}`;
-}
-
-export function QuoteItemsTable({ items }: QuoteItemsTableProps) {
+export function QuoteItemsTable({ quote }: QuoteItemsTableProps) {
   return (
-    <div className="bg-white rounded-xl border border-border p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <FileTextIcon className="h-4 w-4 text-muted-foreground" />
-        <h3 className="font-semibold">견적 항목</h3>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="text-left py-2 text-muted-foreground font-medium">항목명</th>
-              <th className="text-right py-2 text-muted-foreground font-medium">수량</th>
-              <th className="text-right py-2 text-muted-foreground font-medium">단가</th>
-              <th className="text-right py-2 text-muted-foreground font-medium">금액</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item, index) => (
-              <tr key={index} className="border-b border-border last:border-0">
-                <td className="py-3">{item.name}</td>
-                <td className="py-3 text-right">{item.quantity}</td>
-                <td className="py-3 text-right">{formatCurrency(item.unitPrice)}</td>
-                <td className="py-3 text-right font-medium">{formatCurrency(item.amount)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="w-full overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-2/5">품목</TableHead>
+            <TableHead className="text-right w-1/5">수량</TableHead>
+            <TableHead className="text-right w-1/5">단가</TableHead>
+            <TableHead className="text-right w-1/5">금액</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {quote.items.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell className="text-right">{item.quantity}</TableCell>
+              <TableCell className="text-right">{item.unitPrice.toLocaleString('ko-KR')}원</TableCell>
+              <TableCell className="text-right font-medium">
+                {item.amount.toLocaleString('ko-KR')}원
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

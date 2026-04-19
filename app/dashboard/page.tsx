@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { QuoteStatusBadge } from '@/components/quote/quote-status-badge';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
-import { mockQuotes } from '@/lib/mock/quotes';
+import { generateMockQuotes } from '@/lib/mock/quotes';
 import { QuoteStatus } from '@/lib/types/quote';
 
 interface DashboardPageProps {
@@ -31,6 +31,7 @@ const STATUS_TABS: { label: string; value: string }[] = [
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const { status = 'all' } = await searchParams;
+  const mockQuotes = generateMockQuotes();
 
   const filtered = status === 'all'
     ? mockQuotes

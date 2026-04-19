@@ -1,49 +1,49 @@
-import Link from 'next/link';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Quote } from '@/lib/types/quote';
 import { QuoteStatusBadge } from './quote-status-badge';
+import Link from 'next/link';
 
 interface QuoteCardProps {
   quote: Quote;
+  interactive?: boolean;
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-function formatCurrency(amount: number) {
-  return `₩${amount.toLocaleString('ko-KR')}`;
-}
-
-export function QuoteCard({ quote }: QuoteCardProps) {
-  return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <span className="font-bold text-base">{quote.title}</span>
+export function QuoteCard({ quote, interactive = true }: QuoteCardProps) {
+  const content = (
+    <Card className={interactive ? 'hover:shadow-lg transition-shadow cursor-pointer' : ''}>
+      <CardHeader>
+        <div className="flex justify-between items-start gap-4">
+          <div>
+            <CardTitle className="text-lg">{quote.title}</CardTitle>
+            <p className="text-sm text-gray-600 mt-2">{quote.clientName}</p>
+          </div>
           <QuoteStatusBadge status={quote.status} />
         </div>
-        <p className="text-sm text-muted-foreground">{quote.clientName}</p>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex gap-6 text-sm text-muted-foreground">
-          <span>발행일: {formatDate(quote.issuedDate)}</span>
-          <span>유효기간: {formatDate(quote.validUntil)}</span>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p className="text-gray-600">발행일</p>
+            <p className="font-medium">{new Date(quote.issuedDate).toLocaleDateString('ko-KR')}</p>
+          </div>
+          <div>
+            <p className="text-gray-600">유효기간</p>
+            <p className="font-medium">{new Date(quote.validUntil).toLocaleDateString('ko-KR')}</p>
+          </div>
         </div>
-        <p className="text-xl font-semibold">{formatCurrency(quote.totalAmount)}</p>
-        <div className="flex gap-2 pt-1">
-          <Link href={`/quotes/${quote.shareToken}`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full">
-              상세보기
-            </Button>
-          </Link>
+        <div>
+          <p className="text-gray-600 text-sm mb-1">총액</p>
+          <p className="text-2xl font-bold text-blue-600">
+            {quote.totalAmount.toLocaleString('ko-KR')}원
+          </p>
         </div>
       </CardContent>
     </Card>
   );
+
+  if (interactive) {
+    return <Link href={`/quotes/${quote.shareToken}`}>{content}</Link>;
+  }
+
+  return content;
 }

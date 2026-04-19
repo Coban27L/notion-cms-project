@@ -12,22 +12,35 @@ interface ShareLinkButtonProps {
 export function ShareLinkButton({ token }: ShareLinkButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  async function handleCopy() {
+  const handleCopy = async () => {
     const url = `${window.location.origin}/quotes/${token}`;
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    toast.success('공유 링크가 복사되었습니다');
-    setTimeout(() => setCopied(false), 2000);
-  }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      toast.success('링크가 복사되었습니다');
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error('복사 실패');
+    }
+  };
 
   return (
-    <Button variant="outline" size="sm" onClick={handleCopy}>
+    <Button
+      onClick={handleCopy}
+      variant={copied ? 'outline' : 'default'}
+      className="w-full md:w-auto"
+    >
       {copied ? (
-        <Check className="h-4 w-4 mr-1" />
+        <>
+          <Check className="w-4 h-4 mr-2" />
+          복사됨!
+        </>
       ) : (
-        <Copy className="h-4 w-4 mr-1" />
+        <>
+          <Copy className="w-4 h-4 mr-2" />
+          링크 복사
+        </>
       )}
-      {copied ? '복사됨' : '링크 복사'}
     </Button>
   );
 }

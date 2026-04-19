@@ -1,16 +1,17 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-
-import { BuildingIcon } from 'lucide-react';
+import { BuildingIcon, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { QuoteHeader } from '@/components/quote/quote-header';
 import { QuoteItemsTable } from '@/components/quote/quote-items-table';
 import { QuoteSummary } from '@/components/quote/quote-summary';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
-import { getMockQuoteByToken } from '@/lib/mock/quotes';
+import { generateMockQuotes, getMockQuoteByToken } from '@/lib/mock/quotes';
 
 export async function generateStaticParams() {
-  const { mockQuotes } = await import('@/lib/mock/quotes');
-  return mockQuotes.map((q) => ({ token: q.shareToken }));
+  const quotes = generateMockQuotes();
+  return quotes.map((q) => ({ token: q.shareToken }));
 }
 
 interface QuotePageProps {
@@ -35,19 +36,22 @@ export default async function QuotePage({ params }: QuotePageProps) {
   if (!quote) notFound();
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        {/* 페이지 제목 */}
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
+          <Link href="/">
+            <Button variant="ghost" className="mb-4">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              돌아가기
+            </Button>
+          </Link>
           <h1 className="text-3xl font-bold">견적서 조회</h1>
           <p className="text-muted-foreground mt-1">견적서의 상세 내용을 확인하실 수 있습니다.</p>
         </div>
 
-        <div className="space-y-4">
-          {/* 1. 견적서 헤더 */}
+        <div className="space-y-6">
           <QuoteHeader quote={quote} />
 
-          {/* 2. 클라이언트 정보 */}
           <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
             <div className="flex items-center gap-2 mb-4">
               <BuildingIcon className="h-4 w-4 text-muted-foreground" />
@@ -59,13 +63,15 @@ export default async function QuotePage({ params }: QuotePageProps) {
             </div>
           </div>
 
-          {/* 3. 견적 항목 */}
-          <QuoteItemsTable items={quote.items} />
+          <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
+            <h3 className="font-semibold mb-4">견적 항목</h3>
+            <QuoteItemsTable quote={quote} />
+          </div>
 
-          {/* 4. 총액 */}
-          <QuoteSummary totalAmount={quote.totalAmount} itemCount={quote.items.length} />
+          <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
+            <QuoteSummary quote={quote} />
+          </div>
 
-          {/* 5. 비고 */}
           {quote.notes && (
             <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
               <h3 className="font-semibold mb-2">비고</h3>
@@ -73,12 +79,9 @@ export default async function QuotePage({ params }: QuotePageProps) {
             </div>
           )}
 
-          {/* 액션 버튼 */}
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-4">
             <ShareLinkButton token={quote.shareToken} />
-            <button className="flex-1 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">
-              PDF 다운로드
-            </button>
+            <Button className="flex-1">PDF 다운로드</Button>
           </div>
         </div>
       </div>

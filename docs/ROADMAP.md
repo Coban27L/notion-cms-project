@@ -70,7 +70,7 @@
 
 ### Phase 2: UI/UX 완성 (더미 데이터 활용)
 
-- **Task 003: 공통 컴포넌트 및 디자인 시스템 구축**
+- ✅ **Task 003: 공통 컴포넌트 및 디자인 시스템 구축** (작업 파일: tasks/003-design-system.md)
   - shadcn/ui 필수 컴포넌트 추가 (Button, Card, Input, Label, Table, Badge, Select, Form, Dialog, Toast)
   - 견적서 도메인 컴포넌트 골격 (`components/quote/`)
     - `QuoteCard` (대시보드 목록용)
@@ -82,7 +82,7 @@
   - 공유 링크 복사 버튼 컴포넌트 (`components/quote/share-link-button.tsx`)
   - 반응형 스타일 가이드 및 디자인 토큰 확립
 
-- **Task 004: 모든 페이지 UI 완성 (더미 데이터 기반)**
+- ✅ **Task 004: 모든 페이지 UI 완성 (더미 데이터 기반)** (작업 파일: tasks/004-page-ui-completion.md)
   - 랜딩 페이지 UI 완성 (서비스 설명, 관리자 로그인 버튼)
   - 로그인 페이지 UI 완성 (react-hook-form + zod 유효성 검사 스키마 정의, 에러 메시지 UI)
   - 대시보드 UI 완성 (견적서 카드 그리드, 상태 필터 전체/발행/승인/취소, 공유 링크 복사 버튼)

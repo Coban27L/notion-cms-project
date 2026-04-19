@@ -5,17 +5,18 @@ interface QuoteStatusBadgeProps {
   status: QuoteStatus;
 }
 
-const statusConfig: Record<QuoteStatus, { label: string; className: string }> = {
-  발행: { label: '발행', className: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100' },
-  승인: { label: '승인', className: 'bg-green-100 text-green-800 hover:bg-green-100' },
-  취소: { label: '취소', className: 'bg-red-100 text-red-800 hover:bg-red-100' },
-};
-
 export function QuoteStatusBadge({ status }: QuoteStatusBadgeProps) {
-  const config = statusConfig[status];
-  return (
-    <Badge className={config.className} variant="secondary">
-      {config.label}
-    </Badge>
-  );
+  const variants: Record<QuoteStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+    '발행': 'default',
+    '승인': 'secondary',
+    '취소': 'destructive',
+  };
+
+  const labels: Record<QuoteStatus, string> = {
+    '발행': '발행',
+    '승인': '승인',
+    '취소': '취소',
+  };
+
+  return <Badge variant={variants[status]}>{labels[status]}</Badge>;
 }
