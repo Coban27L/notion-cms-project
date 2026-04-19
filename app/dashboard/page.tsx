@@ -1,198 +1,133 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  BarChart3,
-  TrendingUp,
-  Users,
-  Activity,
-} from "lucide-react";
-
-type ActivityStatus = "success" | "warning" | "info";
-
-interface Activity {
-  id: number;
-  action: string;
-  time: string;
-  status: ActivityStatus;
-}
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { QuoteStatusBadge } from '@/components/quote/quote-status-badge';
+import { ShareLinkButton } from '@/components/quote/share-link-button';
+import { mockQuotes } from '@/lib/mock/quotes';
+import { QuoteStatus } from '@/lib/types/quote';
 
 interface DashboardPageProps {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{ status?: string }>;
 }
 
-// Next.js 16: searchParams는 Promise 타입이므로 반드시 await 사용
-export default async function DashboardPage({
-  searchParams,
-}: DashboardPageProps) {
-  const { tab = "overview" } = await searchParams;
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
 
-  const stats = [
-    {
-      id: 1,
-      title: "총 사용자",
-      value: "1,234",
-      icon: Users,
-      trend: "+12%",
-      color: "text-blue-500",
-      bgColor: "bg-blue-500/10",
-    },
-    {
-      id: 2,
-      title: "활성 세션",
-      value: "567",
-      icon: Activity,
-      trend: "+8%",
-      color: "text-green-500",
-      bgColor: "bg-green-500/10",
-    },
-    {
-      id: 3,
-      title: "총 수익",
-      value: "$45,231",
-      icon: TrendingUp,
-      trend: "+23%",
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
-    },
-    {
-      id: 4,
-      title: "전환율",
-      value: "3.45%",
-      icon: BarChart3,
-      trend: "-1.2%",
-      color: "text-orange-500",
-      bgColor: "bg-orange-500/10",
-    },
-  ];
+function formatCurrency(amount: number) {
+  return `₩${amount.toLocaleString('ko-KR')}`;
+}
 
-  const recentActivity: Activity[] = [
-    { id: 1, action: "새 사용자 가입", time: "5분 전", status: "success" },
-    { id: 2, action: "페이 결제 완료", time: "12분 전", status: "success" },
-    { id: 3, action: "시스템 업데이트", time: "1시간 전", status: "info" },
-    { id: 4, action: "API 한계 도달", time: "2시간 전", status: "warning" },
-    { id: 5, action: "백업 완료", time: "5시간 전", status: "success" },
-  ];
+const STATUS_TABS: { label: string; value: string }[] = [
+  { label: '전체', value: 'all' },
+  { label: '발행', value: '발행' },
+  { label: '승인', value: '승인' },
+  { label: '취소', value: '취소' },
+];
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const { status = 'all' } = await searchParams;
+
+  const filtered = status === 'all'
+    ? mockQuotes
+    : mockQuotes.filter((q) => q.status === (status as QuoteStatus));
 
   return (
-    <div className="space-y-8">
-      {/* 페이지 헤더 */}
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">대시보드</h1>
-        <p className="text-muted-foreground mt-2">
-          시스템 성능 및 활동 현황을 한눈에 확인하세요.
-        </p>
+        <h1 className="text-3xl font-bold">견적서 대시보드</h1>
+        <p className="text-muted-foreground mt-1">노션 DB와 연동된 견적서를 관리합니다.</p>
       </div>
 
-      {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium">
-                    {stat.title}
-                  </CardTitle>
-                  <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                    <Icon className={`h-5 w-5 ${stat.color}`} />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold">{stat.value}</span>
-                  <Badge variant="outline" className="text-xs">
-                    {stat.trend}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+      {/* 요약 통계 */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: '전체', count: mockQuotes.length, color: 'text-foreground' },
+          { label: '발행', count: mockQuotes.filter((q) => q.status === '발행').length, color: 'text-yellow-600' },
+          { label: '승인', count: mockQuotes.filter((q) => q.status === '승인').length, color: 'text-green-600' },
+          { label: '취소', count: mockQuotes.filter((q) => q.status === '취소').length, color: 'text-red-600' },
+        ].map((stat) => (
+          <div key={stat.label} className="bg-card border border-border rounded-lg p-4">
+            <p className="text-sm text-muted-foreground">{stat.label}</p>
+            <p className={`text-2xl font-bold ${stat.color}`}>{stat.count}</p>
+          </div>
+        ))}
       </div>
 
-      {/* 탭 컨텐츠 */}
-      <Tabs defaultValue={tab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 lg:w-auto">
-          <TabsTrigger value="overview">개요</TabsTrigger>
-          <TabsTrigger value="analytics">분석</TabsTrigger>
-          <TabsTrigger value="reports">리포트</TabsTrigger>
-        </TabsList>
+      {/* 상태 필터 탭 */}
+      <div className="flex gap-2 border-b border-border">
+        {STATUS_TABS.map((tab) => (
+          <Link key={tab.value} href={`/dashboard?status=${tab.value}`}>
+            <button
+              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                status === tab.value
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {tab.label}
+              <Badge variant="secondary" className="ml-2 text-xs">
+                {tab.value === 'all'
+                  ? mockQuotes.length
+                  : mockQuotes.filter((q) => q.status === tab.value).length}
+              </Badge>
+            </button>
+          </Link>
+        ))}
+      </div>
 
-        {/* 개요 탭 */}
-        <TabsContent value="overview" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>최근 활동</CardTitle>
-              <CardDescription>지난 24시간의 주요 활동</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentActivity.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between border-b pb-3 last:border-0"
-                  >
-                    <div className="space-y-1">
-                      <p className="font-medium text-sm">{item.action}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {item.time}
-                      </p>
-                    </div>
-                    <Badge
-                      variant={
-                        item.status === "success"
-                          ? "default"
-                          : item.status === "warning"
-                            ? "outline"
-                            : "secondary"
-                      }
-                    >
-                      {item.status === "success"
-                        ? "성공"
-                        : item.status === "warning"
-                          ? "경고"
-                          : "정보"}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* 분석 탭 */}
-        <TabsContent value="analytics">
-          <Card>
-            <CardHeader>
-              <CardTitle>분석 데이터</CardTitle>
-              <CardDescription>상세 분석 데이터는 여기에 표시됩니다.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-32 flex items-center justify-center text-muted-foreground">
-                분석 차트를 여기에 추가하세요
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* 리포트 탭 */}
-        <TabsContent value="reports">
-          <Card>
-            <CardHeader>
-              <CardTitle>리포트</CardTitle>
-              <CardDescription>정기 리포트 내용이 여기에 표시됩니다.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-32 flex items-center justify-center text-muted-foreground">
-                리포트 데이터를 여기에 추가하세요
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      {/* 견적서 테이블 */}
+      <div className="bg-card border border-border rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 border-b border-border">
+              <tr>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">견적서 번호</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">클라이언트명</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">발행일</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">유효기간</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">상태</th>
+                <th className="text-right px-4 py-3 font-medium text-muted-foreground">총 금액</th>
+                <th className="text-right px-4 py-3 font-medium text-muted-foreground">액션</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="text-center py-12 text-muted-foreground">
+                    견적서가 없습니다.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((quote) => (
+                  <tr key={quote.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+                    <td className="px-4 py-4 font-medium">{quote.title}</td>
+                    <td className="px-4 py-4 text-muted-foreground">{quote.clientName}</td>
+                    <td className="px-4 py-4 text-muted-foreground">{formatDate(quote.issuedDate)}</td>
+                    <td className="px-4 py-4 text-muted-foreground">{formatDate(quote.validUntil)}</td>
+                    <td className="px-4 py-4">
+                      <QuoteStatusBadge status={quote.status} />
+                    </td>
+                    <td className="px-4 py-4 text-right font-medium">{formatCurrency(quote.totalAmount)}</td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center justify-end gap-2">
+                        <ShareLinkButton token={quote.shareToken} />
+                        <Link href={`/quotes/${quote.shareToken}`}>
+                          <Button variant="ghost" size="sm">상세보기</Button>
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

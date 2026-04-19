@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export function CTASection() {
   return (
@@ -10,23 +10,19 @@ export function CTASection() {
             지금 바로 시작하세요
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            이 스타터킷을 기반으로 당신의 다음 프로젝트를 시작해보세요.
+            노션에 견적서를 등록하고 관리자로 로그인하여
             <br />
-            모든 기초가 준비되어 있습니다.
+            클라이언트에게 공유 링크를 전달해보세요.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dashboard">
-              <Button size="lg">프로젝트 시작</Button>
+            <Link href="/login">
+              <Button size="lg">관리자 로그인</Button>
             </Link>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="/dashboard">
               <Button size="lg" variant="outline">
-                GitHub에서 보기
+                대시보드 보기
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

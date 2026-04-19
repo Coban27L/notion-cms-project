@@ -1,79 +1,85 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+import { BuildingIcon } from 'lucide-react';
+import { QuoteHeader } from '@/components/quote/quote-header';
+import { QuoteItemsTable } from '@/components/quote/quote-items-table';
+import { QuoteSummary } from '@/components/quote/quote-summary';
+import { ShareLinkButton } from '@/components/quote/share-link-button';
+import { getMockQuoteByToken } from '@/lib/mock/quotes';
+
+export async function generateStaticParams() {
+  const { mockQuotes } = await import('@/lib/mock/quotes');
+  return mockQuotes.map((q) => ({ token: q.shareToken }));
+}
 
 interface QuotePageProps {
-  params: {
-    token: string;
-  };
+  params: Promise<{ token: string }>;
 }
 
-export async function generateMetadata({
-  params,
-}: QuotePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: QuotePageProps): Promise<Metadata> {
+  const { token } = await params;
+  const quote = getMockQuoteByToken(token);
+  if (!quote) return { title: '견적서를 찾을 수 없습니다' };
+
   return {
-    title: `견적서 - ${params.token}`,
-    description: '공유된 견적서',
+    title: `견적서 ${quote.title}`,
+    description: `${quote.clientName} 견적서`,
   };
 }
 
-export default function QuotePage({ params }: QuotePageProps) {
+export default async function QuotePage({ params }: QuotePageProps) {
+  const { token } = await params;
+  const quote = getMockQuoteByToken(token);
+
+  if (!quote) notFound();
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">견적서</h1>
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
+      <div className="max-w-2xl mx-auto px-4 py-10">
+        {/* 페이지 제목 */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold">견적서 조회</h1>
+          <p className="text-muted-foreground mt-1">견적서의 상세 내용을 확인하실 수 있습니다.</p>
+        </div>
 
-      <div className="text-muted-foreground mb-8">
-        <p>토큰: {params.token}</p>
-      </div>
+        <div className="space-y-4">
+          {/* 1. 견적서 헤더 */}
+          <QuoteHeader quote={quote} />
 
-      <div className="bg-card rounded-lg border border-border p-8 space-y-8">
-        <section>
-          <h2 className="text-xl font-semibold mb-4">발행사 정보</h2>
-          <p className="text-muted-foreground">발행사 정보가 표시됩니다</p>
-        </section>
-
-        <section>
-          <h2 className="text-xl font-semibold mb-4">견적 항목</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="border-b border-border">
-                <tr>
-                  <th className="text-left py-2 px-4">항목</th>
-                  <th className="text-right py-2 px-4">수량</th>
-                  <th className="text-right py-2 px-4">단가</th>
-                  <th className="text-right py-2 px-4">금액</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-border">
-                  <td className="py-4 px-4">항목 1</td>
-                  <td className="text-right py-4 px-4">1</td>
-                  <td className="text-right py-4 px-4">0원</td>
-                  <td className="text-right py-4 px-4">0원</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section className="flex justify-end">
-          <div className="w-full max-w-xs space-y-2">
-            <div className="flex justify-between py-2">
-              <span>소계</span>
-              <span>0원</span>
+          {/* 2. 클라이언트 정보 */}
+          <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <BuildingIcon className="h-4 w-4 text-muted-foreground" />
+              <h3 className="font-semibold">클라이언트 정보</h3>
             </div>
-            <div className="flex justify-between py-2 border-t border-border">
-              <span className="font-semibold">합계</span>
-              <span className="font-semibold">0원</span>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1">회사명</p>
+              <p className="text-lg font-semibold">{quote.clientName}</p>
             </div>
           </div>
-        </section>
 
-        <div className="flex justify-end gap-4">
-          <button className="px-6 py-2 border border-input rounded-lg hover:bg-accent transition-colors">
-            공유 링크 복사
-          </button>
-          <button className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-            PDF 다운로드
-          </button>
+          {/* 3. 견적 항목 */}
+          <QuoteItemsTable items={quote.items} />
+
+          {/* 4. 총액 */}
+          <QuoteSummary totalAmount={quote.totalAmount} itemCount={quote.items.length} />
+
+          {/* 5. 비고 */}
+          {quote.notes && (
+            <div className="bg-white dark:bg-card rounded-xl border border-border p-6">
+              <h3 className="font-semibold mb-2">비고</h3>
+              <p className="text-sm text-muted-foreground">{quote.notes}</p>
+            </div>
+          )}
+
+          {/* 액션 버튼 */}
+          <div className="flex gap-3 pt-2">
+            <ShareLinkButton token={quote.shareToken} />
+            <button className="flex-1 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">
+              PDF 다운로드
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,64 +1,39 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Zap,
-  PaletteIcon,
-  Code2,
-  Lock,
-  Smartphone,
-  Workflow,
-} from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DatabaseIcon, LinkIcon, FileDownIcon } from 'lucide-react';
 
 const features = [
   {
     id: 1,
-    title: "빠른 성능",
-    description: "Next.js 16의 Turbopack으로 초고속 빌드와 개발 서버",
-    icon: Zap,
+    title: '노션 CMS 연동',
+    description: '노션 데이터베이스에서 견적서를 작성하면 웹에서 자동으로 렌더링됩니다. 별도의 코딩 없이 노션만으로 견적서를 관리하세요.',
+    icon: DatabaseIcon,
   },
   {
     id: 2,
-    title: "아름다운 UI",
-    description: "shadcn/ui와 Tailwind CSS로 만든 세련된 컴포넌트",
-    icon: PaletteIcon,
+    title: '고유 링크 공유',
+    description: 'UUID 기반의 고유 링크를 생성하여 클라이언트에게 전달하세요. 로그인 없이도 견적서를 확인할 수 있습니다.',
+    icon: LinkIcon,
   },
   {
     id: 3,
-    title: "완전한 타입 안전성",
-    description: "TypeScript strict 모드로 런타임 오류 방지",
-    icon: Code2,
-  },
-  {
-    id: 4,
-    title: "다크모드 지원",
-    description: "next-themes로 구현한 완벽한 다크모드 토글",
-    icon: Lock,
-  },
-  {
-    id: 5,
-    title: "반응형 디자인",
-    description: "모바일부터 데스크탑까지 최적화된 레이아웃",
-    icon: Smartphone,
-  },
-  {
-    id: 6,
-    title: "검증된 라이브러리",
-    description: "직접 구현 대신 업계 표준 라이브러리만 사용",
-    icon: Workflow,
+    title: 'PDF 다운로드',
+    description: '견적서를 PDF 파일로 다운로드할 수 있습니다. 한글 폰트를 지원하며 인쇄에 최적화된 레이아웃을 제공합니다.',
+    icon: FileDownIcon,
   },
 ];
 
 export function FeaturesSection() {
   return (
     <section className="py-20 md:py-32 px-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">핵심 기능</h2>
           <p className="text-lg text-muted-foreground">
-            현대적인 웹 개발에 필요한 모든 것을 준비했습니다
+            프리랜서와 소규모 팀을 위한 견적서 관리의 모든 것
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
@@ -70,7 +45,7 @@ export function FeaturesSection() {
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-base">
+                  <CardDescription className="text-base leading-relaxed">
                     {feature.description}
                   </CardDescription>
                 </CardContent>

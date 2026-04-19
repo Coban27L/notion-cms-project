@@ -44,3 +44,5 @@ next-env.d.ts
 .playwright-mcp/*.log
 .playwright-mcp/
 .claude/
+shrimp_data/WebGUI.md
+shrimp_data/mcp-shrimp-task-manager.log
