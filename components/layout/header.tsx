@@ -38,6 +38,27 @@ export function Header() {
         {/* Right Actions */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
+
+          {/* Auth Actions */}
+          <div className="hidden md:flex md:items-center md:gap-2">
+            {false ? (
+              <>
+                <Link href="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+                  대시보드
+                </Link>
+                <form action="/api/auth/logout" method="POST" className="inline">
+                  <Button type="submit" variant="ghost" size="sm">
+                    로그아웃
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <Link href="/login" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+                로그인
+              </Link>
+            )}
+          </div>
+
           <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger className="p-2 hover:bg-accent rounded-lg transition-colors" aria-label="모바일 메뉴 열기">
@@ -66,6 +87,24 @@ export function Header() {
                   >
                     소개
                   </Link>
+
+                  <div className="border-t border-border my-4" />
+
+                  {false ? (
+                    <form action="/api/auth/logout" method="POST" className="block">
+                      <Button type="submit" variant="ghost" size="sm" className="w-full justify-start">
+                        로그아웃
+                      </Button>
+                    </form>
+                  ) : (
+                    <Link
+                      href="/login"
+                      className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors block"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      로그인
+                    </Link>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>

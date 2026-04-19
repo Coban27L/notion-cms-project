@@ -47,7 +47,7 @@
 
 ### Phase 1: 애플리케이션 골격 구축
 
-- **Task 001: 프로젝트 구조 및 라우팅 설정** - 우선순위
+- 🔄 **Task 001: 프로젝트 구조 및 라우팅 설정** - 우선순위 (작업 파일: tasks/001-routing-setup.md)
   - Next.js 16 App Router 기반 전체 라우트 구조 생성
     - `/app/page.tsx` (랜딩 페이지 골격)
     - `/app/login/page.tsx` (로그인 페이지 골격)
@@ -59,7 +59,7 @@
     - `NOTION_API_KEY`, `NOTION_DATABASE_ID`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
   - 헤더 네비게이션 조건부 렌더링 구조 (로그인/비로그인)
 
-- **Task 002: 타입 정의 및 인터페이스 설계**
+- 🔄 **Task 002: 타입 정의 및 인터페이스 설계** (작업 파일: tasks/002-type-definitions.md)
   - 견적서 도메인 타입 정의 (`lib/types/quote.ts`)
     - `Quote` 인터페이스 (title, client_name, status, total_amount, issued_date, valid_until, share_token, items, notes)
     - `QuoteItem` 인터페이스 (name, quantity, unit_price, amount)
