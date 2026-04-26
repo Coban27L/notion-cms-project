@@ -56,17 +56,21 @@ export async function getAllQuotes(): Promise<Quote[]> {
     console.log('[Notion] 견적서 목록 조회 시작');
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
+    // 임시: 필터 제거하고 클라이언트 사이드 필터링으로 변경
     const pages = await queryAllPages<NotionInvoiceProperties>(
       dataSourceId,
-      {
-        property: '상태',
-        select: { does_not_equal: '취소' },
-      },
+      undefined,
       [{ property: '발행일', direction: 'descending' }],
     );
 
     console.log(`[Notion] ${pages.length}개의 견적서 조회 완료`);
-    return pages.map((p) => mapNotionPageToQuote(p));
+    // 상태가 '취소'인 항목 필터링
+    return pages
+      .filter((p) => {
+        const statusProp = p.properties['상태'] as any;
+        return statusProp?.select?.name !== '취소';
+      })
+      .map((p) => mapNotionPageToQuote(p));
   } catch (error) {
     handleNotionError(error, '[Notion] 견적서 목록 조회 실패');
     return [];
@@ -88,17 +92,10 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     console.log(`[Notion] 공유 토큰으로 견적서 조회`);
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
+    // 임시: 상태 필터 제거, 클라이언트 사이드 필터링으로 변경
     const pages = await queryAllPages<NotionInvoiceProperties>(dataSourceId, {
-      and: [
-        {
-          property: '공유토큰',
-          rich_text: { equals: shareToken },
-        },
-        {
-          property: '상태',
-          select: { does_not_equal: '취소' },
-        },
-      ],
+      property: '공유토큰',
+      rich_text: { equals: shareToken },
     });
 
     if (pages.length === 0) {
@@ -107,6 +104,13 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     }
 
     const page = pages[0];
+    // 클라이언트 사이드에서 상태 필터링
+    const statusProp = page.properties['상태'] as any;
+    if (statusProp?.select?.name === '취소') {
+      console.warn(`[Notion] 취소된 견적서 접근 불가`);
+      return null;
+    }
+
     const items = await getItemsByInvoice(page.id);
     console.log(`[Notion] 견적서 조회 완료 (${items.length}개 항목)`);
     return mapNotionPageToQuote(page, items);
