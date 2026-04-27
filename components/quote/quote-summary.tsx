@@ -1,30 +1,47 @@
+import { Separator } from '@/components/ui/separator';
 import { Quote } from '@/lib/types/quote';
+import { formatSGD } from '@/lib/utils/currency';
 
 interface QuoteSummaryProps {
   quote: Quote;
 }
 
-const TAX_RATE = 0.1;
+/** 싱가포르 GST 세율 9% */
+const TAX_RATE = 0.09;
 
+/**
+ * 견적서 합계 요약 컴포넌트
+ * - 소계, GST 세금(9%), 합계 표시
+ * - 통화: 싱가포르 달러 (S$)
+ * - 싱가포르 GST 9% 적용
+ */
 export function QuoteSummary({ quote }: QuoteSummaryProps) {
-  const subtotal = quote.items.reduce((sum, item) => sum + item.amount, 0);
+  const subtotal = (quote.items || []).reduce((sum, item) => sum + item.amount, 0);
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
   return (
-    <div className="w-full border-t pt-6">
-      <div className="space-y-2 ml-auto w-64">
-        <div className="flex justify-between">
-          <span className="text-gray-600">소계</span>
-          <span className="font-medium">{subtotal.toLocaleString('ko-KR')}원</span>
+    <div className="flex justify-end">
+      <div className="w-full max-w-xs space-y-3">
+        {/* 소계 */}
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">소계</span>
+          <span className="font-medium tabular-nums">{formatSGD(subtotal)}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-gray-600">세금(10%)</span>
-          <span className="font-medium">{tax.toLocaleString('ko-KR')}원</span>
+        {/* GST 세금 */}
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">GST (9%)</span>
+          <span className="font-medium tabular-nums">{formatSGD(tax)}</span>
         </div>
-        <div className="flex justify-between border-t pt-2">
-          <span className="font-bold">합계</span>
-          <span className="text-xl font-bold">{total.toLocaleString('ko-KR')}원</span>
+
+        <Separator />
+
+        {/* 최종 합계 */}
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">합계</span>
+          <span className="text-xl font-bold tabular-nums text-primary">
+            {formatSGD(total)}
+          </span>
         </div>
       </div>
     </div>

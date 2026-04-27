@@ -1,16 +1,20 @@
 import { Quote } from '@/lib/types/quote';
 
+/**
+ * @deprecated 더미 데이터. 실제 노션 API로 대체됨 (lib/notion/queries.ts)
+ * 개발 초기 단계에서만 참고용으로 유지
+ */
 export function generateMockQuotes(): Quote[] {
   return [
     {
       id: 'page-001',
+      shareToken: '550e8400-e29b-41d4-a716-446655440001',
       title: 'QT-2024-001',
       clientName: '홍길동',
       status: '발행',
       totalAmount: 1500000,
       issuedDate: '2024-03-15',
       validUntil: '2024-04-15',
-      shareToken: 'abc123def456-7890',
       items: [
         {
           name: 'UI/UX 디자인',
@@ -29,13 +33,13 @@ export function generateMockQuotes(): Quote[] {
     },
     {
       id: 'page-002',
+      shareToken: '550e8400-e29b-41d4-a716-446655440002',
       title: 'QT-2024-002',
       clientName: '김영희',
       status: '승인',
       totalAmount: 2300000,
       issuedDate: '2024-03-10',
       validUntil: '2024-04-10',
-      shareToken: 'ghi789jkl012-3456',
       items: [
         {
           name: 'API 개발',
@@ -56,17 +60,16 @@ export function generateMockQuotes(): Quote[] {
           amount: 400000,
         },
       ],
-      notes: '',
     },
     {
       id: 'page-003',
+      shareToken: '550e8400-e29b-41d4-a716-446655440003',
       title: 'QT-2024-003',
       clientName: '이순신',
       status: '취소',
       totalAmount: 900000,
       issuedDate: '2024-02-28',
       validUntil: '2024-03-28',
-      shareToken: 'mno345pqr678-9012',
       items: [
         {
           name: '웹사이트 개선',
@@ -79,13 +82,13 @@ export function generateMockQuotes(): Quote[] {
     },
     {
       id: 'page-004',
+      shareToken: '550e8400-e29b-41d4-a716-446655440004',
       title: 'QT-2024-004',
       clientName: '박문수',
       status: '발행',
       totalAmount: 3000000,
       issuedDate: '2024-03-18',
       validUntil: '2024-04-18',
-      shareToken: 'stu901vwx234-5678',
       items: [
         {
           name: 'Full Stack 개발',
@@ -110,13 +113,13 @@ export function generateMockQuotes(): Quote[] {
     },
     {
       id: 'page-005',
+      shareToken: '550e8400-e29b-41d4-a716-446655440005',
       title: 'QT-2024-005',
       clientName: '정약용',
       status: '승인',
       totalAmount: 1200000,
       issuedDate: '2024-03-12',
       validUntil: '2024-04-12',
-      shareToken: 'yza567bcd890-1234',
       items: [
         {
           name: 'WordPress 테마 커스터마이징',

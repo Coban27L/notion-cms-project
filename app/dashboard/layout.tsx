@@ -22,10 +22,10 @@ function DashboardSkeleton() {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <Suspense fallback={<DashboardSkeleton />}>
         {children}
       </Suspense>
-    </main>
+    </div>
   );
 }

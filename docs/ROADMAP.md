@@ -47,53 +47,68 @@
 
 ### Phase 1: 애플리케이션 골격 구축
 
-- 🔄 **Task 001: 프로젝트 구조 및 라우팅 설정** - 우선순위 (작업 파일: tasks/001-routing-setup.md)
-  - Next.js 16 App Router 기반 전체 라우트 구조 생성
+- ✅ **Task 001: 프로젝트 구조 및 라우팅 설정** (작업 파일: tasks/001-routing-setup.md)
+  - Next.js 16 App Router 기반 전체 라우트 구조 생성 ✅
     - `/app/page.tsx` (랜딩 페이지 골격)
     - `/app/login/page.tsx` (로그인 페이지 골격)
     - `/app/dashboard/page.tsx` (대시보드 골격)
     - `/app/quotes/[token]/page.tsx` (견적서 상세 페이지 골격)
     - `/app/not-found.tsx` (404 페이지)
-  - 공통 레이아웃 컴포넌트 골격 구현 (`components/layout/header.tsx`, `footer.tsx`)
-  - 환경 변수 템플릿 파일 (`.env.example`) 생성
+  - 공통 레이아웃 컴포넌트 골격 구현 ✅ (`components/layout/header.tsx`, `footer.tsx`)
+  - 환경 변수 템플릿 파일 ✅ (`.env.example`)
     - `NOTION_API_KEY`, `NOTION_DATABASE_ID`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
-  - 헤더 네비게이션 조건부 렌더링 구조 (로그인/비로그인)
+  - 헤더 네비게이션 조건부 렌더링 구조 ✅ (로그인/비로그인)
 
-- 🔄 **Task 002: 타입 정의 및 인터페이스 설계** (작업 파일: tasks/002-type-definitions.md)
-  - 견적서 도메인 타입 정의 (`lib/types/quote.ts`)
+- ✅ **Task 002: 타입 정의 및 인터페이스 설계** (작업 파일: tasks/002-type-definitions.md)
+  - 견적서 도메인 타입 정의 ✅ (`lib/types/quote.ts`)
     - `Quote` 인터페이스 (title, client_name, status, total_amount, issued_date, valid_until, share_token, items, notes)
     - `QuoteItem` 인터페이스 (name, quantity, unit_price, amount)
     - `QuoteStatus` 유니온 타입 ('발행' | '승인' | '취소')
-  - 노션 API 응답 매퍼 타입 (`lib/types/notion.ts`)
-  - 인증 관련 타입 정의 (`lib/types/auth.ts`)
-  - API 응답 공통 타입 (`lib/types/api.ts`) - 성공/실패 응답 표준 스키마
+  - 노션 API 응답 매퍼 타입 ✅ (`lib/types/notion.ts`)
+  - 인증 관련 타입 정의 ✅ (`lib/types/auth.ts`)
+  - API 응답 공통 타입 ✅ (`lib/types/api.ts`) - 성공/실패 응답 표준 스키마
 
 ### Phase 2: UI/UX 완성 (더미 데이터 활용)
 
 - ✅ **Task 003: 공통 컴포넌트 및 디자인 시스템 구축** (작업 파일: tasks/003-design-system.md)
-  - shadcn/ui 필수 컴포넌트 추가 (Button, Card, Input, Label, Table, Badge, Select, Form, Dialog, Toast)
-  - 견적서 도메인 컴포넌트 골격 (`components/quote/`)
+  - shadcn/ui 필수 컴포넌트 추가 ✅ (Button, Card, Input, Label, Table, Badge, Select, Form, Dialog, Toast)
+  - 견적서 도메인 컴포넌트 구현 ✅ (`components/quote/`)
     - `QuoteCard` (대시보드 목록용)
     - `QuoteHeader` (발행일, 번호, 클라이언트명, 유효기간)
     - `QuoteItemsTable` (품목, 수량, 단가, 금액)
     - `QuoteSummary` (소계, 세금, 합계)
     - `QuoteStatusBadge` (상태 배지)
-  - 더미 데이터 생성 유틸리티 작성 (`lib/mock/quotes.ts`)
-  - 공유 링크 복사 버튼 컴포넌트 (`components/quote/share-link-button.tsx`)
-  - 반응형 스타일 가이드 및 디자인 토큰 확립
+  - 더미 데이터 생성 유틸리티 작성 ✅ (`lib/mock/quotes.ts`)
+  - 공유 링크 복사 버튼 컴포넌트 ✅ (`components/quote/share-link-button.tsx`)
+  - 반응형 스타일 가이드 및 디자인 토큰 확립 ✅ (`lib/constants/design-tokens.ts`)
 
 - ✅ **Task 004: 모든 페이지 UI 완성 (더미 데이터 기반)** (작업 파일: tasks/004-page-ui-completion.md)
-  - 랜딩 페이지 UI 완성 (서비스 설명, 관리자 로그인 버튼)
-  - 로그인 페이지 UI 완성 (react-hook-form + zod 유효성 검사 스키마 정의, 에러 메시지 UI)
-  - 대시보드 UI 완성 (견적서 카드 그리드, 상태 필터 전체/발행/승인/취소, 공유 링크 복사 버튼)
-  - 견적서 상세 페이지 UI 완성 (헤더, 항목 테이블, 합계, PDF 다운로드 버튼 placeholder)
-  - 404 페이지 UI 완성 ("견적서를 찾을 수 없습니다" 안내, 홈 이동 버튼)
-  - 반응형 디자인 및 모바일 최적화 (모바일/태블릿/데스크톱)
-  - 사용자 플로우 및 네비게이션 검증
+  - 랜딩 페이지 UI 완성 ✅ (서비스 설명, 관리자 로그인 버튼)
+  - 로그인 페이지 UI 완성 ✅ (react-hook-form + zod 유효성 검사 스키마 정의, 에러 메시지 UI)
+  - 대시보드 UI 완성 ✅ (견적서 카드 그리드, 상태 필터 전체/발행/승인/취소, 공유 링크 복사 버튼)
+  - 견적서 상세 페이지 UI 완성 ✅ (헤더, 항목 테이블, 합계, PDF 다운로드 버튼 placeholder)
+  - 404 페이지 UI 완성 ✅ ("견적서를 찾을 수 없습니다" 안내, 홈 이동 버튼)
+  - 반응형 디자인 및 모바일 최적화 ✅ (모바일/태블릿/데스크톱)
+  - 사용자 플로우 및 네비게이션 검증 ✅
+
+- ✅ **Task 004 후속: UI/UX 컴포넌트 강화** (ui-markup-specialist 연속 구현)
+  - 스켈레톤 UI ✅ (`components/quote/quote-skeleton.tsx`, `components/dashboard/quote-card-skeleton.tsx`)
+    - 페이지 로딩 상태 `Suspense` + fallback 적용
+  - Empty State UI 강화 ✅ (`components/dashboard/empty-state.tsx`, `components/quote/empty-items-state.tsx`)
+    - 필터링 결과 없을 때도 대응
+  - 에러 바운더리 ✅ (`components/error/api-error-card.tsx`, `app/error.tsx`, `app/quotes/[token]/error.tsx`)
+    - 재시도 버튼, 홈 이동 버튼 포함
+  - 토스트 알림 표준화 ✅ (`lib/utils/toast-notifications.ts`)
+    - 8개 표준 함수 (복사, 다운로드, API 에러 등)
+  - 모바일 반응형 최적화 ✅ (`components/quote/quote-item-card.tsx`)
+    - 듀얼 뷰: 모바일 카드 ↔ 데스크톱 테이블 자동 전환
+  - 마이크로 인터랙션 ✅ (아이콘 애니메이션, 색상 트랜지션, 호버 효과)
+  - 버그 수정 ✅ (라우팅 버그, 접근성 위반, 다크모드 색상)
+  - 코드 품질 개선 ✅ (통화 포맷 유틸 통합, 소계 이중 표시 제거)
 
 ### Phase 3: 핵심 기능 구현
 
-- **Task 005: 노션 API 연동 및 데이터 계층 구현** - 우선순위
+- 🔄 **Task 005: 노션 API 연동 및 데이터 계층 구현** - 우선순위 (다음 단계)
   - `@notionhq/client` 의존성 설치 및 초기화 (`lib/notion/client.ts`)
   - 노션 DB 스키마 검증 유틸리티 작성
   - 노션 API 래퍼 함수 구현 (`lib/notion/queries.ts`)
@@ -289,11 +304,11 @@
 ## 의존성 다이어그램
 
 ```
-Task 001 (라우팅 골격)
-    └── Task 002 (타입 정의)
-            └── Task 003 (컴포넌트 라이브러리)
-                    └── Task 004 (페이지 UI)
-                            ├── Task 005 (노션 API) ──┐
+✅ Task 001 (라우팅 골격)
+    └── ✅ Task 002 (타입 정의)
+            └── ✅ Task 003 (컴포넌트 라이브러리)
+                    └── ✅ Task 004 (페이지 UI + 후속 UI 강화)
+                            ├── 🔄 Task 005 (노션 API) ──┐
                             ├── Task 006 (인증) ──────┤
                             │       └── Task 007 (토큰 접근 제어)
                             │               └── Task 008 (PDF 다운로드)
