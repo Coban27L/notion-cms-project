@@ -11,13 +11,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Next.js 16 기반 스타터 템플릿입니다. React 19, TypeScript, Tailwind CSS, 그리고 shadcn/ui를 사용하여 빠르게 웹 애플리케이션을 시작할 수 있도록 설계되었습니다.
 
-## 개발 명령어
+## 자주 사용하는  명령어
 
 ```bash
 npm run dev      # 개발 서버 시작 (http://localhost:3000)
 npm run build    # 프로덕션 빌드
 npm run start    # 프로덕션 서버 시작
 npm run lint     # ESLint 실행
+npm run check-all #모든 검사 통합 실행(권장)
 ```
 
 ## 프로젝트 구조
@@ -142,3 +143,10 @@ export function MyForm() {
 - `components/layout/header.tsx`: 네비게이션 메뉴
 - `components/layout/footer.tsx`: 푸터 컨텐츠
 - `app/globals.css`: 전역 스타일
+
+## 작업 완료 체크리스트
+
+```bash
+npm run check-all # 모든검사 통과 확인
+npm run build # 빌드 성공 확인
+

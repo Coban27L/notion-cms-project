@@ -1,6 +1,7 @@
 import { notion, INVOICE_DB_ID, ITEMS_DB_ID, APIErrorCode, isNotionClientError } from './client';
 import { resolveDataSourceId } from './data-source-resolver';
 import { mapNotionPageToQuote, mapNotionItemToQuoteItem } from './mappers';
+import { withRetry } from './retry';
 import type { Quote, QuoteItem } from '@/lib/types/quote';
 import type {
   NotionPageResponse,
@@ -14,6 +15,7 @@ const SHARE_TOKEN_UUID_REGEX =
 /**
  * 한 번의 쿼리로는 100개까지 가져올 수 있으므로,
  * has_more가 true이면 next_cursor를 사용해 페이지네이션을 반복합니다.
+ * 재시도 로직이 적용되어 일시적 오류 자동 재시도
  */
 async function queryAllPages<P>(
   dataSourceId: string,
@@ -24,13 +26,16 @@ async function queryAllPages<P>(
   let cursor: string | undefined;
 
   do {
-    const response = await notion.dataSources.query({
-      data_source_id: dataSourceId,
-      filter: filter as any,
-      sorts: sorts as any,
-      page_size: 100,
-      start_cursor: cursor,
-    });
+    const response = await withRetry(() =>
+      notion.dataSources.query({
+        data_source_id: dataSourceId,
+        filter: filter as any,
+        sorts: sorts as any,
+        page_size: 100,
+        start_cursor: cursor,
+      }),
+      { maxRetries: 3 }
+    );
 
     // 응답의 results는 PageObjectResponse | PartialPageObjectResponse | DataSource* 합집합입니다.
     // 우리가 원하는 것은 'page' 객체이며 properties가 들어있는 형태입니다.
