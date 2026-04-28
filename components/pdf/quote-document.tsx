@@ -6,13 +6,31 @@ import {
   Text,
   View,
   StyleSheet,
+  Font,
 } from '@react-pdf/renderer';
 import { Quote } from '@/lib/types/quote';
+
+// jsDelivr CDN에서 Noto Sans KR 로드 (Google Fonts 대체)
+try {
+  Font.register({
+    family: 'NotoSansKR',
+    src: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5.0.8/files/noto-sans-kr-korean-400-normal.woff2',
+    fontWeight: 'normal',
+  });
+  Font.register({
+    family: 'NotoSansKR',
+    src: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5.0.8/files/noto-sans-kr-korean-700-normal.woff2',
+    fontWeight: 'bold',
+  });
+} catch (error) {
+  // 폰트 로딩 실패 시 Helvetica로 폴백
+  console.warn('한글 폰트 로딩 실패, Helvetica를 사용합니다:', error);
+}
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    fontFamily: 'Helvetica',
+    fontFamily: 'NotoSansKR',
     backgroundColor: '#ffffff',
   },
   header: {

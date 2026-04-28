@@ -61,7 +61,6 @@ export async function getAllQuotes(): Promise<Quote[]> {
     console.log('[Notion] 견적서 목록 조회 시작');
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
-    // 임시: 필터 제거하고 클라이언트 사이드 필터링으로 변경
     const pages = await queryAllPages<NotionInvoiceProperties>(
       dataSourceId,
       undefined,
@@ -69,13 +68,22 @@ export async function getAllQuotes(): Promise<Quote[]> {
     );
 
     console.log(`[Notion] ${pages.length}개의 견적서 조회 완료`);
-    // 상태가 '취소'인 항목 필터링
-    return pages
-      .filter((p) => {
-        const statusProp = p.properties['상태'] as any;
-        return statusProp?.select?.name !== '취소';
+
+    // 취소되지 않은 견적서만 필터링
+    const filteredPages = pages.filter((p) => {
+      const statusProp = p.properties['상태'] as any;
+      return statusProp?.select?.name !== '취소';
+    });
+
+    // 각 견적서의 항목 병렬 로드
+    const quotesWithItems = await Promise.all(
+      filteredPages.map(async (p) => {
+        const items = await getItemsByInvoice(p.id);
+        return mapNotionPageToQuote(p, items);
       })
-      .map((p) => mapNotionPageToQuote(p));
+    );
+
+    return quotesWithItems;
   } catch (error) {
     handleNotionError(error, '[Notion] 견적서 목록 조회 실패');
     return [];
