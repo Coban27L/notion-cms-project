@@ -76,14 +76,14 @@
       "name": "Task 007: 고유 링크 및 토큰 기반 접근 제어",
       "description": "공유 토큰 기반 비로그인 견적서 접근\n- 공유 토큰 UUID 검증\n- 존재하지 않거나 만료된 토큰 처리\n- 공유 링크 URL 생성 유틸리티\n- 대시보드 공유 링크 복사 기능 완성\n- SSR/SSG 전략 결정",
       "notes": "Playwright E2E 테스트:\n- 복사된 링크로 비로그인 접근 검증\n- 잘못된 토큰 URL 접근 시 404 페이지\n- 공유 링크 복사 후 클립보드 내용 확인",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         {
           "taskId": "2602b188-a49a-4f6d-92bb-a46b40eaab80"
         }
       ],
       "createdAt": "2026-04-26T15:58:48.640Z",
-      "updatedAt": "2026-04-26T15:58:48.640Z",
+      "updatedAt": "2026-04-28T11:55:00.380Z",
       "relatedFiles": [
         {
           "path": "lib/utils/share-link.ts",

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Copy, Check } from 'lucide-react';
 import { showCopySuccess, showCopyError } from '@/lib/utils/toast-notifications';
+import { getShareLink } from '@/lib/utils/share-link';
 
 interface ShareLinkButtonProps {
   token: string;
@@ -25,7 +26,7 @@ export function ShareLinkButton({ token, size = 'default' }: ShareLinkButtonProp
     /* 이미 복사된 상태면 중복 실행 방지 */
     if (copied) return;
 
-    const url = `${window.location.origin}/quotes/${token}`;
+    const url = getShareLink(token);
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);

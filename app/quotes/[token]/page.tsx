@@ -11,6 +11,7 @@ import { QuoteSummary } from '@/components/quote/quote-summary';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
 import { QuoteDetailSkeleton } from '@/components/quote/quote-skeleton';
 import { getQuoteByToken } from '@/lib/notion/queries';
+import { getShareLink } from '@/lib/utils/share-link';
 
 interface QuotePageProps {
   params: Promise<{ token: string }>;
@@ -21,9 +22,22 @@ export async function generateMetadata({ params }: QuotePageProps): Promise<Meta
   const quote = await getQuoteByToken(token);
   if (!quote) return { title: '견적서를 찾을 수 없습니다' };
 
+  const shareLink = getShareLink(token);
+
   return {
     title: `견적서 ${quote.title}`,
-    description: `${quote.clientName} 견적서`,
+    description: `${quote.clientName} 견적서 (${quote.totalAmount ? `${quote.totalAmount}원` : '금액 미책정'})`,
+    openGraph: {
+      title: `${quote.title} - ${quote.clientName}`,
+      description: `${quote.clientName} 견적서 (발행일: ${quote.issuedDate || '미지정'})`,
+      type: 'website',
+      url: shareLink,
+    },
+    twitter: {
+      card: 'summary',
+      title: `${quote.title} - ${quote.clientName}`,
+      description: `${quote.clientName} 견적서`,
+    },
   };
 }
 
