@@ -6,19 +6,13 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 import { Quote } from '@/lib/types/quote';
-
-Font.register({
-  family: 'NotoSansKR',
-  src: 'https://fonts.gstatic.com/s/notoSansKr/v13/-F6ofjtqLzI2JPCgQBnw7HFfyeqCY0H4g4LhVG0Kw6H-YyqEYGY.0.woff2',
-});
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    fontFamily: 'NotoSansKR',
+    fontFamily: 'Helvetica',
     backgroundColor: '#ffffff',
   },
   header: {
@@ -181,10 +175,10 @@ interface QuoteDocumentProps {
 
 export function QuoteDocument({ quote }: QuoteDocumentProps) {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ko-KR', {
+    return new Intl.NumberFormat('en-SG', {
       style: 'currency',
-      currency: 'KRW',
-      minimumFractionDigits: 0,
+      currency: 'SGD',
+      minimumFractionDigits: 2,
     }).format(amount);
   };
 

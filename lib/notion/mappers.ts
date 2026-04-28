@@ -88,7 +88,14 @@ export function mapNotionPageToQuote(
   const clientName = safeReadText(props['클라이언트명']);
   const rawStatus = safeReadSelect(props['상태']);
   const status = normalizeStatus(rawStatus);
-  const totalAmount = safeReadRollup(props['총 금액']);
+  let totalAmount = safeReadRollup(props['총 금액']);
+
+  // 만약 totalAmount가 0이거나 없으면 items 기반으로 계산
+  if ((!totalAmount || totalAmount === 0) && items && items.length > 0) {
+    const subtotal = items.reduce((sum, item) => sum + (item.amount || 0), 0);
+    totalAmount = Math.round(subtotal * 1.09); // 9% GST 포함
+  }
+
   const issuedDate = safeReadDate(props['발행일']);
   const validUntil = safeReadDate(props['유효기간']);
   const shareToken = safeReadText(props['공유토큰']);
