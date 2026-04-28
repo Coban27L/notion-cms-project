@@ -10,21 +10,22 @@ import {
 } from '@react-pdf/renderer';
 import { Quote } from '@/lib/types/quote';
 
-// jsDelivr CDN에서 Noto Sans KR 로드 (Google Fonts 대체)
+// @fontsource/noto-sans-kr 패키지의 로컬 폰트 파일 사용
 try {
+  // 정상 가중치
   Font.register({
     family: 'NotoSansKR',
-    src: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5.0.8/files/noto-sans-kr-korean-400-normal.woff2',
+    src: require('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff2'),
     fontWeight: 'normal',
   });
+  // 볼드 가중치
   Font.register({
     family: 'NotoSansKR',
-    src: 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-kr@5.0.8/files/noto-sans-kr-korean-700-normal.woff2',
+    src: require('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-700-normal.woff2'),
     fontWeight: 'bold',
   });
 } catch (error) {
-  // 폰트 로딩 실패 시 Helvetica로 폴백
-  console.warn('한글 폰트 로딩 실패, Helvetica를 사용합니다:', error);
+  console.warn('한글 폰트 로딩 실패:', error);
 }
 
 const styles = StyleSheet.create({
