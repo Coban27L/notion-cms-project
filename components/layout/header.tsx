@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { FileTextIcon, Menu } from 'lucide-react';
 
 export function Header() {
+  const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -31,16 +33,18 @@ export function Header() {
           <ThemeToggle />
 
           <div className="hidden md:flex md:items-center md:gap-2">
-            {false ? (
+            {session ? (
               <>
                 <Link href="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
                   대시보드
                 </Link>
-                <form action="/api/auth/logout" method="POST" className="inline">
-                  <Button type="submit" variant="ghost" size="sm">
-                    로그아웃
-                  </Button>
-                </form>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                >
+                  로그아웃
+                </Button>
               </>
             ) : (
               <Link href="/login">
@@ -67,12 +71,18 @@ export function Header() {
                     대시보드
                   </Link>
                   <div className="border-t border-border my-2" />
-                  {false ? (
-                    <form action="/api/auth/logout" method="POST">
-                      <Button type="submit" variant="ghost" size="sm" className="w-full justify-start">
-                        로그아웃
-                      </Button>
-                    </form>
+                  {session ? (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        signOut({ callbackUrl: '/' });
+                      }}
+                    >
+                      로그아웃
+                    </Button>
                   ) : (
                     <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                       <Button size="sm" className="w-full">로그인</Button>

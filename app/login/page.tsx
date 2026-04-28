@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,6 +19,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -31,12 +34,20 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true);
     setServerError(null);
-    // 아직 로그인 기능 미구현
     try {
-      console.log('로그인 시도:', data);
-      // 나중에 실제 API 호출로 교체
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setServerError('이메일 또는 비밀번호가 올바르지 않습니다');
+      } else if (result?.ok) {
+        router.push('/dashboard');
+      }
     } catch (error) {
-      setServerError('로그인에 실패했습니다');
+      setServerError('로그인 중 오류가 발생했습니다');
     } finally {
       setIsSubmitting(false);
     }

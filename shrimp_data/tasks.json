@@ -37,14 +37,14 @@
       "name": "Task 006: 관리자 인증 시스템 구현 (next-auth v5)",
       "description": "next-auth v5 기반 Credentials Provider 구성\n- 환경 변수 기반 이메일/비밀번호 검증\n- 로그인 API Route 및 세션 생성\n- 보호 라우트 미들웨어 설정\n- 로그아웃 기능 구현\n- 헤더 네비게이션 로그인 상태 연동",
       "notes": "Playwright MCP로 로그인 플로우 E2E 테스트 필수:\n- 유효한 자격증명 로그인 성공\n- 잘못된 자격증명 에러 메시지\n- 비로그인 대시보드 접근 시 리디렉션\n- 로그아웃 후 세션 만료",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         {
           "taskId": "2602b188-a49a-4f6d-92bb-a46b40eaab80"
         }
       ],
       "createdAt": "2026-04-26T15:58:48.640Z",
-      "updatedAt": "2026-04-26T15:58:48.640Z",
+      "updatedAt": "2026-04-28T11:52:42.728Z",
       "relatedFiles": [
         {
           "path": "auth.ts",
