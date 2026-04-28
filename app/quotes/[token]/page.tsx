@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { ArrowLeft, Download, StickyNote } from 'lucide-react';
+import { ArrowLeft, StickyNote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { QuoteHeader } from '@/components/quote/quote-header';
 import { QuoteItemsTable } from '@/components/quote/quote-items-table';
 import { QuoteSummary } from '@/components/quote/quote-summary';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
+import { PDFDownloadButton } from '@/components/quote/pdf-download-button';
 import { QuoteDetailSkeleton } from '@/components/quote/quote-skeleton';
 import { getQuoteByToken } from '@/lib/notion/queries';
 import { getShareLink } from '@/lib/utils/share-link';
@@ -96,11 +97,7 @@ async function QuoteContent({ token }: { token: string }) {
           <ShareLinkButton token={quote.id} />
 
           {/* PDF 다운로드 버튼 */}
-          <Button className="gap-2">
-            <Download className="h-4 w-4" />
-            PDF 다운로드
-            {/* TODO: PDF 생성 및 다운로드 로직 구현 (Task 008) */}
-          </Button>
+          <PDFDownloadButton quote={quote} />
         </div>
       </div>
     </div>

@@ -76,14 +76,14 @@
       "name": "Task 007: 고유 링크 및 토큰 기반 접근 제어",
       "description": "공유 토큰 기반 비로그인 견적서 접근\n- 공유 토큰 UUID 검증\n- 존재하지 않거나 만료된 토큰 처리\n- 공유 링크 URL 생성 유틸리티\n- 대시보드 공유 링크 복사 기능 완성\n- SSR/SSG 전략 결정",
       "notes": "Playwright E2E 테스트:\n- 복사된 링크로 비로그인 접근 검증\n- 잘못된 토큰 URL 접근 시 404 페이지\n- 공유 링크 복사 후 클립보드 내용 확인",
-      "status": "in_progress",
+      "status": "completed",
       "dependencies": [
         {
           "taskId": "2602b188-a49a-4f6d-92bb-a46b40eaab80"
         }
       ],
       "createdAt": "2026-04-26T15:58:48.640Z",
-      "updatedAt": "2026-04-28T11:55:00.380Z",
+      "updatedAt": "2026-04-28T11:56:26.801Z",
       "relatedFiles": [
         {
           "path": "lib/utils/share-link.ts",
@@ -103,21 +103,23 @@
       ],
       "implementationGuide": "1. lib/utils/share-link.ts 작성\n   - 공유 링크 URL 생성 함수\n   - baseURL 동적 결정\n\n2. app/quotes/[token]/page.tsx 수정\n   - getQuoteByToken() 호출\n   - 존재하지 않는 경우 notFound() 호출\n   - 동적 메타데이터 생성\n\n3. 대시보드 공유 링크 복사\n   - QuoteCard에서 shareToken 추출\n   - share-link-button.tsx에서 링크 생성 및 복사\n   - sonner 토스트로 성공 메시지\n\n4. 메타데이터 설정\n   - generateMetadata로 동적 og:title, og:description 생성",
       "verificationCriteria": "✅ 공유 링크로 비로그인 접근 가능\n✅ 잘못된 토큰 URL 접근 시 404\n✅ 공유 링크 복사 버튼 정상 작동\n✅ OG 메타데이터 동적 생성\n✅ Playwright E2E 테스트 통과",
-      "analysisResult": "\n## Task 005 완료 후 Phase 3 핵심 기능 구현 로드맵\n\n### 현재 진행 상황\n- ✅ Task 005 \"즉시 개선\" 완료\n- ✅ Playwright E2E 테스트 완료\n- 🔄 다음: Task 006 (관리자 인증) 시작\n\n### Phase 3 의존성 구조\n```\nTask 005 (API 기본)\n    ├─ Task 006 (인증) ─┐\n    ├─ Task 007 (토큰) ─┼─ Task 008 (PDF) ─ Task 008-1 (통합 테스트)\n    └─────────────────┘                        │\n                                               Task 010 (성능)\n                                               │\n                                               Task 013 (보안)\n                                               │\n                                               Task 014 (배포)\n```\n\n### 다음 우선순위\n1. **즉시**: Task 006 (관리자 인증) - next-auth v5 구성\n2. **병렬**: Task 007 (공유 링크) - 토큰 기반 접근\n3. **순차**: Task 008 (PDF) - 의존성 명확\n4. **통합**: Task 008-1 (E2E 테스트) - 모든 기능 검증\n5. **최적화**: Task 010 (성능) - 캐싱, 재시도\n6. **배포**: Task 013 → 014 (보안, 배포)\n"
+      "analysisResult": "\n## Task 005 완료 후 Phase 3 핵심 기능 구현 로드맵\n\n### 현재 진행 상황\n- ✅ Task 005 \"즉시 개선\" 완료\n- ✅ Playwright E2E 테스트 완료\n- 🔄 다음: Task 006 (관리자 인증) 시작\n\n### Phase 3 의존성 구조\n```\nTask 005 (API 기본)\n    ├─ Task 006 (인증) ─┐\n    ├─ Task 007 (토큰) ─┼─ Task 008 (PDF) ─ Task 008-1 (통합 테스트)\n    └─────────────────┘                        │\n                                               Task 010 (성능)\n                                               │\n                                               Task 013 (보안)\n                                               │\n                                               Task 014 (배포)\n```\n\n### 다음 우선순위\n1. **즉시**: Task 006 (관리자 인증) - next-auth v5 구성\n2. **병렬**: Task 007 (공유 링크) - 토큰 기반 접근\n3. **순차**: Task 008 (PDF) - 의존성 명확\n4. **통합**: Task 008-1 (E2E 테스트) - 모든 기능 검증\n5. **최적화**: Task 010 (성능) - 캐싱, 재시도\n6. **배포**: Task 013 → 014 (보안, 배포)\n",
+      "summary": "Task 007 완료: 공유 링크 유틸리티 및 동적 메타데이터 생성. getShareLink 함수로 중앙 집중식 관리. OG/Twitter 메타데이터 추가. 비로그인 접근 정상. Task 008 진행 가능.\"",
+      "completedAt": "2026-04-28T11:56:26.799Z"
     },
     {
       "id": "5b520050-0c19-4cf3-add8-f0f269365382",
       "name": "Task 008: PDF 다운로드 기능 구현",
       "description": "@react-pdf/renderer를 활용한 PDF 생성\n- PDF 문서 컴포넌트 설계\n- 한글 폰트 임베딩 (Noto Sans KR)\n- API Route 또는 클라이언트 측 방식 결정\n- 다운로드 버튼과 통합\n- 파일명 규칙 설정",
       "notes": "Playwright E2E 테스트:\n- 다운로드 버튼 클릭 시 파일 다운로드\n- PDF 파일명 확인\n- PDF 내용 검증 (텍스트, 금액 등)",
-      "status": "pending",
+      "status": "in_progress",
       "dependencies": [
         {
           "taskId": "90916306-e0d8-47e1-a5d0-2ca629004728"
         }
       ],
       "createdAt": "2026-04-26T15:58:48.640Z",
-      "updatedAt": "2026-04-26T15:58:48.640Z",
+      "updatedAt": "2026-04-28T13:56:51.254Z",
       "relatedFiles": [
         {
           "path": "components/pdf/quote-document.tsx",
