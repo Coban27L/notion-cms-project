@@ -10,15 +10,23 @@ export async function GET(
   const { token } = await params;
 
   try {
+    console.log(`[API] PDF 생성 시작 - token: ${token}`);
+
     // 견적서 데이터 조회
     const quote = await getQuoteByToken(token);
     if (!quote) {
+      console.warn(`[API] 견적서를 찾을 수 없음 - token: ${token}`);
       return notFound();
     }
 
+    console.log(`[API] 견적서 조회 성공: ${quote.title}`);
+
     // PDF 생성
+    console.log(`[API] PDF 생성 중...`);
     const pdfInstance = pdf(<QuoteDocument quote={quote} />);
     const buffer = await pdfInstance.toBuffer();
+
+    console.log(`[API] PDF 생성 완료 - 크기: ${buffer.length}bytes`);
 
     // 파일명 생성
     const issuedDate = quote.issuedDate
@@ -35,7 +43,9 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('[API] PDF 생성 실패:', error);
-    return new Response('PDF 생성에 실패했습니다', { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('[API] PDF 생성 실패:', errorMessage);
+    console.error('[API] 전체 에러:', error);
+    return new Response(`PDF 생성에 실패했습니다: ${errorMessage}`, { status: 500 });
   }
 }
