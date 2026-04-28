@@ -10,7 +10,7 @@ export function Footer() {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2 font-bold">
               <FileTextIcon className="h-5 w-5 text-primary" />
-              QuoteKit
+              노션 CMS
             </div>
             <p className="text-sm text-muted-foreground">
               노션 기반 견적서 발행 및 공유 플랫폼
@@ -57,7 +57,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-border pt-8">
           <p className="text-center text-sm text-muted-foreground">
-            © <FooterYear /> QuoteKit. 모든 권리 보유.
+            © <FooterYear /> 노션 CMS. 모든 권리 보유.
           </p>
         </div>
       </div>

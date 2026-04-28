@@ -41,10 +41,17 @@ export default function LoginPage() {
         redirect: false,
       });
 
-      if (result?.error) {
+      if (!result) {
+        setServerError('로그인 중 오류가 발생했습니다. 다시 시도하세요.');
+        return;
+      }
+
+      if (result.error) {
         setServerError('이메일 또는 비밀번호가 올바르지 않습니다');
-      } else if (result?.ok) {
+      } else if (result.ok) {
         router.push('/dashboard');
+      } else {
+        setServerError('로그인에 실패했습니다. 다시 시도하세요.');
       }
     } catch (error) {
       setServerError('로그인 중 오류가 발생했습니다');

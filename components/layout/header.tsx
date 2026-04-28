@@ -17,7 +17,7 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
           <FileTextIcon className="h-6 w-6 text-primary" />
-          QuoteKit
+          노션 CMS
         </Link>
 
         <nav className="hidden md:flex md:items-center md:gap-6">
@@ -61,7 +61,7 @@ export function Header() {
               <SheetContent side="left" className="w-64">
                 <div className="flex items-center gap-2 font-bold text-lg mb-8">
                   <FileTextIcon className="h-6 w-6 text-primary" />
-                  QuoteKit
+                  노션 CMS
                 </div>
                 <nav className="flex flex-col gap-2">
                   <Link href="/" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>

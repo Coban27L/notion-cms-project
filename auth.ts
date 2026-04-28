@@ -11,8 +11,10 @@ declare module 'next-auth' {
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'development-secret-key';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: NEXTAUTH_SECRET,
   providers: [
     Credentials({
       name: 'Credentials',
@@ -25,14 +27,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        // 환경 변수 기반 인증
-        if (
-          credentials.email === ADMIN_EMAIL &&
-          credentials.password === ADMIN_PASSWORD
-        ) {
+        const email = String(credentials.email).toLowerCase().trim();
+        const password = String(credentials.password);
+        const expectedEmail = ADMIN_EMAIL.toLowerCase().trim();
+        const expectedPassword = ADMIN_PASSWORD;
+
+        if (email === expectedEmail && password === expectedPassword) {
           return {
             id: '1',
-            email: credentials.email,
+            email: email,
             name: 'Admin',
           };
         }
@@ -67,6 +70,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: 24 * 60 * 60,
   },
 });
