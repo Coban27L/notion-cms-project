@@ -4,6 +4,7 @@ import { getQuoteByToken } from '@/lib/notion/queries';
 import { notFound } from 'next/navigation';
 import path from 'path';
 import fs from 'fs';
+import { Readable } from 'node:stream';
 
 // 폰트 등록: 모듈 로드 시 한 번만 실행
 function registerFonts() {
@@ -55,7 +56,14 @@ export async function GET(
     // PDF 생성
     console.log(`[API] PDF 생성 중...`);
     const pdfInstance = pdf(<QuoteDocument quote={quote} />);
-    const buffer = (await pdfInstance.toBuffer()) as unknown as Buffer;
+    const stream = await pdfInstance.toBuffer();
+
+    // ReadableStream을 Buffer로 변환
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream as any) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    const buffer = Buffer.concat(chunks);
 
     console.log(`[API] PDF 생성 완료 - 크기: ${buffer.length}bytes`);
 
