@@ -108,64 +108,64 @@
 
 ### Phase 3: 핵심 기능 구현
 
-- 🔄 **Task 005: 노션 API 연동 및 데이터 계층 구현** - 우선순위 (다음 단계)
-  - `@notionhq/client` 의존성 설치 및 초기화 (`lib/notion/client.ts`)
-  - 노션 DB 스키마 검증 유틸리티 작성
-  - 노션 API 래퍼 함수 구현 (`lib/notion/queries.ts`)
-    - `getAllQuotes()` - 전체 견적서 목록 조회
-    - `getQuoteByToken(token: string)` - 공유 토큰 기반 단건 조회
-    - `getQuoteById(id: string)` - ID 기반 단건 조회
-  - 노션 응답 데이터 매퍼 (`lib/notion/mappers.ts`) - 노션 properties를 도메인 타입으로 변환
-  - 견적 항목 JSON 파서 (`items` Rich Text 필드 파싱)
-  - 에러 핸들링 (노션 API 장애, 토큰 불일치, 네트워크 오류)
-  - API Route 구현 (`app/api/quotes/route.ts`, `app/api/quotes/[token]/route.ts`)
-  - 더미 데이터를 실제 노션 API 호출로 교체
-  - Playwright MCP를 활용한 API 엔드포인트 통합 테스트
-    - 정상 토큰 접근 시 견적서 반환 검증
-    - 잘못된 토큰 접근 시 404 반환 검증
-    - 목록 API 응답 구조 검증
+- ✅ **Task 005: 노션 API 연동 및 데이터 계층 구현**
+  - ✅ `@notionhq/client` 의존성 설치 및 초기화 (`lib/notion/client.ts`)
+  - ✅ 노션 DB 스키마 검증 유틸리티 작성
+  - ✅ 노션 API 래퍼 함수 구현 (`lib/notion/queries.ts`)
+    - ✅ `getAllQuotes()` - 전체 견적서 목록 조회
+    - ✅ `getQuoteByToken(token: string)` - 공유 토큰 기반 단건 조회
+    - ✅ `getQuoteById(id: string)` - ID 기반 단건 조회
+  - ✅ 노션 응답 데이터 매퍼 (`lib/notion/mappers.ts`) - 노션 properties를 도메인 타입으로 변환
+  - ✅ 견적 항목 JSON 파서 (`items` Rich Text 필드 파싱)
+  - ✅ 에러 핸들링 (노션 API 장애, 토큰 불일치, 네트워크 오류)
+  - ✅ API Route 구현 (`app/api/quotes/route.ts`, `app/api/quotes/[token]/route.ts`)
+  - ✅ 더미 데이터를 실제 노션 API 호출로 교체
+  - ✅ Playwright MCP를 활용한 API 엔드포인트 통합 테스트
+    - ✅ 정상 토큰 접근 시 견적서 반환 검증
+    - ✅ 잘못된 토큰 접근 시 404 반환 검증
+    - ✅ 목록 API 응답 구조 검증
 
-- **Task 006: 관리자 인증 시스템 구현 (next-auth v5)**
-  - `next-auth@beta` 의존성 설치 및 설정 (`auth.ts`, `middleware.ts`)
-  - Credentials Provider 구성 (환경 변수 기반 이메일/비밀번호 검증)
-  - `ADMIN_PASSWORD` 해싱 전략 결정 (bcrypt 또는 환경 변수에 해시값 저장)
-  - 로그인 API Route 및 세션 생성 로직
-  - 보호 라우트 미들웨어 (`/dashboard` 접근 시 비로그인은 `/login`으로 리디렉션)
-  - 로그아웃 기능 구현
-  - 헤더 네비게이션 로그인 상태 연동
-  - Playwright MCP로 인증 플로우 E2E 테스트
-    - 유효한 자격증명 로그인 성공 검증
-    - 잘못된 자격증명 에러 메시지 검증
-    - 비로그인 대시보드 접근 시 리디렉션 검증
-    - 로그아웃 후 세션 만료 검증
+- ✅ **Task 006: 관리자 인증 시스템 구현 (next-auth v5)**
+  - ✅ `next-auth@beta` 의존성 설치 및 설정 (`auth.ts`, `middleware.ts`)
+  - ✅ Credentials Provider 구성 (환경 변수 기반 이메일/비밀번호 검증)
+  - ✅ `ADMIN_PASSWORD` 평문 저장 (개발 환경) - 프로덕션에서는 해싱 권장
+  - ✅ 로그인 API Route 및 세션 생성 로직
+  - ✅ 보호 라우트 미들웨어 (`/dashboard` 접근 시 비로그인은 `/login`으로 리디렉션)
+  - ✅ 로그아웃 기능 구현
+  - ✅ 헤더 네비게이션 로그인 상태 연동
+  - ✅ Playwright MCP로 인증 플로우 E2E 테스트
+    - ✅ 유효한 자격증명 로그인 성공 검증
+    - ✅ 잘못된 자격증명 에러 메시지 검증
+    - ✅ 비로그인 대시보드 접근 시 리디렉션 검증
+    - ✅ 로그아웃 후 세션 만료 검증
 
-- **Task 007: 고유 링크 및 토큰 기반 접근 제어 구현**
-  - 공유 토큰 검증 로직 (`app/quotes/[token]/page.tsx`)
-  - 존재하지 않거나 만료된 토큰 처리 (notFound() 호출)
-  - 공유 링크 URL 생성 유틸리티 (`lib/utils/share-link.ts`)
-  - 대시보드 견적서 카드에서 공유 링크 복사 기능 완성 (clipboard API + sonner 토스트)
-  - SSR/SSG 전략 결정 (매 요청마다 최신 데이터 반영 위해 dynamic rendering)
-  - Playwright MCP로 공유 링크 플로우 E2E 테스트
-    - 복사된 링크로 비로그인 접근 시 정상 렌더링 검증
-    - 잘못된 토큰 URL 접근 시 404 페이지 검증
+- ✅ **Task 007: 고유 링크 및 토큰 기반 접근 제어 구현**
+  - ✅ 공유 토큰 검증 로직 (`app/quotes/[token]/page.tsx`)
+  - ✅ 존재하지 않거나 만료된 토큰 처리 (notFound() 호출)
+  - ✅ 공유 링크 URL 생성 유틸리티 (`lib/utils/share-link.ts`)
+  - ✅ 대시보드 견적서 카드에서 공유 링크 복사 기능 완성 (clipboard API + sonner 토스트)
+  - ✅ SSR/SSG 전략 결정 (매 요청마다 최신 데이터 반영 위해 dynamic rendering)
+  - ✅ Playwright MCP로 공유 링크 플로우 E2E 테스트
+    - ✅ 복사된 링크로 비로그인 접근 시 정상 렌더링 검증
+    - ✅ 잘못된 토큰 URL 접근 시 404 페이지 검증
 
-- **Task 008: PDF 다운로드 기능 구현**
-  - `@react-pdf/renderer` 의존성 설치
-  - PDF 문서 컴포넌트 설계 (`components/pdf/quote-document.tsx`)
-    - 헤더 (견적서 번호, 발행일, 클라이언트명)
-    - 항목 테이블 (품목, 수량, 단가, 금액)
-    - 합계 영역 (소계, 세금, 합계)
-    - 비고 영역
-  - 한글 폰트 임베딩 (Noto Sans KR 등)
-  - PDF 생성 API Route (`app/api/quotes/[token]/pdf/route.ts`) 또는 클라이언트 측 BlobProvider 사용 전략 결정
-  - 다운로드 버튼과 PDF 생성 로직 통합
-  - 파일명 규칙 ("QT-2024-001_클라이언트명.pdf")
-  - Playwright MCP로 PDF 다운로드 E2E 테스트
-    - 다운로드 버튼 클릭 시 파일 다운로드 검증
-    - PDF 파일명 및 파일 존재 여부 검증
+- ✅ **Task 008: PDF 다운로드 기능 구현**
+  - ✅ `@react-pdf/renderer` 의존성 설치
+  - ✅ PDF 문서 컴포넌트 설계 (`components/pdf/quote-document.tsx`)
+    - ✅ 헤더 (견적서 번호, 발행일, 클라이언트명)
+    - ✅ 항목 테이블 (품목, 수량, 단가, 금액)
+    - ✅ 합계 영역 (소계, 세금, 합계)
+    - ✅ 비고 영역
+  - ✅ 한글 폰트 임베딩 (Noto Sans KR)
+  - ✅ PDF 생성 API Route (`app/api/quotes/[token]/pdf/route.tsx`)
+  - ✅ 다운로드 버튼과 PDF 생성 로직 통합 (`components/quote/pdf-download-button.tsx`)
+  - ✅ 파일명 규칙 ("QT-발행일-견적번호_클라이언트명.pdf")
+  - 🔄 Playwright MCP로 PDF 다운로드 E2E 테스트 (진행 중)
+    - 테스트 토큰 업데이트 완료
+    - 일부 테스트 통과
 
-- **Task 008-1: 핵심 기능 통합 테스트**
-  - Playwright MCP를 사용한 전체 사용자 플로우 테스트
+- 🔄 **Task 008-1: 핵심 기능 통합 테스트** (준비 완료, 다음 단계)
+  - 🔄 Playwright MCP를 사용한 전체 사용자 플로우 테스트
     - 관리자 플로우: 로그인 → 대시보드 → 견적서 상세 → PDF 다운로드
     - 클라이언트 플로우: 고유 링크 접속 → 견적서 확인 → PDF 다운로드
   - 노션 API 연동과 UI 렌더링 통합 검증
@@ -308,11 +308,11 @@
     └── ✅ Task 002 (타입 정의)
             └── ✅ Task 003 (컴포넌트 라이브러리)
                     └── ✅ Task 004 (페이지 UI + 후속 UI 강화)
-                            ├── 🔄 Task 005 (노션 API) ──┐
-                            ├── Task 006 (인증) ──────┤
-                            │       └── Task 007 (토큰 접근 제어)
-                            │               └── Task 008 (PDF 다운로드)
-                            │                       └── Task 008-1 (통합 테스트)
+                            ├── ✅ Task 005 (노션 API) ──┐
+                            ├── ✅ Task 006 (인증) ──────┤
+                            │       └── ✅ Task 007 (토큰 접근 제어)
+                            │               └── ✅ Task 008 (PDF 다운로드)
+                            │                       └── 🔄 Task 008-1 (통합 테스트)
                             │                               ├── Task 009 (UX 향상)
                             │                               ├── Task 010 (최적화)
                             │                               └── Task 011 (배포 준비)
