@@ -15,14 +15,14 @@ function registerFonts() {
     if (fs.existsSync(normalFontPath)) {
       Font.register({
         family: 'NotoSansKR',
-        src: fs.readFileSync(normalFontPath) as any,
+        src: normalFontPath,
         fontWeight: 'normal',
       });
     }
     if (fs.existsSync(boldFontPath)) {
       Font.register({
         family: 'NotoSansKR',
-        src: fs.readFileSync(boldFontPath) as any,
+        src: boldFontPath,
         fontWeight: 'bold',
       });
     }
