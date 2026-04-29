@@ -1,7 +1,38 @@
-import { pdf } from '@react-pdf/renderer';
+import { pdf, Font } from '@react-pdf/renderer';
 import { QuoteDocument } from '@/components/pdf/quote-document';
 import { getQuoteByToken } from '@/lib/notion/queries';
 import { notFound } from 'next/navigation';
+import path from 'path';
+import fs from 'fs';
+
+// 폰트 등록: 모듈 로드 시 한 번만 실행
+function registerFonts() {
+  const fontDir = path.join(process.cwd(), 'public/fonts');
+  const normalFontPath = path.join(fontDir, 'noto-sans-kr-korean-400-normal.woff2');
+  const boldFontPath = path.join(fontDir, 'noto-sans-kr-korean-700-normal.woff2');
+
+  try {
+    if (fs.existsSync(normalFontPath)) {
+      Font.register({
+        family: 'NotoSansKR',
+        src: fs.readFileSync(normalFontPath),
+        fontWeight: 'normal',
+      });
+    }
+    if (fs.existsSync(boldFontPath)) {
+      Font.register({
+        family: 'NotoSansKR',
+        src: fs.readFileSync(boldFontPath),
+        fontWeight: 'bold',
+      });
+    }
+    console.log('[PDF] 한글 폰트 등록 완료');
+  } catch (error) {
+    console.warn('[PDF] 한글 폰트 로딩 실패:', error);
+  }
+}
+
+registerFonts();
 
 export async function GET(
   request: Request,

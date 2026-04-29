@@ -1,43 +1,11 @@
-'use client';
-
 import {
   Document,
   Page,
   Text,
   View,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 import { Quote } from '@/lib/types/quote';
-import path from 'path';
-import fs from 'fs';
-
-// 절대 경로로 폰트 파일 로드
-try {
-  const fontDir = path.join(process.cwd(), 'public/fonts');
-
-  const normalFontPath = path.join(fontDir, 'noto-sans-kr-korean-400-normal.woff2');
-  const boldFontPath = path.join(fontDir, 'noto-sans-kr-korean-700-normal.woff2');
-
-  // 파일 존재 확인 후 로드
-  if (fs.existsSync(normalFontPath)) {
-    Font.register({
-      family: 'NotoSansKR',
-      src: fs.readFileSync(normalFontPath),
-      fontWeight: 'normal',
-    });
-  }
-
-  if (fs.existsSync(boldFontPath)) {
-    Font.register({
-      family: 'NotoSansKR',
-      src: fs.readFileSync(boldFontPath),
-      fontWeight: 'bold',
-    });
-  }
-} catch (error) {
-  console.warn('한글 폰트 로딩 실패:', error);
-}
 
 const styles = StyleSheet.create({
   page: {
@@ -148,7 +116,7 @@ const styles = StyleSheet.create({
   summaryValue: {
     fontSize: 12,
     color: '#1a1a1a',
-    fontWeight: '500',
+    fontWeight: 500,
     textAlign: 'right',
   },
   totalRow: {
