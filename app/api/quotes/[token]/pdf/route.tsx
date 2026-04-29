@@ -15,14 +15,14 @@ function registerFonts() {
     if (fs.existsSync(normalFontPath)) {
       Font.register({
         family: 'NotoSansKR',
-        src: fs.readFileSync(normalFontPath),
+        src: fs.readFileSync(normalFontPath) as any,
         fontWeight: 'normal',
       });
     }
     if (fs.existsSync(boldFontPath)) {
       Font.register({
         family: 'NotoSansKR',
-        src: fs.readFileSync(boldFontPath),
+        src: fs.readFileSync(boldFontPath) as any,
         fontWeight: 'bold',
       });
     }
@@ -55,7 +55,7 @@ export async function GET(
     // PDF 생성
     console.log(`[API] PDF 생성 중...`);
     const pdfInstance = pdf(<QuoteDocument quote={quote} />);
-    const buffer = await pdfInstance.toBuffer();
+    const buffer = (await pdfInstance.toBuffer()) as unknown as Buffer;
 
     console.log(`[API] PDF 생성 완료 - 크기: ${buffer.length}bytes`);
 
@@ -66,7 +66,7 @@ export async function GET(
     const sanitizedClientName = quote.clientName.replace(/[^가-힣a-zA-Z0-9_-]/g, '');
     const filename = `QT-${issuedDate}-${quote.id}_${sanitizedClientName}.pdf`;
 
-    return new Response(buffer, {
+    return new Response(buffer as any, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
