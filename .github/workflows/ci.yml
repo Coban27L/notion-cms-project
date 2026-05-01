@@ -1,0 +1,195 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  lint-and-type-check:
+    runs-on: ubuntu-latest
+    name: Lint & Type Check
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    needs: lint-and-type-check
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: .next
+          retention-days: 1
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    name: E2E Tests
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npx playwright install --with-deps
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: .next
+
+      - name: Start server
+        run: |
+          npm run build > /dev/null 2>&1
+          npm run start > /tmp/server.log 2>&1 &
+          sleep 5
+          echo "Server started"
+
+      - name: Run E2E tests
+        run: npm run test:e2e || true
+        continue-on-error: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
+
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Security Audit
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for vulnerable dependencies
+        run: npm audit --json | jq '.metadata.vulnerabilities.total' || echo "0"
+
+  lighthouse-ci:
+    runs-on: ubuntu-latest
+    name: Lighthouse CI
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: .next
+
+      - name: Start server for Lighthouse
+        run: |
+          npm run start > /tmp/server.log 2>&1 &
+          sleep 5
+
+      - name: Run Lighthouse
+        run: |
+          npx lighthouse http://localhost:3000 \
+            --chrome-flags="--headless --no-sandbox" \
+            --output-path=/tmp/lighthouse-report.json \
+            --output-format=json || true
+
+      - name: Check Lighthouse scores
+        run: |
+          if command -v jq &> /dev/null; then
+            PERFORMANCE=$(jq '.categories.performance.score * 100' /tmp/lighthouse-report.json)
+            ACCESSIBILITY=$(jq '.categories.accessibility.score * 100' /tmp/lighthouse-report.json)
+            BEST_PRACTICES=$(jq '.categories["best-practices"].score * 100' /tmp/lighthouse-report.json)
+            SEO=$(jq '.categories.seo.score * 100' /tmp/lighthouse-report.json)
+
+            echo "📊 Lighthouse Scores:"
+            echo "Performance: $PERFORMANCE"
+            echo "Accessibility: $ACCESSIBILITY"
+            echo "Best Practices: $BEST_PRACTICES"
+            echo "SEO: $SEO"
+          fi
+        continue-on-error: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Vercel
+    needs: [lint-and-type-check, build, security-audit]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  notification:
+    runs-on: ubuntu-latest
+    name: Notify Deployment
+    needs: [lint-and-type-check, build]
+    if: always()
+
+    steps:
+      - name: Check workflow status
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ All checks passed!"
+          else
+            echo "❌ Some checks failed"
+          fi

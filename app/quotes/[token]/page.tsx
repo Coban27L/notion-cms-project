@@ -47,6 +47,7 @@ export async function generateMetadata({ params }: QuotePageProps): Promise<Meta
   return {
     title: `견적서 ${quote.title}`,
     description: `${quote.clientName} 견적서 (${quote.totalAmount ? `${quote.totalAmount}원` : '금액 미책정'})`,
+    metadataBase: new URL('https://notion-cms.example.com'),
     openGraph: {
       title: `${quote.title} - ${quote.clientName}`,
       description: `${quote.clientName} 견적서 (발행일: ${quote.issuedDate || '미지정'})`,
@@ -57,6 +58,9 @@ export async function generateMetadata({ params }: QuotePageProps): Promise<Meta
       card: 'summary',
       title: `${quote.title} - ${quote.clientName}`,
       description: `${quote.clientName} 견적서`,
+    },
+    alternates: {
+      canonical: shareLink,
     },
   };
 }
@@ -123,11 +127,47 @@ async function QuoteContent({ token }: { token: string }) {
   );
 }
 
+async function QuoteStructuredData({ token }: { token: string }) {
+  const quote = await getQuoteByTokenWithCache(token);
+
+  if (!quote) return null;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Invoice',
+    invoiceNumber: quote.title,
+    issuedDate: quote.issuedDate,
+    validUntil: quote.validUntil,
+    url: getShareLink(token),
+    accountablePerson: {
+      '@type': 'Person',
+      name: '견적서쓰',
+    },
+    customer: {
+      '@type': 'Person',
+      name: quote.clientName,
+    },
+    totalPaymentDue: {
+      '@type': 'PriceSpecification',
+      priceCurrency: 'KRW',
+      price: quote.totalAmount?.toString() || '0',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export default async function QuotePage({ params }: QuotePageProps) {
   const { token } = await params;
 
   return (
     <div className="min-h-screen bg-background">
+      <QuoteStructuredData token={token} />
       <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
 
         {/* 상단 네비게이션 */}

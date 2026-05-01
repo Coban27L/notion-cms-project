@@ -1,54 +1,56 @@
 import { MetadataRoute } from 'next';
-import { getAllQuotes } from '@/lib/notion/queries';
+import { getAllQuotesWithCache } from '@/lib/notion/cache';
+
+const BASE_URL = 'https://notion-cms.example.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
-  // 정적 페이지
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-  ];
-
-  // 공개된 견적서 페이지
-  let dynamicPages: MetadataRoute.Sitemap = [];
-
   try {
-    const quotes = await getAllQuotes();
-    dynamicPages = quotes
-      .filter((q) => q.status !== '취소') // 취소된 견적서는 제외
-      .map((quote) => ({
-        url: `${baseUrl}/quotes/${quote.shareToken}`,
-        lastModified: quote.issuedDate ? new Date(quote.issuedDate) : new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      }));
-  } catch (error) {
-    console.warn('[Sitemap] 노션 API 조회 실패:', error);
-    // API 실패 시 정적 페이지만 반환
-  }
+    const quotes = await getAllQuotesWithCache();
 
-  return [...staticPages, ...dynamicPages];
+    const quoteRoutes: MetadataRoute.Sitemap = quotes.map((quote) => ({
+      url: `${BASE_URL}/quotes/${quote.shareToken}`,
+      lastModified: new Date(quote.issuedDate),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }));
+
+    const staticRoutes: MetadataRoute.Sitemap = [
+      {
+        url: BASE_URL,
+        lastModified: new Date(),
+        changeFrequency: 'daily',
+        priority: 1,
+      },
+      {
+        url: `${BASE_URL}/about`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.5,
+      },
+      {
+        url: `${BASE_URL}/privacy`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.3,
+      },
+      {
+        url: `${BASE_URL}/terms`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.3,
+      },
+    ];
+
+    return [...staticRoutes, ...quoteRoutes];
+  } catch (error) {
+    console.error('[Sitemap] 노션 API 오류:', error);
+    return [
+      {
+        url: BASE_URL,
+        lastModified: new Date(),
+        changeFrequency: 'daily',
+        priority: 1,
+      },
+    ];
+  }
 }
