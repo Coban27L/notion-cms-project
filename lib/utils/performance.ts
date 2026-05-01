@@ -57,7 +57,7 @@ export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
     try {
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1];
+        const lastEntry = entries[entries.length - 1] as any;
 
         const metric: WebVitalsMetric = {
           name: 'LCP',
