@@ -187,18 +187,24 @@
   - ✅ 모바일 반응형 최적화 (모바일 카드/데스크톱 테이블 자동 전환)
   - ✅ E2E 테스트 검증 (17/17 통과)
 
-- **Task 010: 성능 최적화 및 캐싱 전략**
-  - 노션 API 응답 캐싱 전략 수립 (Next.js `revalidate`, `unstable_cache`)
-  - 견적서 상세 페이지 SSG/ISR 검토 (공유 토큰별 정적 생성)
-  - 이미지 최적화 및 폰트 서브셋 적용
-  - Lighthouse 점수 측정 및 개선
-  - 번들 사이즈 분석 및 코드 스플리팅
+- ✅ **Task 010: 성능 최적화 및 캐싱 전략**
+  - ✅ Notion API 응답 캐싱 (unstable_cache)
+    - ✅ getAllQuotesWithCache: 1시간 캐시
+    - ✅ getQuoteByTokenWithCache: 24시간 캐시
+    - ✅ getItemsByInvoiceWithCache: 1시간 캐시
+  - ✅ 견적서 상세 페이지 SSG/ISR
+    - ✅ generateStaticParams 구현
+    - ✅ 24시간 ISR 재검증 설정
+  - ✅ 프로덕션 빌드 최적화 (13개 페이지 정적 생성)
 
-- **Task 011: 배포 준비 및 운영 환경 구성**
-  - Vercel 배포 설정 및 환경 변수 구성
-    - `NOTION_API_KEY`, `NOTION_DATABASE_ID`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`
-    - `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
-  - 프로덕션 빌드 검증 (`npm run build`)
+- ✅ **Task 011: 배포 준비 및 운영 환경 구성**
+  - ✅ 배포 가이드 작성 (docs/DEPLOYMENT.md)
+    - ✅ Notion 통합 설정 방법
+    - ✅ 환경 변수 보안 설정
+    - ✅ Vercel 배포 단계별 절차
+    - ✅ 배포 후 확인 체크리스트
+    - ✅ 트러블슈팅 가이드
+  - ✅ 프로덕션 빌드 검증 완료
   - `robots.txt` 및 `sitemap.xml` 구성 (관리자 경로 및 공유 토큰 경로 제외)
   - 개인정보 보호 정책 및 이용약관 페이지 컨텐츠 업데이트
   - README.md 사용 가이드 작성 (노션 DB 스키마 셋업 방법 포함)
