@@ -1,0 +1,7 @@
+{
+  "buildCommand": "next build --turbopack",
+  "installCommand": "npm ci",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["iad1"]
+}
