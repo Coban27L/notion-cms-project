@@ -99,6 +99,7 @@ export function mapNotionPageToQuote(
   const issuedDate = safeReadDate(props['발행일']);
   const validUntil = safeReadDate(props['유효기간']);
   const shareToken = safeReadText(props['공유토큰']);
+  const notes = safeReadText(props['비고']) || '';
 
   return {
     id: page.id,
@@ -110,5 +111,6 @@ export function mapNotionPageToQuote(
     issuedDate,
     validUntil,
     items,
+    notes,
   };
 }

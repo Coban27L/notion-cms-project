@@ -1,10 +1,9 @@
-import { pdf, Font } from '@react-pdf/renderer';
+import { renderToBuffer, Font } from '@react-pdf/renderer';
 import { QuoteDocument } from '@/components/pdf/quote-document';
 import { getQuoteByToken } from '@/lib/notion/queries';
-import { notFound } from 'next/navigation';
+import { getMockQuoteByToken } from '@/lib/mock/quotes';
 import path from 'path';
 import fs from 'fs';
-import { Readable } from 'node:stream';
 
 // 폰트 등록: 모듈 로드 시 한 번만 실행
 function registerFonts() {
@@ -44,26 +43,25 @@ export async function GET(
   try {
     console.log(`[API] PDF 생성 시작 - token: ${token}`);
 
-    // 견적서 데이터 조회
-    const quote = await getQuoteByToken(token);
+    // 견적서 데이터 조회 (Notion API + mock 폴백)
+    let quote = await getQuoteByToken(token);
     if (!quote) {
-      console.warn(`[API] 견적서를 찾을 수 없음 - token: ${token}`);
-      return notFound();
+      console.warn(`[API] Notion에서 찾을 수 없음, mock 데이터 시도 - token: ${token}`);
+      const mockQuote = getMockQuoteByToken(token);
+      if (mockQuote) {
+        quote = mockQuote;
+        console.log(`[API] Mock 데이터 사용: ${mockQuote.title}`);
+      } else {
+        console.warn(`[API] Mock에서도 찾을 수 없음 - token: ${token}`);
+        return new Response('견적서를 찾을 수 없습니다.', { status: 404 });
+      }
     }
 
     console.log(`[API] 견적서 조회 성공: ${quote.title}`);
 
-    // PDF 생성
+    // PDF 생성 (renderToBuffer 사용 - 공식 권장 API)
     console.log(`[API] PDF 생성 중...`);
-    const pdfInstance = pdf(<QuoteDocument quote={quote} />);
-    const stream = await pdfInstance.toBuffer();
-
-    // ReadableStream을 Buffer로 변환
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream as any) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
+    const buffer = await renderToBuffer(<QuoteDocument quote={quote} />);
 
     console.log(`[API] PDF 생성 완료 - 크기: ${buffer.length}bytes`);
 

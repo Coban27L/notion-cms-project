@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('PDF 다운로드 기능', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/share-test-token-123');
+    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
   });
 
   test('PDF 다운로드 버튼이 표시되고 클릭 가능해야 함', async ({ page }) => {
@@ -54,7 +54,7 @@ test.describe('PDF 다운로드 기능', () => {
 
 test.describe('공유 링크에서 견적서 조회', () => {
   test('공유 토큰으로 견적서 페이지에 접근할 수 있어야 함', async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/share-test-token-123');
+    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
 
     // 페이지가 로드되었는지 확인
     const heading = page.getByRole('heading', { name: '견적서 조회' });
@@ -62,7 +62,7 @@ test.describe('공유 링크에서 견적서 조회', () => {
   });
 
   test('견적서 데이터가 올바르게 표시되어야 함', async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/share-test-token-123');
+    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
 
     // 견적서 헤더 확인
     const title = page.getByRole('heading', { level: 1 }).first();
@@ -78,7 +78,7 @@ test.describe('공유 링크에서 견적서 조회', () => {
   });
 
   test('공유 링크 복사 버튼이 작동해야 함', async ({ page } ) => {
-    await page.goto('http://localhost:3000/quotes/share-test-token-123');
+    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
 
     // 공유 링크 복사 버튼 찾기
     const copyButton = page.getByRole('button', { name: /링크 복사/ });
