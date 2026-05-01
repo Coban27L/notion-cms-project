@@ -11,16 +11,35 @@ import { QuoteSummary } from '@/components/quote/quote-summary';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
 import { PDFDownloadButton } from '@/components/quote/pdf-download-button';
 import { QuoteDetailSkeleton } from '@/components/quote/quote-skeleton';
-import { getQuoteByToken } from '@/lib/notion/queries';
+import { getQuoteByTokenWithCache } from '@/lib/notion/cache';
+import { getAllQuotesWithCache } from '@/lib/notion/cache';
 import { getShareLink } from '@/lib/utils/share-link';
 
 interface QuotePageProps {
   params: Promise<{ token: string }>;
 }
 
+/**
+ * SSG: 공유 토큰이 있는 견적서들을 미리 생성
+ * - 자주 방문하는 견적서들을 정적 페이지로 생성
+ * - 재검증 시간: 24시간 (ISR)
+ */
+export async function generateStaticParams() {
+  try {
+    const quotes = await getAllQuotesWithCache();
+    return quotes.map((quote) => ({
+      token: quote.shareToken,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export const revalidate = 86400; // 24시간 ISR
+
 export async function generateMetadata({ params }: QuotePageProps): Promise<Metadata> {
   const { token } = await params;
-  const quote = await getQuoteByToken(token);
+  const quote = await getQuoteByTokenWithCache(token);
   if (!quote) return { title: '견적서를 찾을 수 없습니다' };
 
   const shareLink = getShareLink(token);
@@ -48,7 +67,7 @@ export async function generateMetadata({ params }: QuotePageProps): Promise<Meta
  * - 토큰이 유효하지 않으면 notFound() 호출
  */
 async function QuoteContent({ token }: { token: string }) {
-  const quote = await getQuoteByToken(token);
+  const quote = await getQuoteByTokenWithCache(token);
 
   if (!quote) notFound();
 

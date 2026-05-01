@@ -19,7 +19,7 @@ import {
 import { QuoteStatusBadge } from '@/components/quote/quote-status-badge';
 import { ShareLinkButton } from '@/components/quote/share-link-button';
 import { DashboardEmptyState } from '@/components/dashboard/empty-state';
-import { getAllQuotes } from '@/lib/notion/queries';
+import { getAllQuotesWithCache } from '@/lib/notion/cache';
 import { generateMockQuotes } from '@/lib/mock/quotes';
 import { QuoteStatus } from '@/lib/types/quote';
 import { formatSGD } from '@/lib/utils/currency';
@@ -101,7 +101,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
   let quotes;
   try {
-    quotes = await getAllQuotes();
+    quotes = await getAllQuotesWithCache();
   } catch (error) {
     console.warn('[Dashboard] Notion API 오류, mock 데이터 사용:', error);
     quotes = generateMockQuotes();
