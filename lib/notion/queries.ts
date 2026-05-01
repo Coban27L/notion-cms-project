@@ -2,6 +2,7 @@ import { notion, INVOICE_DB_ID, ITEMS_DB_ID, APIErrorCode, isNotionClientError }
 import { resolveDataSourceId } from './data-source-resolver';
 import { mapNotionPageToQuote, mapNotionItemToQuoteItem } from './mappers';
 import { withRetry } from './retry';
+import { getMockQuoteByToken } from '@/lib/mock/quotes';
 import type { Quote, QuoteItem } from '@/lib/types/quote';
 import type {
   NotionPageResponse,
@@ -105,19 +106,22 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     console.log(`[Notion] 공유 토큰으로 견적서 조회`);
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
-    // 임시: 상태 필터 제거, 클라이언트 사이드 필터링으로 변경
     const pages = await queryAllPages<NotionInvoiceProperties>(dataSourceId, {
       property: '공유토큰',
       rich_text: { equals: shareToken },
     });
 
     if (pages.length === 0) {
-      console.warn(`[Notion] 토큰에 해당하는 견적서 없음`);
+      console.warn(`[Notion] 토큰에 해당하는 견적서 없음, 모의 데이터 시도`);
+      const mockQuote = getMockQuoteByToken(shareToken);
+      if (mockQuote) {
+        console.log(`[Notion] 모의 데이터 사용: ${mockQuote.title}`);
+        return mockQuote;
+      }
       return null;
     }
 
     const page = pages[0];
-    // 클라이언트 사이드에서 상태 필터링
     const statusProp = page.properties['상태'] as any;
     if (statusProp?.select?.name === '취소') {
       console.warn(`[Notion] 취소된 견적서 접근 불가`);
@@ -128,6 +132,12 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     console.log(`[Notion] 견적서 조회 완료 (${items.length}개 항목)`);
     return mapNotionPageToQuote(page, items);
   } catch (error) {
+    console.warn(`[Notion] 공유 토큰 조회 실패, 모의 데이터 시도`);
+    const mockQuote = getMockQuoteByToken(shareToken);
+    if (mockQuote) {
+      console.log(`[Notion] 모의 데이터 사용 (오류 폴백): ${mockQuote.title}`);
+      return mockQuote;
+    }
     handleNotionError(error, `[Notion] 공유 토큰 조회 실패`);
     return null;
   }
