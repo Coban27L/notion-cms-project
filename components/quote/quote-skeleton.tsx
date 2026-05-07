@@ -1,5 +1,5 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { Separator } from '@/components/ui/separator';
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 /**
  * 견적서 상세 페이지 스켈레톤 컴포넌트
@@ -108,7 +108,9 @@ export function QuoteItemsTableSkeleton() {
           className="px-4 py-3 grid grid-cols-4 gap-4 border-t border-border"
         >
           {/* 품목명 - 너비 다양하게 설정해 자연스럽게 */}
-          <Skeleton className={`h-4 ${i % 3 === 0 ? 'w-32' : i % 3 === 1 ? 'w-24' : 'w-28'}`} />
+          <Skeleton
+            className={`h-4 ${i % 3 === 0 ? "w-32" : i % 3 === 1 ? "w-24" : "w-28"}`}
+          />
           {/* 수량 */}
           <Skeleton className="h-4 w-8 ml-auto" />
           {/* 단가 */}

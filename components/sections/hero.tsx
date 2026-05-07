@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { FileTextIcon } from 'lucide-react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { FileTextIcon } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -12,7 +12,9 @@ export function HeroSection() {
           </div>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-          노션으로 관리하는<br />견적서 시스템
+          노션으로 관리하는
+          <br />
+          견적서 시스템
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground mb-8">
           노션 DB에 견적서를 작성하면 자동으로 웹에서 확인 가능합니다.

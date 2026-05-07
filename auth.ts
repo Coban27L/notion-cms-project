@@ -1,26 +1,26 @@
-import NextAuth, { type DefaultSession } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
+import NextAuth, { type DefaultSession } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: DefaultSession['user'] & {
+    user: DefaultSession["user"] & {
       email: string;
     };
   }
 }
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'development-secret-key';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "development-secret-key";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: NEXTAUTH_SECRET,
   providers: [
     Credentials({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -34,9 +34,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (email === expectedEmail && password === expectedPassword) {
           return {
-            id: '1',
+            id: "1",
             email: email,
-            name: 'Admin',
+            name: "Admin",
           };
         }
 
@@ -45,12 +45,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   pages: {
-    signIn: '/login',
+    signIn: "/login",
   },
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
-      if (pathname.startsWith('/dashboard')) {
+      if (pathname.startsWith("/dashboard")) {
         return !!auth;
       }
       return true;
@@ -69,7 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 24 * 60 * 60,
   },
 });

@@ -1,6 +1,6 @@
-import { Separator } from '@/components/ui/separator';
-import { Quote } from '@/lib/types/quote';
-import { formatSGD } from '@/lib/utils/currency';
+import { Separator } from "@/components/ui/separator";
+import { Quote } from "@/lib/types/quote";
+import { formatSGD } from "@/lib/utils/currency";
 
 interface QuoteSummaryProps {
   quote: Quote;
@@ -16,7 +16,10 @@ const TAX_RATE = 0.09;
  * - 싱가포르 GST 9% 적용
  */
 export function QuoteSummary({ quote }: QuoteSummaryProps) {
-  const subtotal = (quote.items || []).reduce((sum, item) => sum + item.amount, 0);
+  const subtotal = (quote.items || []).reduce(
+    (sum, item) => sum + item.amount,
+    0,
+  );
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
@@ -26,7 +29,9 @@ export function QuoteSummary({ quote }: QuoteSummaryProps) {
         {/* 소계 */}
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">소계</span>
-          <span className="font-medium tabular-nums">{formatSGD(subtotal)}</span>
+          <span className="font-medium tabular-nums">
+            {formatSGD(subtotal)}
+          </span>
         </div>
         {/* GST 세금 */}
         <div className="flex items-center justify-between text-sm">

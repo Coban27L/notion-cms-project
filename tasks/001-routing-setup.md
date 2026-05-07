@@ -48,13 +48,13 @@ Next.js 16 App Router 기반으로 애플리케이션의 기본 라우트 구조
 
 ## 관련 파일
 
-| 파일 | 타입 | 설명 |
-|------|------|------|
-| app/login/page.tsx | CREATE | 로그인 페이지 |
-| app/quotes/[token]/page.tsx | CREATE | 공유 링크 견적서 페이지 |
-| app/not-found.tsx | CREATE | 404 에러 페이지 |
-| .env.example | CREATE | 환경 변수 템플릿 |
-| components/layout/header.tsx | TO_MODIFY | 조건부 렌더링 추가 |
+| 파일                         | 타입      | 설명                    |
+| ---------------------------- | --------- | ----------------------- |
+| app/login/page.tsx           | CREATE    | 로그인 페이지           |
+| app/quotes/[token]/page.tsx  | CREATE    | 공유 링크 견적서 페이지 |
+| app/not-found.tsx            | CREATE    | 404 에러 페이지         |
+| .env.example                 | CREATE    | 환경 변수 템플릿        |
+| components/layout/header.tsx | TO_MODIFY | 조건부 렌더링 추가      |
 
 ## 수락 기준
 
@@ -67,12 +67,14 @@ Next.js 16 App Router 기반으로 애플리케이션의 기본 라우트 구조
 ## 변경 사항 요약
 
 ### 생성된 파일
+
 - **app/login/page.tsx** (57줄): 로그인 페이지 UI 골격 (이메일/비밀번호 입력 필드)
 - **app/quotes/[token]/page.tsx** (90줄): 동적 라우트 기반 견적서 상세 페이지 (토큰 파라미터 처리)
 - **app/not-found.tsx** (22줄): 404 에러 페이지 (홈 이동 버튼 포함)
 - **.env.example** (9줄): 환경 변수 템플릿 (NOTION_API_KEY, ADMIN_CREDENTIALS, NEXTAUTH 설정)
 
 ### 수정된 파일
+
 - **components/layout/header.tsx**: 로그인/비로그인 조건부 렌더링 구조 추가
   - 비로그인: "로그인" 링크 표시
   - 로그인: "대시보드", "로그아웃" 버튼 표시
@@ -80,6 +82,7 @@ Next.js 16 App Router 기반으로 애플리케이션의 기본 라우트 구조
   - 실제 인증 로직은 Task 006에서 next-auth 통합 시 구현
 
 ### 검증 결과
+
 ✅ TypeScript 컴파일 성공 (1377ms)
 ✅ Next.js 빌드 성공 (10개 라우트 생성)
 ✅ ESLint 검사 통과

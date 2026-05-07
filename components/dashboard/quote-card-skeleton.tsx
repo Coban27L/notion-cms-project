@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * 대시보드 통계 카드 스켈레톤 컴포넌트

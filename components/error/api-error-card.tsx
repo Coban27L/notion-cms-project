@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { AlertCircle, RefreshCw, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { AlertCircle, RefreshCw, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ApiErrorCardProps {
   /** 표시할 에러 메시지 (기본값: 일반 에러 메시지) */
@@ -22,7 +22,7 @@ interface ApiErrorCardProps {
  * - 다크모드: CSS 변수 기반으로 자동 지원
  */
 export function ApiErrorCard({
-  message = '견적서를 불러올 수 없어요',
+  message = "견적서를 불러올 수 없어요",
   detail,
   onRetry,
   showHomeButton = false,
@@ -35,10 +35,7 @@ export function ApiErrorCard({
     >
       {/* 에러 아이콘 컨테이너 */}
       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
-        <AlertCircle
-          className="h-8 w-8 text-destructive"
-          aria-hidden="true"
-        />
+        <AlertCircle className="h-8 w-8 text-destructive" aria-hidden="true" />
       </div>
 
       {/* 텍스트 영역 */}

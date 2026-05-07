@@ -1,19 +1,19 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { ArrowLeft, StickyNote } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import { QuoteHeader } from '@/components/quote/quote-header';
-import { QuoteItemsTable } from '@/components/quote/quote-items-table';
-import { QuoteSummary } from '@/components/quote/quote-summary';
-import { ShareLinkButton } from '@/components/quote/share-link-button';
-import { PDFDownloadButton } from '@/components/quote/pdf-download-button';
-import { QuoteDetailSkeleton } from '@/components/quote/quote-skeleton';
-import { getQuoteByTokenWithCache } from '@/lib/notion/cache';
-import { getAllQuotesWithCache } from '@/lib/notion/cache';
-import { getShareLink } from '@/lib/utils/share-link';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { ArrowLeft, StickyNote } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { QuoteHeader } from "@/components/quote/quote-header";
+import { QuoteItemsTable } from "@/components/quote/quote-items-table";
+import { QuoteSummary } from "@/components/quote/quote-summary";
+import { ShareLinkButton } from "@/components/quote/share-link-button";
+import { PDFDownloadButton } from "@/components/quote/pdf-download-button";
+import { QuoteDetailSkeleton } from "@/components/quote/quote-skeleton";
+import { getQuoteByTokenWithCache } from "@/lib/notion/cache";
+import { getAllQuotesWithCache } from "@/lib/notion/cache";
+import { getShareLink } from "@/lib/utils/share-link";
 
 interface QuotePageProps {
   params: Promise<{ token: string }>;
@@ -37,25 +37,27 @@ export async function generateStaticParams() {
 
 export const revalidate = 86400; // 24시간 ISR
 
-export async function generateMetadata({ params }: QuotePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: QuotePageProps): Promise<Metadata> {
   const { token } = await params;
   const quote = await getQuoteByTokenWithCache(token);
-  if (!quote) return { title: '견적서를 찾을 수 없습니다' };
+  if (!quote) return { title: "견적서를 찾을 수 없습니다" };
 
   const shareLink = getShareLink(token);
 
   return {
     title: `견적서 ${quote.title}`,
-    description: `${quote.clientName} 견적서 (${quote.totalAmount ? `${quote.totalAmount}원` : '금액 미책정'})`,
-    metadataBase: new URL('https://notion-cms.example.com'),
+    description: `${quote.clientName} 견적서 (${quote.totalAmount ? `${quote.totalAmount}원` : "금액 미책정"})`,
+    metadataBase: new URL("https://notion-cms.example.com"),
     openGraph: {
       title: `${quote.title} - ${quote.clientName}`,
-      description: `${quote.clientName} 견적서 (발행일: ${quote.issuedDate || '미지정'})`,
-      type: 'website',
+      description: `${quote.clientName} 견적서 (발행일: ${quote.issuedDate || "미지정"})`,
+      type: "website",
       url: shareLink,
     },
     twitter: {
-      card: 'summary',
+      card: "summary",
       title: `${quote.title} - ${quote.clientName}`,
       description: `${quote.clientName} 견적서`,
     },
@@ -133,24 +135,24 @@ async function QuoteStructuredData({ token }: { token: string }) {
   if (!quote) return null;
 
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Invoice',
+    "@context": "https://schema.org",
+    "@type": "Invoice",
     invoiceNumber: quote.title,
     issuedDate: quote.issuedDate,
     validUntil: quote.validUntil,
     url: getShareLink(token),
     accountablePerson: {
-      '@type': 'Person',
-      name: '견적서쓰',
+      "@type": "Person",
+      name: "견적서쓰",
     },
     customer: {
-      '@type': 'Person',
+      "@type": "Person",
       name: quote.clientName,
     },
     totalPaymentDue: {
-      '@type': 'PriceSpecification',
-      priceCurrency: 'KRW',
-      price: quote.totalAmount?.toString() || '0',
+      "@type": "PriceSpecification",
+      priceCurrency: "KRW",
+      price: quote.totalAmount?.toString() || "0",
     },
   };
 
@@ -169,11 +171,14 @@ export default async function QuotePage({ params }: QuotePageProps) {
     <div className="min-h-screen bg-background">
       <QuoteStructuredData token={token} />
       <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
-
         {/* 상단 네비게이션 */}
         <div className="mb-6">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2 -ml-2 text-muted-foreground hover:text-foreground">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2 -ml-2 text-muted-foreground hover:text-foreground"
+            >
               <ArrowLeft className="h-4 w-4" />
               돌아가기
             </Button>

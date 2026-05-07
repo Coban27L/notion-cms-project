@@ -1,4 +1,4 @@
-import { PackageSearch } from 'lucide-react';
+import { PackageSearch } from "lucide-react";
 
 /**
  * 견적 항목 테이블 전용 빈 상태 컴포넌트

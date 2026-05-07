@@ -1,21 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('PDF 다운로드 기능', () => {
+test.describe("PDF 다운로드 기능", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
+    await page.goto(
+      "http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001",
+    );
   });
 
-  test('PDF 다운로드 버튼이 표시되고 클릭 가능해야 함', async ({ page }) => {
+  test("PDF 다운로드 버튼이 표시되고 클릭 가능해야 함", async ({ page }) => {
     // 다운로드 버튼 찾기
-    const downloadButton = page.getByRole('button', { name: /PDF 다운로드/ });
+    const downloadButton = page.getByRole("button", { name: /PDF 다운로드/ });
 
     // 버튼이 존재하고 활성화되어 있는지 확인
     await expect(downloadButton).toBeVisible();
     await expect(downloadButton).toBeEnabled();
   });
 
-  test('PDF 다운로드 버튼 클릭 시 토스트 알림이 표시되어야 함', async ({ page }) => {
-    const downloadButton = page.getByRole('button', { name: /PDF 다운로드/ });
+  test("PDF 다운로드 버튼 클릭 시 토스트 알림이 표시되어야 함", async ({
+    page,
+  }) => {
+    const downloadButton = page.getByRole("button", { name: /PDF 다운로드/ });
 
     // 버튼 클릭
     await downloadButton.click();
@@ -26,8 +30,8 @@ test.describe('PDF 다운로드 기능', () => {
     expect(toastMessages.length).toBeGreaterThan(0);
   });
 
-  test('PDF 생성 중에는 버튼이 비활성화되어야 함', async ({ page }) => {
-    const downloadButton = page.getByRole('button', { name: /PDF 다운로드/ });
+  test("PDF 생성 중에는 버튼이 비활성화되어야 함", async ({ page }) => {
+    const downloadButton = page.getByRole("button", { name: /PDF 다운로드/ });
 
     // 버튼 클릭
     await downloadButton.click();
@@ -35,16 +39,21 @@ test.describe('PDF 다운로드 기능', () => {
     // 일시적으로 버튼 상태 확인
     const isDisabled = await downloadButton.isDisabled();
     // 다운로드가 빠르게 완료될 수 있으므로 상태 확인은 선택적
-    console.log('PDF 생성 중 버튼 비활성화 상태:', isDisabled);
+    console.log("PDF 생성 중 버튼 비활성화 상태:", isDisabled);
   });
 
-  test('클라이언트명에 특수문자가 있을 때 파일명이 올바르게 생성되어야 함', async ({ page }) => {
+  test("클라이언트명에 특수문자가 있을 때 파일명이 올바르게 생성되어야 함", async ({
+    page,
+  }) => {
     // 페이지에서 클라이언트명 텍스트 확인
-    const clientNameText = await page.locator('text=/클라이언트/').first().textContent();
-    console.log('클라이언트명:', clientNameText);
+    const clientNameText = await page
+      .locator("text=/클라이언트/")
+      .first()
+      .textContent();
+    console.log("클라이언트명:", clientNameText);
 
     // 토스트 메시지에 파일명이 포함되는지 확인
-    const downloadButton = page.getByRole('button', { name: /PDF 다운로드/ });
+    const downloadButton = page.getByRole("button", { name: /PDF 다운로드/ });
     await downloadButton.click();
 
     // 다운로드 성공 토스트 대기
@@ -52,20 +61,26 @@ test.describe('PDF 다운로드 기능', () => {
   });
 });
 
-test.describe('공유 링크에서 견적서 조회', () => {
-  test('공유 토큰으로 견적서 페이지에 접근할 수 있어야 함', async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
+test.describe("공유 링크에서 견적서 조회", () => {
+  test("공유 토큰으로 견적서 페이지에 접근할 수 있어야 함", async ({
+    page,
+  }) => {
+    await page.goto(
+      "http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001",
+    );
 
     // 페이지가 로드되었는지 확인
-    const heading = page.getByRole('heading', { name: '견적서 조회' });
+    const heading = page.getByRole("heading", { name: "견적서 조회" });
     await expect(heading).toBeVisible();
   });
 
-  test('견적서 데이터가 올바르게 표시되어야 함', async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
+  test("견적서 데이터가 올바르게 표시되어야 함", async ({ page }) => {
+    await page.goto(
+      "http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001",
+    );
 
     // 견적서 헤더 확인
-    const title = page.getByRole('heading', { level: 1 }).first();
+    const title = page.getByRole("heading", { level: 1 }).first();
     await expect(title).toBeVisible();
 
     // 항목 테이블 확인
@@ -73,37 +88,42 @@ test.describe('공유 링크에서 견적서 조회', () => {
     await expect(table).toBeVisible();
 
     // 합계 섹션 확인 (스크롤하여 표시되도록)
-    await page.locator('text=/합계/').scrollIntoViewIfNeeded();
+    await page.locator("text=/합계/").scrollIntoViewIfNeeded();
     const summarySection = page.getByText(/합계/);
     await expect(summarySection).toBeVisible();
   });
 
-  test('공유 링크 복사 버튼이 작동해야 함', async ({ page } ) => {
-    await page.goto('http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001');
+  test("공유 링크 복사 버튼이 작동해야 함", async ({ page }) => {
+    await page.goto(
+      "http://localhost:3000/quotes/550e8400-e29b-41d4-a716-446655440001",
+    );
 
     // 공유 링크 복사 버튼 찾기 및 클릭 가능 확인
-    const copyButton = page.getByRole('button', { name: /링크 복사/ });
+    const copyButton = page.getByRole("button", { name: /링크 복사/ });
     await expect(copyButton).toBeVisible();
     await expect(copyButton).toBeEnabled();
 
     // 버튼 클릭 (Playwright 환경에서 클립보드 권한 자동 부여)
-    page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
 
     await copyButton.click();
 
     // 버튼이 "복사됨!" 상태로 변경되거나 토스트 메시지가 나타날 때까지 대기
     // Playwright는 클립보드 직접 접근 불가하므로 버튼 상태 변경만 확인
     await page.waitForTimeout(100);
-    const copiedOrSuccessText = page.locator('button:has-text("복사됨!"), text=/복사되었습니다/');
 
     // 최소한 버튼이 클릭 가능 상태인지 확인
-    console.log('공유 링크 복사 버튼 클릭 완료');
+    console.log("공유 링크 복사 버튼 클릭 완료");
   });
 });
 
-test.describe('에러 핸들링', () => {
-  test('잘못된 토큰으로 접근할 때 404 페이지를 표시해야 함', async ({ page }) => {
-    await page.goto('http://localhost:3000/quotes/invalid-token-xyz', { waitUntil: 'networkidle' });
+test.describe("에러 핸들링", () => {
+  test("잘못된 토큰으로 접근할 때 404 페이지를 표시해야 함", async ({
+    page,
+  }) => {
+    await page.goto("http://localhost:3000/quotes/invalid-token-xyz", {
+      waitUntil: "networkidle",
+    });
 
     // 404 페이지 표시 확인
     const notFoundText = page.getByText(/찾을 수 없습니다|404/i);

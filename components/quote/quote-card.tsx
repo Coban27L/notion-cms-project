@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Quote } from '@/lib/types/quote';
-import { QuoteStatusBadge } from './quote-status-badge';
-import { formatSGD } from '@/lib/utils/currency';
-import Link from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Quote } from "@/lib/types/quote";
+import { QuoteStatusBadge } from "./quote-status-badge";
+import { formatSGD } from "@/lib/utils/currency";
+import Link from "next/link";
 
 interface QuoteCardProps {
   quote: Quote;
@@ -19,8 +19,8 @@ export function QuoteCard({ quote, interactive = true }: QuoteCardProps) {
     <Card
       className={
         interactive
-          ? 'hover:shadow-md transition-shadow duration-200 cursor-pointer'
-          : ''
+          ? "hover:shadow-md transition-shadow duration-200 cursor-pointer"
+          : ""
       }
     >
       <CardHeader>
@@ -28,7 +28,9 @@ export function QuoteCard({ quote, interactive = true }: QuoteCardProps) {
           <div>
             <CardTitle className="text-lg">{quote.title}</CardTitle>
             {/* 클라이언트명: CSS 변수 기반 색상으로 다크모드 지원 */}
-            <p className="text-sm text-muted-foreground mt-2">{quote.clientName}</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {quote.clientName}
+            </p>
           </div>
           <QuoteStatusBadge status={quote.status} />
         </div>
@@ -39,13 +41,13 @@ export function QuoteCard({ quote, interactive = true }: QuoteCardProps) {
             {/* 레이블: muted-foreground로 다크모드 대응 */}
             <p className="text-muted-foreground">발행일</p>
             <p className="font-medium">
-              {new Date(quote.issuedDate).toLocaleDateString('ko-KR')}
+              {new Date(quote.issuedDate).toLocaleDateString("ko-KR")}
             </p>
           </div>
           <div>
             <p className="text-muted-foreground">유효기간</p>
             <p className="font-medium">
-              {new Date(quote.validUntil).toLocaleDateString('ko-KR')}
+              {new Date(quote.validUntil).toLocaleDateString("ko-KR")}
             </p>
           </div>
         </div>

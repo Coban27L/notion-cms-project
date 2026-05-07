@@ -1,6 +1,6 @@
-import { ReceiptText, ExternalLink } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { ReceiptText, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface DashboardEmptyStateProps {
   /** 현재 활성 상태 필터 ('all' 또는 '발행', '승인' 등) */
@@ -16,19 +16,17 @@ interface DashboardEmptyStateProps {
  * - 아이콘, 제목, 설명, 행동 유도 버튼(CTA) 포함
  */
 export function DashboardEmptyState({
-  activeFilter = 'all',
+  activeFilter = "all",
   notionUrl,
 }: DashboardEmptyStateProps) {
-  const isFilteredEmpty = activeFilter !== 'all';
+  const isFilteredEmpty = activeFilter !== "all";
 
   return (
     <div
       className="flex flex-col items-center justify-center py-20 gap-4"
       role="status"
       aria-label={
-        isFilteredEmpty
-          ? `${activeFilter} 상태의 견적서 없음`
-          : '견적서 없음'
+        isFilteredEmpty ? `${activeFilter} 상태의 견적서 없음` : "견적서 없음"
       }
     >
       {/* 아이콘 컨테이너 */}
@@ -44,12 +42,12 @@ export function DashboardEmptyState({
         <p className="font-semibold text-base text-foreground">
           {isFilteredEmpty
             ? `${activeFilter} 상태의 견적서가 없어요`
-            : '아직 견적서가 없어요'}
+            : "아직 견적서가 없어요"}
         </p>
         <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
           {isFilteredEmpty
-            ? '다른 상태 필터를 선택하거나 전체 목록을 확인해보세요.'
-            : '노션 DB에서 견적서를 작성하면 자동으로 여기에 표시됩니다.'}
+            ? "다른 상태 필터를 선택하거나 전체 목록을 확인해보세요."
+            : "노션 DB에서 견적서를 작성하면 자동으로 여기에 표시됩니다."}
         </p>
       </div>
 
@@ -64,11 +62,7 @@ export function DashboardEmptyState({
           </Link>
         ) : notionUrl ? (
           /* 노션 URL이 있을 때: 외부 링크로 이동 */
-          <a
-            href={notionUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={notionUrl} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="gap-2">
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
               노션에서 견적서 작성
@@ -83,8 +77,8 @@ export function DashboardEmptyState({
             disabled
             aria-disabled="true"
           >
-            <ExternalLink className="h-4 w-4" aria-hidden="true" />
-            새 견적서 작성
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />새 견적서
+            작성
             {/* TODO: NOTION_DB_URL 환경 변수 연동 후 활성화 */}
           </Button>
         )}

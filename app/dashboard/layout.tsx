@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
-import { Suspense } from 'react';
-import { AdminLayout } from '@/components/admin/admin-layout';
+import { Metadata } from "next";
+import { Suspense } from "react";
+import { AdminLayout } from "@/components/admin/admin-layout";
 
 export const metadata: Metadata = {
-  title: '견적서 대시보드',
-  description: '견적서 목록을 관리하는 관리자 대시보드',
+  title: "견적서 대시보드",
+  description: "견적서 목록을 관리하는 관리자 대시보드",
 };
 
 function DashboardSkeleton() {
@@ -21,12 +21,14 @@ function DashboardSkeleton() {
   );
 }
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <AdminLayout>
-      <Suspense fallback={<DashboardSkeleton />}>
-        {children}
-      </Suspense>
+      <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
     </AdminLayout>
   );
 }

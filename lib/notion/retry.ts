@@ -30,7 +30,7 @@ function isRetryableError(error: any): boolean {
     return status === 429 || (status >= 500 && status < 600);
   }
   if (error?.code) {
-    return ['ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT'].includes(error.code);
+    return ["ECONNREFUSED", "ECONNRESET", "ETIMEDOUT"].includes(error.code);
   }
   return false;
 }
@@ -44,7 +44,7 @@ function isRetryableError(error: any): boolean {
 function getDelayMs(
   attemptNumber: number,
   initialDelayMs: number,
-  multiplier: number
+  multiplier: number,
 ): number {
   const baseDelay = initialDelayMs * Math.pow(multiplier, attemptNumber);
   // 지터(jitter) 추가: ±20%
@@ -59,7 +59,7 @@ function getDelayMs(
  */
 export async function withRetry<T>(
   fn: () => Promise<T>,
-  options: RetryOptions = {}
+  options: RetryOptions = {},
 ): Promise<T> {
   const { maxRetries, initialDelayMs, backoffMultiplier } = {
     ...DEFAULT_RETRY_OPTIONS,
@@ -88,7 +88,7 @@ export async function withRetry<T>(
       const delayMs = getDelayMs(attempt, initialDelayMs, backoffMultiplier);
       const errorMsg = (error as any)?.message || String(error);
       console.log(
-        `[Retry] 시도 ${attempt + 1}/${maxRetries + 1} 실패, ${delayMs}ms 후 재시도: ${errorMsg}`
+        `[Retry] 시도 ${attempt + 1}/${maxRetries + 1} 실패, ${delayMs}ms 후 재시도: ${errorMsg}`,
       );
 
       await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -104,8 +104,8 @@ export async function withRetry<T>(
  * @returns 남은 요청 수
  */
 export function getRateLimitRemaining(response: any): number | null {
-  return response?.headers?.['x-ratelimit-remaining']
-    ? parseInt(response.headers['x-ratelimit-remaining'], 10)
+  return response?.headers?.["x-ratelimit-remaining"]
+    ? parseInt(response.headers["x-ratelimit-remaining"], 10)
     : null;
 }
 
@@ -116,13 +116,11 @@ export function getRateLimitRemaining(response: any): number | null {
  */
 export async function handleRateLimitWarning(
   remaining: number | null,
-  threshold: number = 5
+  threshold: number = 5,
 ): Promise<void> {
   if (remaining !== null && remaining < threshold) {
     const delayMs = 5000; // 5초 대기
-    console.warn(
-      `[RateLimit] 남은 요청: ${remaining}개, ${delayMs}ms 대기`
-    );
+    console.warn(`[RateLimit] 남은 요청: ${remaining}개, ${delayMs}ms 대기`);
     await new Promise((resolve) => setTimeout(resolve, delayMs));
   }
 }

@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { signIn } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const loginSchema = z.object({
-  email: z.string().email('유효한 이메일을 입력하세요'),
-  password: z.string().min(6, '비밀번호는 6자 이상이어야 합니다'),
+  email: z.string().email("유효한 이메일을 입력하세요"),
+  password: z.string().min(6, "비밀번호는 6자 이상이어야 합니다"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -35,26 +35,26 @@ export default function LoginPage() {
     setIsSubmitting(true);
     setServerError(null);
     try {
-      const result = await signIn('credentials', {
+      const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
       });
 
       if (!result) {
-        setServerError('로그인 중 오류가 발생했습니다. 다시 시도하세요.');
+        setServerError("로그인 중 오류가 발생했습니다. 다시 시도하세요.");
         return;
       }
 
       if (result.error) {
-        setServerError('이메일 또는 비밀번호가 올바르지 않습니다');
+        setServerError("이메일 또는 비밀번호가 올바르지 않습니다");
       } else if (result.ok) {
-        router.push('/dashboard');
+        router.push("/dashboard");
       } else {
-        setServerError('로그인에 실패했습니다. 다시 시도하세요.');
+        setServerError("로그인에 실패했습니다. 다시 시도하세요.");
       }
-    } catch (error) {
-      setServerError('로그인 중 오류가 발생했습니다');
+    } catch {
+      setServerError("로그인 중 오류가 발생했습니다");
     } finally {
       setIsSubmitting(false);
     }
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 placeholder="admin@example.com"
-                {...register('email')}
+                {...register("email")}
               />
               {errors.email && (
                 <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -93,19 +93,17 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 placeholder="••••••••"
-                {...register('password')}
+                {...register("password")}
               />
               {errors.password && (
-                <p className="text-sm text-red-600">{errors.password.message}</p>
+                <p className="text-sm text-red-600">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full"
-            >
-              {isSubmitting ? '로그인 중...' : '로그인'}
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+              {isSubmitting ? "로그인 중..." : "로그인"}
             </Button>
           </form>
         </CardContent>

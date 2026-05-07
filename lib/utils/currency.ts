@@ -8,7 +8,7 @@
  * 소수점 2자리 고정 표시 (예: S$1,234.00)
  */
 export function formatSGD(amount: number): string {
-  return `S$${amount.toLocaleString('en-SG', {
+  return `S$${amount.toLocaleString("en-SG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
@@ -19,5 +19,5 @@ export function formatSGD(amount: number): string {
  * 소수점 없이 정수 표시 (예: 1,234,000원)
  */
 export function formatKRW(amount: number): string {
-  return `${amount.toLocaleString('ko-KR')}원`;
+  return `${amount.toLocaleString("ko-KR")}원`;
 }

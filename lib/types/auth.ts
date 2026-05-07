@@ -24,9 +24,9 @@ export interface Session {
  * 인증 오류 타입
  */
 export type AuthErrorCode =
-  | 'INVALID_CREDENTIALS'
-  | 'SESSION_EXPIRED'
-  | 'UNAUTHORIZED';
+  | "INVALID_CREDENTIALS"
+  | "SESSION_EXPIRED"
+  | "UNAUTHORIZED";
 
 /**
  * 인증 오류 인터페이스

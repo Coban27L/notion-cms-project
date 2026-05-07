@@ -3,21 +3,18 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ],
+      "args": ["@playwright/mcp@latest"],
       "env": {}
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     },
     "shrimp-task-manager": {
       "command": "node",
-      "args": ["/Users/jaean_mac0/workspace/mcp-shrimp-task-manager/dist/index.js"],
+      "args": [
+        "/Users/jaean_mac0/workspace/mcp-shrimp-task-manager/dist/index.js"
+      ],
       "env": {
         "DATA_DIR": "/Users/jaean_mac0/workspace/notion-cms-project/shrimp_data",
         "TEMPLATES_USE": "en",

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { AdminSidebar } from './admin-sidebar';
-import { AdminHeader } from './admin-header';
+import { useState } from "react";
+import { AdminSidebar } from "./admin-sidebar";
+import { AdminHeader } from "./admin-header";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -13,13 +13,17 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleSkipToMain = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const mainContent = document.querySelector('main');
+    const mainContent = document.querySelector("main");
     if (mainContent) {
-      mainContent.setAttribute('tabindex', '-1');
+      mainContent.setAttribute("tabindex", "-1");
       mainContent.focus();
-      mainContent.addEventListener('blur', () => {
-        mainContent.removeAttribute('tabindex');
-      }, { once: true });
+      mainContent.addEventListener(
+        "blur",
+        () => {
+          mainContent.removeAttribute("tabindex");
+        },
+        { once: true },
+      );
     }
   };
 
@@ -42,7 +46,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <AdminHeader onMobileMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
 
         {/* 콘텐츠 영역 */}
-        <div className="flex-1 overflow-auto" role="region" aria-label="메인 콘텐츠">
+        <div
+          className="flex-1 overflow-auto"
+          role="region"
+          aria-label="메인 콘텐츠"
+        >
           <div className="container mx-auto px-4 py-8">{children}</div>
         </div>
       </main>

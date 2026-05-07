@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useEffect } from "react";
+import { AlertCircle, RefreshCw, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface QuoteErrorPageProps {
   /** Next.js가 전달하는 에러 객체 */
@@ -22,14 +22,13 @@ interface QuoteErrorPageProps {
 export default function QuoteErrorPage({ error, reset }: QuoteErrorPageProps) {
   /* 견적서 페이지 에러 로깅 */
   useEffect(() => {
-    console.error('[QuoteErrorBoundary] 견적서 로딩 오류:', error);
+    console.error("[QuoteErrorBoundary] 견적서 로딩 오류:", error);
     /* TODO: Sentry 에러 보고 연동 (Task 014) */
   }, [error]);
 
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
-
         {/* 상단 네비게이션 (에러 상태에서도 뒤로가기 제공) */}
         <div className="mb-6">
           <Link href="/">
@@ -60,8 +59,8 @@ export default function QuoteErrorPage({ error, reset }: QuoteErrorPageProps) {
               견적서를 불러올 수 없어요
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              노션 API 연결에 문제가 발생했습니다.
-              잠시 후 다시 시도하거나, 관리자에게 문의해주세요.
+              노션 API 연결에 문제가 발생했습니다. 잠시 후 다시 시도하거나,
+              관리자에게 문의해주세요.
             </p>
             {/* 에러 digest - 지원팀 문의용 */}
             {error.digest && (

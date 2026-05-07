@@ -5,6 +5,7 @@
 ### 1️⃣ 로컬 검증 (배포 전 필수)
 
 #### 빌드 및 타입 검사
+
 ```bash
 npm run type-check  # TypeScript 타입 검사
 npm run lint        # ESLint 실행
@@ -16,6 +17,7 @@ npm run build       # 프로덕션 빌드 테스트
 - [ ] 빌드 성공 (에러 없음)
 
 #### 로컬 실행 테스트
+
 ```bash
 npm run start  # 프로덕션 빌드 로컬 실행
 ```
@@ -46,6 +48,7 @@ git push origin main               # main 브랜치에 푸시
 ### 3️⃣ 환경 변수 준비
 
 #### 필수 환경 변수 (Vercel에 등록할 값)
+
 ```
 NOTION_API_KEY = <your-notion-api-key>
 NOTION_DATABASE_ID = <your-database-id>
@@ -57,6 +60,7 @@ NODE_ENV = production
 ```
 
 생성 방법:
+
 ```bash
 # NEXTAUTH_SECRET 생성
 openssl rand -base64 32
@@ -87,15 +91,18 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ### 5️⃣ 도메인 준비
 
 #### 옵션 A: 새 도메인 구매 (권장)
+
 - [ ] 도메인 등록사에서 도메인 구매
 - [ ] Vercel에서 도메인 추가 또는 DNS 레코드 설정
 
 #### 옵션 B: 기존 도메인 연결
+
 - [ ] 도메인 소유자 확인
 - [ ] Vercel에서 DNS 설정 방법 확인
 - [ ] A 또는 CNAME 레코드 업데이트 준비
 
 도메인이 없는 경우:
+
 - [ ] 테스트용으로 Vercel의 기본 도메인(`*.vercel.app`) 사용 가능
 
 ### 6️⃣ 보안 최종 검증
@@ -106,6 +113,7 @@ curl -I http://localhost:3000 | grep -E "X-|Referrer|Permissions"
 ```
 
 결과 확인:
+
 - [ ] `X-Content-Type-Options: nosniff`
 - [ ] `X-Frame-Options: DENY`
 - [ ] `X-XSS-Protection: 1; mode=block`
@@ -119,6 +127,7 @@ curl -s http://localhost:3000 | grep -o '<meta property="og:[^"]*"'
 ```
 
 확인 사항:
+
 - [ ] Open Graph 메타 태그 있음
 - [ ] Twitter Card 메타 태그 있음
 - [ ] Canonical URL 설정됨
@@ -136,6 +145,7 @@ curl -s http://localhost:3000 | wc -c  # HTML 크기 확인
 ```
 
 성능 타겟:
+
 - [ ] 초기 페이지 로드 시간 < 3초
 - [ ] 메인 HTML 크기 < 100KB (gzip)
 - [ ] 번들 크기 합계 < 500KB
@@ -160,11 +170,13 @@ npm run dev
 ### 🔟 모니터링 설정 준비 (선택사항)
 
 #### Sentry 설정
+
 - [ ] [Sentry](https://sentry.io) 계정 생성
 - [ ] 프로젝트 생성 (Next.js)
 - [ ] DSN 값 준비: `https://<key>@<org>.ingest.sentry.io/<project>`
 
 #### Vercel Analytics
+
 - [ ] Vercel 프로젝트 설정에서 Analytics 활성화
 - [ ] Web Analytics 확인
 - [ ] Speed Insights 확인
@@ -226,11 +238,13 @@ Value: production
 ### Step 4: 배포 트리거
 
 **옵션 A: Vercel UI에서 수동 배포**
+
 1. Vercel 대시보드에서 프로젝트 선택
 2. "Deployments" 탭에서 "Trigger Deploy" 클릭
 3. "Deploy" 확인
 
 **옵션 B: Git 푸시로 자동 배포**
+
 ```bash
 # GitHub에 변경사항 푸시 시 자동으로 배포
 git push origin main
@@ -241,13 +255,16 @@ git push origin main
 배포 완료 후 (약 2-5분):
 
 1. **기본 기능 테스트**
+
    ```bash
    curl https://<your-vercel-domain>.vercel.app/
    ```
+
    - [ ] HTTP 200 OK
    - [ ] HTML 정상 렌더링
 
 2. **보안 헤더 확인**
+
    ```bash
    curl -I https://<your-vercel-domain>.vercel.app | grep X-
    ```
@@ -281,16 +298,19 @@ git push origin main
 ## 🔍 배포 후 모니터링
 
 ### 일일 점검
+
 - [ ] 에러 로그 확인 (Vercel Function Logs)
 - [ ] API 응답 시간 확인
 - [ ] 사용자 접근 통계 확인 (Vercel Analytics)
 
 ### 주간 점검
+
 - [ ] PageSpeed Insights 점수 측정
 - [ ] 성능 지표 변화 모니터링
 - [ ] npm 의존성 업데이트 확인
 
 ### 월간 점검
+
 - [ ] 보안 업데이트 확인
 - [ ] Core Web Vitals 평균 점수 확인
 - [ ] 노션 API 사용량 확인
@@ -300,22 +320,26 @@ git push origin main
 ## ❌ 트러블슈팅
 
 ### 배포 실패: "Build failed"
+
 1. Vercel 대시보드 → Deployments → 실패한 배포 클릭
 2. Build Logs 확인
 3. 로컬에서 동일 오류 재현: `npm run build`
 
 ### 배포 성공하지만 페이지 오류
+
 1. Vercel Function Logs 확인
 2. 환경 변수 설정 재확인
 3. `NEXTAUTH_URL`이 배포 도메인과 일치하는지 확인
 
 ### 노션 데이터 안 보임
+
 1. 대시보드에서 mock data 표시됨 (정상)
 2. `NOTION_API_KEY` 유효성 확인
 3. `NOTION_DATABASE_ID` 정확성 확인
 4. 노션 데이터베이스 접근권한 확인
 
 ### SSL 인증서 오류
+
 - Vercel은 자동으로 발급하므로 일반적으로 발생하지 않음
 - 도메인 설정 후 5-10분 대기
 

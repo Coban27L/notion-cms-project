@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { AlertCircle, RefreshCw, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useEffect } from "react";
+import { AlertCircle, RefreshCw, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ErrorPageProps {
   /** Next.js가 전달하는 에러 객체 */
@@ -21,7 +21,7 @@ interface ErrorPageProps {
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   /* 에러 로깅 - 프로덕션에서 Sentry 등으로 교체 권장 */
   useEffect(() => {
-    console.error('[ErrorBoundary] 페이지 에러 발생:', error);
+    console.error("[ErrorBoundary] 페이지 에러 발생:", error);
     /* TODO: Sentry 에러 보고 연동 (Task 014) */
   }, [error]);
 
@@ -68,10 +68,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 
           {/* 홈으로 이동 버튼 */}
           <Link href="/" className="w-full sm:w-auto">
-            <Button
-              variant="outline"
-              className="gap-2 w-full"
-            >
+            <Button variant="outline" className="gap-2 w-full">
               <Home className="h-4 w-4" aria-hidden="true" />
               홈으로 이동
             </Button>

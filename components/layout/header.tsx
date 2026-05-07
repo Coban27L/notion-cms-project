@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { FileTextIcon, Menu } from 'lucide-react';
+import Link from "next/link";
+import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { FileTextIcon, Menu } from "lucide-react";
 
 export function Header() {
   const { data: session } = useSession();
@@ -21,10 +21,16 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex md:items-center md:gap-6">
-          <Link href="/" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+          <Link
+            href="/"
+            className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
+          >
             홈
           </Link>
-          <Link href="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+          <Link
+            href="/dashboard"
+            className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
+          >
             대시보드
           </Link>
         </nav>
@@ -35,13 +41,16 @@ export function Header() {
           <div className="hidden md:flex md:items-center md:gap-2">
             {session ? (
               <>
-                <Link href="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+                <Link
+                  href="/dashboard"
+                  className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
+                >
                   대시보드
                 </Link>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={() => signOut({ callbackUrl: "/" })}
                 >
                   로그아웃
                 </Button>
@@ -55,7 +64,10 @@ export function Header() {
 
           <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger className="p-2 hover:bg-accent rounded-lg transition-colors" aria-label="메뉴">
+              <SheetTrigger
+                className="p-2 hover:bg-accent rounded-lg transition-colors"
+                aria-label="메뉴"
+              >
                 <Menu className="h-5 w-5" />
               </SheetTrigger>
               <SheetContent side="left" className="w-64">
@@ -64,10 +76,18 @@ export function Header() {
                   노션 CMS
                 </div>
                 <nav className="flex flex-col gap-2">
-                  <Link href="/" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  <Link
+                    href="/"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
                     홈
                   </Link>
-                  <Link href="/dashboard" className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  <Link
+                    href="/dashboard"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
                     대시보드
                   </Link>
                   <div className="border-t border-border my-2" />
@@ -78,14 +98,19 @@ export function Header() {
                       className="w-full justify-start"
                       onClick={() => {
                         setMobileMenuOpen(false);
-                        signOut({ callbackUrl: '/' });
+                        signOut({ callbackUrl: "/" });
                       }}
                     >
                       로그아웃
                     </Button>
                   ) : (
-                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                      <Button size="sm" className="w-full">로그인</Button>
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Button size="sm" className="w-full">
+                        로그인
+                      </Button>
                     </Link>
                   )}
                 </nav>

@@ -1,7 +1,7 @@
-import { CalendarDays, Building2, Hash, AlertTriangle } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import { Quote } from '@/lib/types/quote';
-import { QuoteStatusBadge } from './quote-status-badge';
+import { CalendarDays, Building2, Hash, AlertTriangle } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Quote } from "@/lib/types/quote";
+import { QuoteStatusBadge } from "./quote-status-badge";
 
 interface QuoteHeaderProps {
   quote: Quote;
@@ -22,7 +22,10 @@ export function QuoteHeader({ quote }: QuoteHeaderProps) {
       {/* 만료된 견적서 경고 배너 */}
       {isExpired && (
         <div className="flex items-center gap-2 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 px-4 py-3 mb-6">
-          <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+          <AlertTriangle
+            className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400"
+            aria-hidden="true"
+          />
           <p className="text-sm text-amber-700 dark:text-amber-300 font-medium">
             이 견적서는 유효기간이 만료되었습니다.
           </p>
@@ -50,7 +53,10 @@ export function QuoteHeader({ quote }: QuoteHeaderProps) {
         {/* 클라이언트 */}
         <div className="flex items-start gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
-            <Building2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            <Building2
+              className="h-4 w-4 text-muted-foreground"
+              aria-hidden="true"
+            />
           </div>
           <div>
             <p className="text-xs text-muted-foreground mb-1">클라이언트</p>
@@ -61,15 +67,18 @@ export function QuoteHeader({ quote }: QuoteHeaderProps) {
         {/* 발행일 */}
         <div className="flex items-start gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
-            <CalendarDays className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            <CalendarDays
+              className="h-4 w-4 text-muted-foreground"
+              aria-hidden="true"
+            />
           </div>
           <div>
             <p className="text-xs text-muted-foreground mb-1">발행일</p>
             <p className="font-semibold text-base">
-              {new Date(quote.issuedDate).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+              {new Date(quote.issuedDate).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </p>
           </div>
@@ -79,16 +88,14 @@ export function QuoteHeader({ quote }: QuoteHeaderProps) {
         <div className="flex items-start gap-3">
           <div
             className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${
-              isExpired
-                ? 'bg-amber-50 dark:bg-amber-950/50'
-                : 'bg-muted'
+              isExpired ? "bg-amber-50 dark:bg-amber-950/50" : "bg-muted"
             }`}
           >
             <CalendarDays
               className={`h-4 w-4 ${
                 isExpired
-                  ? 'text-amber-600 dark:text-amber-400'
-                  : 'text-muted-foreground'
+                  ? "text-amber-600 dark:text-amber-400"
+                  : "text-muted-foreground"
               }`}
               aria-hidden="true"
             />
@@ -97,16 +104,15 @@ export function QuoteHeader({ quote }: QuoteHeaderProps) {
             <p className="text-xs text-muted-foreground mb-1">유효기간</p>
             <p
               className={`font-semibold text-base ${
-                isExpired
-                  ? 'text-amber-700 dark:text-amber-400'
-                  : ''
+                isExpired ? "text-amber-700 dark:text-amber-400" : ""
               }`}
             >
-              {new Date(quote.validUntil).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}까지
+              {new Date(quote.validUntil).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+              까지
               {/* 만료 표시 */}
               {isExpired && (
                 <span className="ml-2 text-xs font-medium text-amber-600 dark:text-amber-400">

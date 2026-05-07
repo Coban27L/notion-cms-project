@@ -16,7 +16,7 @@ export interface QuoteItem {
  * 견적 상태 타입
  * 노션 select 값을 그대로 사용
  */
-export type QuoteStatus = '대기' | '발행' | '승인' | '취소' | (string & {});
+export type QuoteStatus = "대기" | "발행" | "승인" | "취소" | (string & {});
 
 /**
  * 견적서 인터페이스

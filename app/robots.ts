@@ -1,14 +1,14 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        userAgent: '*',
-        allow: ['/'],
-        disallow: ['/login', '/dashboard', '/api/'],
+        userAgent: "*",
+        allow: ["/"],
+        disallow: ["/login", "/dashboard", "/api/"],
       },
     ],
-    sitemap: 'https://notion-cms.example.com/sitemap.xml',
+    sitemap: "https://notion-cms.example.com/sitemap.xml",
   };
 }

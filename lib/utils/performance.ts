@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
@@ -11,7 +11,7 @@
 interface WebVitalsMetric {
   name: string;
   value: number;
-  rating: 'good' | 'needs-improvement' | 'poor';
+  rating: "good" | "needs-improvement" | "poor";
   delta?: number;
   id?: string;
 }
@@ -34,23 +34,23 @@ const THRESHOLDS = {
 function getRating(
   value: number,
   goodThreshold: number,
-  poorThreshold: number
-): WebVitalsMetric['rating'] {
-  if (value <= goodThreshold) return 'good';
-  if (value <= poorThreshold) return 'needs-improvement';
-  return 'poor';
+  poorThreshold: number,
+): WebVitalsMetric["rating"] {
+  if (value <= goodThreshold) return "good";
+  if (value <= poorThreshold) return "needs-improvement";
+  return "poor";
 }
 
 /**
  * Web Vitals 메트릭 콜렉트 (PerformanceObserver 사용)
  */
 export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
     // PerformanceObserver 지원 확인
-    if (!('PerformanceObserver' in window)) {
-      console.warn('[Performance] PerformanceObserver는 지원되지 않습니다');
+    if (!("PerformanceObserver" in window)) {
+      console.warn("[Performance] PerformanceObserver는 지원되지 않습니다");
       return;
     }
 
@@ -61,23 +61,25 @@ export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
         const lastEntry = entries[entries.length - 1] as any;
 
         const metric: WebVitalsMetric = {
-          name: 'LCP',
+          name: "LCP",
           value: lastEntry.renderTime || lastEntry.loadTime,
           rating: getRating(
             lastEntry.renderTime || lastEntry.loadTime,
             THRESHOLDS.LCP.good,
-            THRESHOLDS.LCP.poorThreshold
+            THRESHOLDS.LCP.poorThreshold,
           ),
-          id: lastEntry.id || 'lcp-' + Date.now(),
+          id: lastEntry.id || "lcp-" + Date.now(),
         };
 
-        console.log(`[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(0)}ms (${metric.rating})`);
+        console.log(
+          `[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(0)}ms (${metric.rating})`,
+        );
         onMetric?.(metric);
       });
 
-      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      lcpObserver.observe({ entryTypes: ["largest-contentful-paint"] });
     } catch (e) {
-      console.warn('[Performance] LCP 측정 불가:', e);
+      console.warn("[Performance] LCP 측정 불가:", e);
     }
 
     // CLS (Cumulative Layout Shift)
@@ -91,19 +93,25 @@ export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
         }
 
         const metric: WebVitalsMetric = {
-          name: 'CLS',
+          name: "CLS",
           value: clsValue,
-          rating: getRating(clsValue, THRESHOLDS.CLS.good, THRESHOLDS.CLS.poorThreshold),
-          id: 'cls-' + Date.now(),
+          rating: getRating(
+            clsValue,
+            THRESHOLDS.CLS.good,
+            THRESHOLDS.CLS.poorThreshold,
+          ),
+          id: "cls-" + Date.now(),
         };
 
-        console.log(`[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(3)} (${metric.rating})`);
+        console.log(
+          `[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(3)} (${metric.rating})`,
+        );
         onMetric?.(metric);
       });
 
-      clsObserver.observe({ entryTypes: ['layout-shift'] });
+      clsObserver.observe({ entryTypes: ["layout-shift"] });
     } catch (e) {
-      console.warn('[Performance] CLS 측정 불가:', e);
+      console.warn("[Performance] CLS 측정 불가:", e);
     }
 
     // INP (Interaction to Next Paint) / FID
@@ -111,30 +119,34 @@ export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
       const inputObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           const processingTime = (entry as any).processingDuration;
-          const name = (entry as any).interactionId ? 'INP' : 'FID';
+          const name = (entry as any).interactionId ? "INP" : "FID";
 
           const metric: WebVitalsMetric = {
             name,
             value: processingTime,
             rating: getRating(
               processingTime,
-              name === 'INP' ? THRESHOLDS.INP.good : THRESHOLDS.FID.good,
-              name === 'INP' ? THRESHOLDS.INP.poorThreshold : THRESHOLDS.FID.poorThreshold
+              name === "INP" ? THRESHOLDS.INP.good : THRESHOLDS.FID.good,
+              name === "INP"
+                ? THRESHOLDS.INP.poorThreshold
+                : THRESHOLDS.FID.poorThreshold,
             ),
             id: `${name.toLowerCase()}-${Date.now()}`,
           };
 
-          console.log(`[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(0)}ms (${metric.rating})`);
+          console.log(
+            `[Core Web Vitals] ${metric.name}: ${metric.value.toFixed(0)}ms (${metric.rating})`,
+          );
           onMetric?.(metric);
         }
       });
 
-      inputObserver.observe({ entryTypes: ['first-input', 'event'] });
+      inputObserver.observe({ entryTypes: ["first-input", "event"] });
     } catch (e) {
-      console.warn('[Performance] INP/FID 측정 불가:', e);
+      console.warn("[Performance] INP/FID 측정 불가:", e);
     }
   } catch (error) {
-    console.error('[Performance] Web Vitals 측정 초기화 실패:', error);
+    console.error("[Performance] Web Vitals 측정 초기화 실패:", error);
   }
 }
 
@@ -147,7 +159,7 @@ export async function sendMetricToAnalytics(metric: WebVitalsMetric) {
   // 프로덕션: Google Analytics, Sentry, DataDog 등으로 전송
   // 개발: 콘솔에만 출력
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     // TODO: Sentry 또는 Google Analytics 통합
     // Example:
     // if (window.gtag) {
@@ -166,13 +178,15 @@ export async function sendMetricToAnalytics(metric: WebVitalsMetric) {
  */
 export async function fetchWithMetrics(
   url: string,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<Response> {
   const startTime = performance.now();
   const response = await fetch(url, options);
   const duration = performance.now() - startTime;
 
-  console.log(`[API Performance] ${options?.method || 'GET'} ${url}: ${duration.toFixed(0)}ms`);
+  console.log(
+    `[API Performance] ${options?.method || "GET"} ${url}: ${duration.toFixed(0)}ms`,
+  );
 
   return response;
 }

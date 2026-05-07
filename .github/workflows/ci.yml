@@ -16,8 +16,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - run: npm ci
       - run: npm run lint
@@ -33,8 +33,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - run: npm ci
       - run: npm run build
@@ -56,8 +56,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - run: npm ci
       - run: npx playwright install --with-deps
@@ -96,8 +96,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - run: npm ci
 
@@ -118,8 +118,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - run: npm ci
 
@@ -168,7 +168,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install Vercel CLI
         run: npm install -g vercel

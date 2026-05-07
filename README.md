@@ -97,17 +97,17 @@ npm run lint     # ESLint 실행
 
 견적서 시스템을 사용하기 위해 노션에 다음 필드를 가진 데이터베이스를 생성해야 합니다:
 
-| 필드명 | 타입 | 설명 |
-|--------|------|------|
-| title | Title | 견적서 번호 (예: QT-2024-001) |
-| client_name | Text | 클라이언트 이름/회사명 |
-| status | Select | 상태 (발행/승인/취소) |
-| total_amount | Number | 견적 총액 |
-| issued_date | Date | 발행일 |
-| valid_until | Date | 견적 유효기간 |
-| share_token | Text | 고유 공유 토큰 (UUID) |
-| items | Rich Text | 항목 정보 (JSON 형식) |
-| notes | Rich Text | 비고/특이사항 |
+| 필드명       | 타입      | 설명                          |
+| ------------ | --------- | ----------------------------- |
+| title        | Title     | 견적서 번호 (예: QT-2024-001) |
+| client_name  | Text      | 클라이언트 이름/회사명        |
+| status       | Select    | 상태 (발행/승인/취소)         |
+| total_amount | Number    | 견적 총액                     |
+| issued_date  | Date      | 발행일                        |
+| valid_until  | Date      | 견적 유효기간                 |
+| share_token  | Text      | 고유 공유 토큰 (UUID)         |
+| items        | Rich Text | 항목 정보 (JSON 형식)         |
+| notes        | Rich Text | 비고/특이사항                 |
 
 ## 배포
 

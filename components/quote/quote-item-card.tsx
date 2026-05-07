@@ -1,5 +1,5 @@
-import { QuoteItem } from '@/lib/types/quote';
-import { formatSGD } from '@/lib/utils/currency';
+import { QuoteItem } from "@/lib/types/quote";
+import { formatSGD } from "@/lib/utils/currency";
 
 interface QuoteItemCardProps {
   item: QuoteItem;
@@ -43,12 +43,14 @@ export function QuoteItemCard({ item, index }: QuoteItemCardProps) {
         <div>
           <p className="text-muted-foreground mb-0.5">수량</p>
           <p className="font-medium tabular-nums">
-            {item.quantity.toLocaleString('en-SG')}
+            {item.quantity.toLocaleString("en-SG")}
           </p>
         </div>
         <div>
           <p className="text-muted-foreground mb-0.5">단가</p>
-          <p className="font-medium tabular-nums">{formatSGD(item.unitPrice)}</p>
+          <p className="font-medium tabular-nums">
+            {formatSGD(item.unitPrice)}
+          </p>
         </div>
       </div>
     </div>

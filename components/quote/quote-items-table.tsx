@@ -5,11 +5,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Quote } from '@/lib/types/quote';
-import { formatSGD } from '@/lib/utils/currency';
-import { EmptyItemsState } from './empty-items-state';
-import { QuoteItemCard } from './quote-item-card';
+} from "@/components/ui/table";
+import { Quote } from "@/lib/types/quote";
+import { formatSGD } from "@/lib/utils/currency";
+import { EmptyItemsState } from "./empty-items-state";
+import { QuoteItemCard } from "./quote-item-card";
 
 interface QuoteItemsTableProps {
   quote: Quote;
@@ -32,7 +32,11 @@ export function QuoteItemsTable({ quote }: QuoteItemsTableProps) {
   return (
     <>
       {/* 모바일: 카드 레이아웃 (640px 미만) */}
-      <div className="flex flex-col gap-3 sm:hidden" role="list" aria-label="견적 항목 목록">
+      <div
+        className="flex flex-col gap-3 sm:hidden"
+        role="list"
+        aria-label="견적 항목 목록"
+      >
         {quote.items.map((item, index) => (
           <div key={index} role="listitem">
             <QuoteItemCard item={item} index={index} />
@@ -61,7 +65,7 @@ export function QuoteItemsTable({ quote }: QuoteItemsTableProps) {
                 <TableCell className="pl-4 font-medium">{item.name}</TableCell>
                 {/* 수량 */}
                 <TableCell className="text-right text-muted-foreground tabular-nums">
-                  {item.quantity.toLocaleString('en-SG')}
+                  {item.quantity.toLocaleString("en-SG")}
                 </TableCell>
                 {/* 단가 */}
                 <TableCell className="text-right text-muted-foreground tabular-nums">

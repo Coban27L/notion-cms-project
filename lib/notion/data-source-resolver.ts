@@ -1,4 +1,4 @@
-import { notion } from './client';
+import { notion } from "./client";
 
 /**
  * Database 컨테이너에서 첫 번째 Data Source ID를 가져옵니다.
@@ -18,8 +18,9 @@ export async function resolveDataSourceId(databaseId: string): Promise<string> {
   const db = await notion.databases.retrieve({ database_id: databaseId });
 
   // v5 SDK 응답에는 data_sources 배열이 포함됩니다.
-  const sources = (db as unknown as { data_sources?: Array<{ id: string; name?: string }> })
-    .data_sources;
+  const sources = (
+    db as unknown as { data_sources?: Array<{ id: string; name?: string }> }
+  ).data_sources;
 
   if (!sources || sources.length === 0) {
     throw new Error(
@@ -30,6 +31,8 @@ export async function resolveDataSourceId(databaseId: string): Promise<string> {
 
   const dataSourceId = sources[0].id;
   cache.set(databaseId, dataSourceId);
-  console.log(`[Notion] Database ${databaseId} → Data Source ${dataSourceId} 매핑 완료`);
+  console.log(
+    `[Notion] Database ${databaseId} → Data Source ${dataSourceId} 매핑 완료`,
+  );
   return dataSourceId;
 }

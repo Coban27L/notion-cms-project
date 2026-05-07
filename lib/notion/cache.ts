@@ -1,5 +1,9 @@
-import { unstable_cache } from 'next/cache';
-import { getAllQuotes as _getAllQuotes, getQuoteByToken as _getQuoteByToken, getItemsByInvoice as _getItemsByInvoice } from './queries';
+import { unstable_cache } from "next/cache";
+import {
+  getAllQuotes as _getAllQuotes,
+  getQuoteByToken as _getQuoteByToken,
+  getItemsByInvoice as _getItemsByInvoice,
+} from "./queries";
 
 /**
  * 캐싱된 getAllQuotes
@@ -8,11 +12,11 @@ import { getAllQuotes as _getAllQuotes, getQuoteByToken as _getQuoteByToken, get
  */
 export const getAllQuotesWithCache = unstable_cache(
   async () => _getAllQuotes(),
-  ['get-all-quotes'],
+  ["get-all-quotes"],
   {
     revalidate: 3600,
-    tags: ['quotes-list'],
-  }
+    tags: ["quotes-list"],
+  },
 );
 
 /**
@@ -22,11 +26,11 @@ export const getAllQuotesWithCache = unstable_cache(
  */
 export const getQuoteByTokenWithCache = unstable_cache(
   async (shareToken: string) => _getQuoteByToken(shareToken),
-  ['get-quote-by-token'],
+  ["get-quote-by-token"],
   {
     revalidate: 86400,
-    tags: ['quote-detail'],
-  }
+    tags: ["quote-detail"],
+  },
 );
 
 /**
@@ -36,11 +40,11 @@ export const getQuoteByTokenWithCache = unstable_cache(
  */
 export const getItemsByInvoiceWithCache = unstable_cache(
   async (invoiceId: string) => _getItemsByInvoice(invoiceId),
-  ['get-items-by-invoice'],
+  ["get-items-by-invoice"],
   {
     revalidate: 3600,
-    tags: ['quote-items'],
-  }
+    tags: ["quote-items"],
+  },
 );
 
 /**

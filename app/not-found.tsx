@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { AlertCircle } from 'lucide-react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
 
 export default function NotFoundPage() {
   return (
@@ -11,7 +11,9 @@ export default function NotFoundPage() {
         </div>
         <div>
           <h1 className="text-4xl font-bold">404</h1>
-          <p className="text-2xl font-semibold mt-2">페이지를 찾을 수 없습니다</p>
+          <p className="text-2xl font-semibold mt-2">
+            페이지를 찾을 수 없습니다
+          </p>
         </div>
         <p className="text-muted-foreground max-w-sm">
           죄송합니다. 요청하신 견적서나 페이지를 찾을 수 없거나 삭제되었습니다.

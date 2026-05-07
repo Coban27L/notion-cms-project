@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { FileTextIcon } from 'lucide-react';
-import { FooterYear } from './footer-year';
+import Link from "next/link";
+import { FileTextIcon } from "lucide-react";
+import { FooterYear } from "./footer-year";
 
 export function Footer() {
   return (
@@ -21,17 +21,26 @@ export function Footer() {
             <h4 className="font-semibold text-sm">서비스</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  href="/"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   홈
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  href="/dashboard"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   대시보드
                 </Link>
               </li>
               <li>
-                <Link href="/login" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  href="/login"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   관리자 로그인
                 </Link>
               </li>
@@ -42,12 +51,18 @@ export function Footer() {
             <h4 className="font-semibold text-sm">법률</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   개인정보 보호
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  href="/terms"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   이용약관
                 </Link>
               </li>

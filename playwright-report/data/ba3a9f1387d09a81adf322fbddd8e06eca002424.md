@@ -7,7 +7,7 @@
 # Test info
 
 - Name: phase-7-quality.spec.ts >> Phase 7: 품질 개선 및 버그 수정 >> Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성
-- Location: __tests__/e2e/phase-7-quality.spec.ts:26:7
+- Location: __tests__/e2e/phase-7-quality.spec.ts:28:7
 
 # Error details
 
@@ -228,140 +228,144 @@ Received:   0
 # Test source
 
 ```ts
-  1   | import { test, expect, Download } from '@playwright/test';
+  1   | import { test, expect } from "@playwright/test";
   2   | 
-  3   | test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
-  4   |   test('Task 021: PDF 한글 폰트 렌더링 - 단일 페이지 PDF 다운로드', async ({ page, context }) => {
-  5   |     // 공유 링크를 통해 견적서 페이지 접근
-  6   |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
-  7   | 
-  8   |     // 클라이언트명 확인 (한글)
-  9   |     await expect(page.locator('text=홍길동')).toBeVisible();
-  10  | 
-  11  |     // PDF 다운로드 버튼 찾기
-  12  |     const downloadPromise = page.waitForEvent('download');
-  13  |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
-  14  |     await expect(downloadButton).toBeVisible();
-  15  | 
-  16  |     // 다운로드 클릭
-  17  |     await downloadButton.click();
-  18  |     const download = await downloadPromise;
-  19  | 
-  20  |     // 다운로드된 파일 확인
-  21  |     expect(download.suggestedFilename()).toContain('pdf');
-  22  |     const filePath = await download.path();
-  23  |     expect(filePath).toBeTruthy();
-  24  |   });
-  25  | 
-  26  |   test('Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성', async ({ page, context }) => {
-  27  |     // 다중 페이지 테스트용 견적서 접근 (15개 항목)
-  28  |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440006');
-  29  | 
-  30  |     // 클라이언트명 확인
-  31  |     await expect(page.locator('text=다중페이지 테스트')).toBeVisible();
-  32  | 
-  33  |     // 항목 목록 확인
-  34  |     const itemCount = await page.locator('[role="row"]').count();
-> 35  |     expect(itemCount).toBeGreaterThan(10);
-      |                       ^ Error: expect(received).toBeGreaterThan(expected)
+  3   | test.describe("Phase 7: 품질 개선 및 버그 수정", () => {
+  4   |   test("Task 021: PDF 한글 폰트 렌더링 - 단일 페이지 PDF 다운로드", async ({
+  5   |     page,
+  6   |   }) => {
+  7   |     // 공유 링크를 통해 견적서 페이지 접근
+  8   |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
+  9   | 
+  10  |     // 클라이언트명 확인 (한글)
+  11  |     await expect(page.locator("text=홍길동")).toBeVisible();
+  12  | 
+  13  |     // PDF 다운로드 버튼 찾기
+  14  |     const downloadPromise = page.waitForEvent("download");
+  15  |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
+  16  |     await expect(downloadButton).toBeVisible();
+  17  | 
+  18  |     // 다운로드 클릭
+  19  |     await downloadButton.click();
+  20  |     const download = await downloadPromise;
+  21  | 
+  22  |     // 다운로드된 파일 확인
+  23  |     expect(download.suggestedFilename()).toContain("pdf");
+  24  |     const filePath = await download.path();
+  25  |     expect(filePath).toBeTruthy();
+  26  |   });
+  27  | 
+  28  |   test("Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성", async ({
+  29  |     page,
+  30  |   }) => {
+  31  |     // 다중 페이지 테스트용 견적서 접근 (15개 항목)
+  32  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440006");
+  33  | 
+  34  |     // 클라이언트명 확인
+  35  |     await expect(page.locator("text=다중페이지 테스트")).toBeVisible();
   36  | 
-  37  |     // PDF 다운로드
-  38  |     const downloadPromise = page.waitForEvent('download');
-  39  |     await page.locator('button:has-text("PDF 다운로드")').click();
-  40  |     const download = await downloadPromise;
-  41  | 
-  42  |     // 파일 생성 확인
-  43  |     const filePath = await download.path();
-  44  |     expect(filePath).toBeTruthy();
+  37  |     // 항목 목록 확인
+  38  |     const itemCount = await page.locator('[role="row"]').count();
+> 39  |     expect(itemCount).toBeGreaterThan(10);
+      |                       ^ Error: expect(received).toBeGreaterThan(expected)
+  40  | 
+  41  |     // PDF 다운로드
+  42  |     const downloadPromise = page.waitForEvent("download");
+  43  |     await page.locator('button:has-text("PDF 다운로드")').click();
+  44  |     const download = await downloadPromise;
   45  | 
-  46  |     // 파일 크기 확인 (다중 페이지이므로 더 큼)
-  47  |     const { stat } = await import('fs/promises');
-  48  |     const fileStats = await stat(filePath);
-  49  |     expect(fileStats.size).toBeGreaterThan(1000000); // > 1MB for multi-page
-  50  |   });
-  51  | 
-  52  |   test('Task 022: PDF 레이아웃 개선 - 한국 날짜 포맷 검증', async ({ page }) => {
-  53  |     // 견적서 상세 페이지 접근
-  54  |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
+  46  |     // 파일 생성 확인
+  47  |     const filePath = await download.path();
+  48  |     expect(filePath).toBeTruthy();
+  49  | 
+  50  |     // 파일 크기 확인 (다중 페이지이므로 더 큼)
+  51  |     const { stat } = await import("fs/promises");
+  52  |     const fileStats = await stat(filePath);
+  53  |     expect(fileStats.size).toBeGreaterThan(1000000); // > 1MB for multi-page
+  54  |   });
   55  | 
-  56  |     // 발행일 확인 (한국 포맷: "2024년 3월 15일")
-  57  |     const issuedDate = page.locator('text=2024년 3월 15일');
-  58  |     await expect(issuedDate).toBeVisible();
-  59  | 
-  60  |     // 유효기간도 한국 포맷인지 확인
-  61  |     const validDate = page.locator('text=2024년 4월 15일');
-  62  |     await expect(validDate).toBeVisible();
-  63  |   });
-  64  | 
-  65  |   test('Task 022: PDF 레이아웃 개선 - 통화 포맷 검증', async ({ page }) => {
-  66  |     // 견적서 상세 페이지 접근
-  67  |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
-  68  | 
-  69  |     // ₩ 기호와 천 단위 콤마 확인
-  70  |     const currencyText = page.locator('text=/₩.+[\d,]+/');
-  71  |     await expect(currencyText).toBeVisible();
-  72  | 
-  73  |     // 구체적인 금액 확인 (800,000)
-  74  |     const specificAmount = page.locator('text=₩ 800,000');
-  75  |     await expect(specificAmount).toBeVisible();
-  76  |   });
-  77  | 
-  78  |   test('Task 022: PDF 레이아웃 개선 - 단일 페이지 문서에서 요약 섹션 표시', async ({ page }) => {
-  79  |     // 단일 페이지 견적서 접근
-  80  |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
-  81  | 
-  82  |     // 합계 영역이 페이지에 표시되는지 확인
-  83  |     const summarySection = page.locator('text=합계');
-  84  |     await expect(summarySection).toBeVisible();
-  85  | 
-  86  |     // 소계와 총액 확인
-  87  |     const subtotal = page.locator('text=소계');
-  88  |     const total = page.locator('text=1,500,000');
-  89  |     await expect(subtotal).toBeVisible();
-  90  |     await expect(total).toBeVisible();
-  91  |   });
-  92  | 
-  93  |   test('Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링', async ({ page, context }) => {
-  94  |     // 다중 페이지 견적서 접근
-  95  |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440006');
-  96  | 
-  97  |     // PDF 다운로드
-  98  |     const downloadPromise = page.waitForEvent('download');
-  99  |     await page.locator('button:has-text("PDF 다운로드")').click();
-  100 |     const download = await downloadPromise;
-  101 | 
-  102 |     // 파일이 다중 페이지임을 확인 (간접 검증)
-  103 |     const filePath = await download.path();
-  104 |     expect(filePath).toBeTruthy();
-  105 |   });
+  56  |   test("Task 022: PDF 레이아웃 개선 - 한국 날짜 포맷 검증", async ({
+  57  |     page,
+  58  |   }) => {
+  59  |     // 견적서 상세 페이지 접근
+  60  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
+  61  | 
+  62  |     // 발행일 확인 (한국 포맷: "2024년 3월 15일")
+  63  |     const issuedDate = page.locator("text=2024년 3월 15일");
+  64  |     await expect(issuedDate).toBeVisible();
+  65  | 
+  66  |     // 유효기간도 한국 포맷인지 확인
+  67  |     const validDate = page.locator("text=2024년 4월 15일");
+  68  |     await expect(validDate).toBeVisible();
+  69  |   });
+  70  | 
+  71  |   test("Task 022: PDF 레이아웃 개선 - 통화 포맷 검증", async ({ page }) => {
+  72  |     // 견적서 상세 페이지 접근
+  73  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
+  74  | 
+  75  |     // ₩ 기호와 천 단위 콤마 확인
+  76  |     const currencyText = page.locator("text=/₩.+[\d,]+/");
+  77  |     await expect(currencyText).toBeVisible();
+  78  | 
+  79  |     // 구체적인 금액 확인 (800,000)
+  80  |     const specificAmount = page.locator("text=₩ 800,000");
+  81  |     await expect(specificAmount).toBeVisible();
+  82  |   });
+  83  | 
+  84  |   test("Task 022: PDF 레이아웃 개선 - 단일 페이지 문서에서 요약 섹션 표시", async ({
+  85  |     page,
+  86  |   }) => {
+  87  |     // 단일 페이지 견적서 접근
+  88  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
+  89  | 
+  90  |     // 합계 영역이 페이지에 표시되는지 확인
+  91  |     const summarySection = page.locator("text=합계");
+  92  |     await expect(summarySection).toBeVisible();
+  93  | 
+  94  |     // 소계와 총액 확인
+  95  |     const subtotal = page.locator("text=소계");
+  96  |     const total = page.locator("text=1,500,000");
+  97  |     await expect(subtotal).toBeVisible();
+  98  |     await expect(total).toBeVisible();
+  99  |   });
+  100 | 
+  101 |   test("Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링", async ({
+  102 |     page,
+  103 |   }) => {
+  104 |     // 다중 페이지 견적서 접근
+  105 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440006");
   106 | 
-  107 |   test('Task 022: PDF 레이아웃 개선 - 비고 섹션 표시', async ({ page }) => {
-  108 |     // 비고가 있는 견적서 접근
-  109 |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
-  110 | 
-  111 |     // 비고 섹션 확인
-  112 |     const notesSection = page.locator('text=비고');
-  113 |     await expect(notesSection).toBeVisible();
-  114 | 
-  115 |     const notesContent = page.locator('text=결제는 50% 선금');
-  116 |     await expect(notesContent).toBeVisible();
-  117 |   });
-  118 | 
-  119 |   test('Task 022: PDF 레이아웃 개선 - 비고가 없는 견적서', async ({ page }) => {
-  120 |     // 비고가 없는 견적서 접근 (page-003)
-  121 |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440003');
-  122 | 
-  123 |     // 페이지는 로드되어야 함
-  124 |     await expect(page.locator('text=이순신')).toBeVisible();
-  125 |   });
-  126 | 
-  127 |   test('Task 023: 접근성 개선 - ARIA 라벨 검증', async ({ page }) => {
-  128 |     // 견적서 상세 페이지 접근
-  129 |     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
-  130 | 
-  131 |     // PDF 다운로드 버튼에 aria-label이 있는지 확인
-  132 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
-  133 |     const ariaLabel = await downloadButton.getAttribute('aria-label');
-  134 |     expect(ariaLabel).toBeTruthy();
+  107 |     // PDF 다운로드
+  108 |     const downloadPromise = page.waitForEvent("download");
+  109 |     await page.locator('button:has-text("PDF 다운로드")').click();
+  110 |     const download = await downloadPromise;
+  111 | 
+  112 |     // 파일이 다중 페이지임을 확인 (간접 검증)
+  113 |     const filePath = await download.path();
+  114 |     expect(filePath).toBeTruthy();
+  115 |   });
+  116 | 
+  117 |   test("Task 022: PDF 레이아웃 개선 - 비고 섹션 표시", async ({ page }) => {
+  118 |     // 비고가 있는 견적서 접근
+  119 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
+  120 | 
+  121 |     // 비고 섹션 확인
+  122 |     const notesSection = page.locator("text=비고");
+  123 |     await expect(notesSection).toBeVisible();
+  124 | 
+  125 |     const notesContent = page.locator("text=결제는 50% 선금");
+  126 |     await expect(notesContent).toBeVisible();
+  127 |   });
+  128 | 
+  129 |   test("Task 022: PDF 레이아웃 개선 - 비고가 없는 견적서", async ({ page }) => {
+  130 |     // 비고가 없는 견적서 접근 (page-003)
+  131 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440003");
+  132 | 
+  133 |     // 페이지는 로드되어야 함
+  134 |     await expect(page.locator("text=이순신")).toBeVisible();
   135 |   });
+  136 | 
+  137 |   test("Task 023: 접근성 개선 - ARIA 라벨 검증", async ({ page }) => {
+  138 |     // 견적서 상세 페이지 접근
+  139 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
 ```

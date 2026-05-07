@@ -1,4 +1,4 @@
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 /**
  * 토스트 알림 통합 유틸리티
@@ -12,8 +12,8 @@ import { toast } from 'sonner';
  * - ShareLinkButton 컴포넌트에서 사용
  */
 export function showCopySuccess() {
-  toast.success('공유 링크가 복사되었습니다', {
-    description: '클라이언트에게 링크를 전달해보세요.',
+  toast.success("공유 링크가 복사되었습니다", {
+    description: "클라이언트에게 링크를 전달해보세요.",
     duration: 3000,
   });
 }
@@ -23,8 +23,8 @@ export function showCopySuccess() {
  * - 클립보드 API 오류 시 사용
  */
 export function showCopyError() {
-  toast.error('링크 복사에 실패했습니다', {
-    description: '브라우저 클립보드 권한을 확인해주세요.',
+  toast.error("링크 복사에 실패했습니다", {
+    description: "브라우저 클립보드 권한을 확인해주세요.",
     duration: 4000,
   });
 }
@@ -34,8 +34,8 @@ export function showCopyError() {
  * - PDF 생성 트리거 시 즉시 표시
  */
 export function showDownloadStart() {
-  toast.info('PDF 다운로드를 시작합니다', {
-    description: '잠시만 기다려주세요.',
+  toast.info("PDF 다운로드를 시작합니다", {
+    description: "잠시만 기다려주세요.",
     duration: 3000,
   });
 }
@@ -44,7 +44,7 @@ export function showDownloadStart() {
  * PDF 다운로드 완료 토스트
  */
 export function showDownloadSuccess(filename?: string) {
-  toast.success('PDF 다운로드 완료', {
+  toast.success("PDF 다운로드 완료", {
     description: filename ? `${filename} 파일이 저장되었습니다.` : undefined,
     duration: 4000,
   });
@@ -55,8 +55,8 @@ export function showDownloadSuccess(filename?: string) {
  * - PDF 생성 API 오류 시 사용
  */
 export function showDownloadError(detail?: string) {
-  toast.error('PDF 다운로드에 실패했습니다', {
-    description: detail ?? '잠시 후 다시 시도해주세요.',
+  toast.error("PDF 다운로드에 실패했습니다", {
+    description: detail ?? "잠시 후 다시 시도해주세요.",
     duration: 5000,
   });
 }
@@ -67,8 +67,8 @@ export function showDownloadError(detail?: string) {
  * @param message - 에러 메시지 (기본값 제공)
  */
 export function showApiError(message?: string) {
-  toast.error(message ?? '서버에서 데이터를 가져오는 데 실패했습니다', {
-    description: '네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.',
+  toast.error(message ?? "서버에서 데이터를 가져오는 데 실패했습니다", {
+    description: "네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.",
     duration: 5000,
   });
 }
@@ -78,7 +78,7 @@ export function showApiError(message?: string) {
  * - 비동기 작업 시작 시 표시, 완료 후 dismiss 필요
  * @returns toast ID (dismiss 시 사용)
  */
-export function showLoadingToast(message = '처리 중입니다...') {
+export function showLoadingToast(message = "처리 중입니다...") {
   return toast.loading(message);
 }
 

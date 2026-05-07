@@ -1,13 +1,13 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
   FileText,
   Clock,
   SendHorizonal,
   CheckCircle2,
   XCircle,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -15,14 +15,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { QuoteStatusBadge } from '@/components/quote/quote-status-badge';
-import { ShareLinkButton } from '@/components/quote/share-link-button';
-import { DashboardEmptyState } from '@/components/dashboard/empty-state';
-import { getAllQuotesWithCache } from '@/lib/notion/cache';
-import { generateMockQuotes } from '@/lib/mock/quotes';
-import { QuoteStatus } from '@/lib/types/quote';
-import { formatSGD } from '@/lib/utils/currency';
+} from "@/components/ui/table";
+import { QuoteStatusBadge } from "@/components/quote/quote-status-badge";
+import { ShareLinkButton } from "@/components/quote/share-link-button";
+import { DashboardEmptyState } from "@/components/dashboard/empty-state";
+import { getAllQuotesWithCache } from "@/lib/notion/cache";
+import { generateMockQuotes } from "@/lib/mock/quotes";
+import { QuoteStatus } from "@/lib/types/quote";
+import { formatSGD } from "@/lib/utils/currency";
 
 interface DashboardPageProps {
   searchParams: Promise<{ status?: string }>;
@@ -32,10 +32,10 @@ interface DashboardPageProps {
  * 날짜를 한국어 형식으로 포맷
  */
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  return new Date(iso).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 }
 
@@ -43,11 +43,11 @@ function formatDate(iso: string) {
  * 상태 탭 설정
  */
 const STATUS_TABS: { label: string; value: string }[] = [
-  { label: '전체', value: 'all' },
-  { label: '대기', value: '대기' },
-  { label: '발행', value: '발행' },
-  { label: '승인', value: '승인' },
-  { label: '취소', value: '취소' },
+  { label: "전체", value: "all" },
+  { label: "대기", value: "대기" },
+  { label: "발행", value: "발행" },
+  { label: "승인", value: "승인" },
+  { label: "취소", value: "취소" },
 ];
 
 /**
@@ -55,67 +55,69 @@ const STATUS_TABS: { label: string; value: string }[] = [
  */
 const STAT_CONFIG = [
   {
-    label: '전체',
+    label: "전체",
     icon: FileText,
-    iconBg: 'bg-muted',
-    iconColor: 'text-muted-foreground',
-    valueColor: 'text-foreground',
-    key: 'all',
+    iconBg: "bg-muted",
+    iconColor: "text-muted-foreground",
+    valueColor: "text-foreground",
+    key: "all",
   },
   {
-    label: '대기',
+    label: "대기",
     icon: Clock,
-    iconBg: 'bg-slate-100 dark:bg-slate-800',
-    iconColor: 'text-slate-600 dark:text-slate-400',
-    valueColor: 'text-slate-700 dark:text-slate-300',
-    key: '대기',
+    iconBg: "bg-slate-100 dark:bg-slate-800",
+    iconColor: "text-slate-600 dark:text-slate-400",
+    valueColor: "text-slate-700 dark:text-slate-300",
+    key: "대기",
   },
   {
-    label: '발행',
+    label: "발행",
     icon: SendHorizonal,
-    iconBg: 'bg-amber-50 dark:bg-amber-950',
-    iconColor: 'text-amber-600 dark:text-amber-400',
-    valueColor: 'text-amber-700 dark:text-amber-300',
-    key: '발행',
+    iconBg: "bg-amber-50 dark:bg-amber-950",
+    iconColor: "text-amber-600 dark:text-amber-400",
+    valueColor: "text-amber-700 dark:text-amber-300",
+    key: "발행",
   },
   {
-    label: '승인',
+    label: "승인",
     icon: CheckCircle2,
-    iconBg: 'bg-emerald-50 dark:bg-emerald-950',
-    iconColor: 'text-emerald-600 dark:text-emerald-400',
-    valueColor: 'text-emerald-700 dark:text-emerald-300',
-    key: '승인',
+    iconBg: "bg-emerald-50 dark:bg-emerald-950",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+    valueColor: "text-emerald-700 dark:text-emerald-300",
+    key: "승인",
   },
   {
-    label: '취소',
+    label: "취소",
     icon: XCircle,
-    iconBg: 'bg-red-50 dark:bg-red-950',
-    iconColor: 'text-red-600 dark:text-red-400',
-    valueColor: 'text-red-700 dark:text-red-300',
-    key: '취소',
+    iconBg: "bg-red-50 dark:bg-red-950",
+    iconColor: "text-red-600 dark:text-red-400",
+    valueColor: "text-red-700 dark:text-red-300",
+    key: "취소",
   },
 ];
 
-export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const { status = 'all' } = await searchParams;
+export default async function DashboardPage({
+  searchParams,
+}: DashboardPageProps) {
+  const { status = "all" } = await searchParams;
 
   let quotes;
   try {
     quotes = await getAllQuotesWithCache();
   } catch (error) {
-    console.warn('[Dashboard] Notion API 오류, mock 데이터 사용:', error);
+    console.warn("[Dashboard] Notion API 오류, mock 데이터 사용:", error);
     quotes = generateMockQuotes();
   }
 
   /* 상태별 필터링 */
   const filtered =
-    status === 'all'
+    status === "all"
       ? quotes
       : quotes.filter((q) => q.status === (status as QuoteStatus));
 
   /* 탭별 카운트 계산 */
   const countByStatus = (key: string) =>
-    key === 'all'
+    key === "all"
       ? quotes.length
       : quotes.filter((q) => q.status === key).length;
 
@@ -144,21 +146,31 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             >
               <div
                 className={`rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-primary/40 hover:shadow-sm ${
-                  status === stat.key ? 'border-primary/50 shadow-sm ring-1 ring-primary/20' : ''
+                  status === stat.key
+                    ? "border-primary/50 shadow-sm ring-1 ring-primary/20"
+                    : ""
                 }`}
               >
                 {/* 아이콘 + 레이블 */}
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs font-medium text-muted-foreground">{stat.label}</p>
-                  <div className={`flex h-7 w-7 items-center justify-center rounded-md ${stat.iconBg}`}>
+                  <p className="text-xs font-medium text-muted-foreground">
+                    {stat.label}
+                  </p>
+                  <div
+                    className={`flex h-7 w-7 items-center justify-center rounded-md ${stat.iconBg}`}
+                  >
                     <Icon className={`h-3.5 w-3.5 ${stat.iconColor}`} />
                   </div>
                 </div>
                 {/* 카운트 */}
-                <p className={`text-2xl font-bold tabular-nums ${stat.valueColor}`}>
+                <p
+                  className={`text-2xl font-bold tabular-nums ${stat.valueColor}`}
+                >
                   {count}
                 </p>
-                <p className="text-xs text-muted-foreground mt-0.5">건의 견적서</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  건의 견적서
+                </p>
               </div>
             </Link>
           );
@@ -168,7 +180,10 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       {/* 상태 필터 탭 */}
       {/* 접근성: Link 안에 button 중첩은 HTML 표준 위반이므로 Link 자체에 스타일 적용 */}
       <div className="overflow-x-auto -mx-1 px-1">
-        <nav aria-label="견적서 상태 필터" className="inline-flex items-center gap-1 bg-muted rounded-lg p-1 min-w-max">
+        <nav
+          aria-label="견적서 상태 필터"
+          className="inline-flex items-center gap-1 bg-muted rounded-lg p-1 min-w-max"
+        >
           {STATUS_TABS.map((tab) => {
             const isActive = status === tab.value;
             const count = countByStatus(tab.value);
@@ -179,18 +194,18 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                 href={`/dashboard?status=${tab.value}`}
                 className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-background/50"
                 }`}
-                aria-current={isActive ? 'page' : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 {tab.label}
                 <Badge
                   variant="secondary"
                   className={`text-xs h-4 px-1.5 ${
                     isActive
-                      ? 'bg-muted text-foreground'
-                      : 'bg-muted/50 text-muted-foreground'
+                      ? "bg-muted text-foreground"
+                      : "bg-muted/50 text-muted-foreground"
                   }`}
                 >
                   {count}
@@ -268,7 +283,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                     <div className="flex items-center justify-end gap-1">
                       <ShareLinkButton token={quote.shareToken} />
                       <Link href={`/quotes/${quote.shareToken}`}>
-                        <Button variant="ghost" size="sm" className="h-8 text-xs px-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 text-xs px-2"
+                        >
                           상세보기
                         </Button>
                       </Link>
@@ -284,7 +303,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       {/* 테이블 푸터 - 총 건수 표시 */}
       {filtered.length > 0 && (
         <p className="text-xs text-muted-foreground text-right">
-          총 <span className="font-medium text-foreground">{filtered.length}</span>건의 견적서
+          총{" "}
+          <span className="font-medium text-foreground">{filtered.length}</span>
+          건의 견적서
         </p>
       )}
     </div>

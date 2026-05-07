@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "이용약관",
@@ -13,8 +19,8 @@ export default function TermsPage() {
       <section className="space-y-4">
         <h1 className="text-4xl font-bold">이용약관</h1>
         <p className="text-lg text-muted-foreground">
-          당사 서비스 이용 시 다음의 약관에 동의하는 것으로 간주됩니다.
-          서비스를 사용하기 전에 약관을 주의 깊게 읽어주시기 바랍니다.
+          당사 서비스 이용 시 다음의 약관에 동의하는 것으로 간주됩니다. 서비스를
+          사용하기 전에 약관을 주의 깊게 읽어주시기 바랍니다.
         </p>
       </section>
 
@@ -28,7 +34,8 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm">
-              당사는 당 서비스를 "있는 그대로" 제공합니다. 귀하는 다음 조건에 동의합니다:
+              당사는 당 서비스를 &quot;있는 그대로&quot; 제공합니다. 귀하는 다음
+              조건에 동의합니다:
             </p>
             <ul className="list-disc list-inside space-y-2 text-sm">
               <li>서비스는 개인적, 비상업적 목적으로만 사용</li>
@@ -68,11 +75,13 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm">
-              당사 서비스에 포함된 모든 콘텐츠는 당사의 지적재산권으로 보호됩니다.
-              여기에는 텍스트, 그래픽, 로고, 이미지, 소프트웨어 및 기타 콘텐츠가 포함됩니다.
+              당사 서비스에 포함된 모든 콘텐츠는 당사의 지적재산권으로
+              보호됩니다. 여기에는 텍스트, 그래픽, 로고, 이미지, 소프트웨어 및
+              기타 콘텐츠가 포함됩니다.
             </p>
             <p className="text-sm">
-              당사의 명시적 동의 없이 콘텐츠의 수정, 복제, 배포 또는 사용을 금지합니다.
+              당사의 명시적 동의 없이 콘텐츠의 수정, 복제, 배포 또는 사용을
+              금지합니다.
             </p>
           </CardContent>
         </Card>
@@ -100,7 +109,9 @@ export default function TermsPage() {
         <Card>
           <CardHeader>
             <CardTitle>책임 제한</CardTitle>
-            <CardDescription>서비스 이용으로 인한 손해배상 제한</CardDescription>
+            <CardDescription>
+              서비스 이용으로 인한 손해배상 제한
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm">
@@ -125,9 +136,7 @@ export default function TermsPage() {
             <CardDescription>서비스 수정 및 종료 권리</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-sm">
-              당사는 다음의 권리를 보유합니다:
-            </p>
+            <p className="text-sm">당사는 다음의 권리를 보유합니다:</p>
             <ul className="list-disc list-inside space-y-2 text-sm">
               <li>통지 없이 서비스 수정 또는 중단</li>
               <li>특정 기능 추가 또는 제거</li>
@@ -145,9 +154,9 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm">
-              당사는 언제든지 이 약관을 변경할 권리를 보유합니다.
-              변경사항은 이 페이지에 게시되며, 변경된 약관 사용은 동의를 의미합니다.
-              중요한 변경사항에 대해서는 사전 통지를 제공할 수 있습니다.
+              당사는 언제든지 이 약관을 변경할 권리를 보유합니다. 변경사항은 이
+              페이지에 게시되며, 변경된 약관 사용은 동의를 의미합니다. 중요한
+              변경사항에 대해서는 사전 통지를 제공할 수 있습니다.
             </p>
           </CardContent>
         </Card>
@@ -160,8 +169,9 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm">
-              이용약관에 대한 질문이나 분쟁이 있는 경우, 먼저 당사에 문의해 주시기 바랍니다.
-              대부분의 문제는 직접 통신을 통해 해결될 수 있습니다.
+              이용약관에 대한 질문이나 분쟁이 있는 경우, 먼저 당사에 문의해
+              주시기 바랍니다. 대부분의 문제는 직접 통신을 통해 해결될 수
+              있습니다.
             </p>
           </CardContent>
         </Card>
@@ -170,9 +180,9 @@ export default function TermsPage() {
       {/* 약관 동의 */}
       <div className="rounded-lg border border-muted bg-muted/50 p-4">
         <p className="text-sm text-muted-foreground">
-          당사 서비스를 계속 사용함으로써 귀하는 이 약관의 모든 조건에 동의하는 것입니다.
-          약관에 동의하지 않으실 경우, 서비스 사용을 중단해 주시기 바랍니다.
-          마지막 업데이트: 2026년 4월.
+          당사 서비스를 계속 사용함으로써 귀하는 이 약관의 모든 조건에 동의하는
+          것입니다. 약관에 동의하지 않으실 경우, 서비스 사용을 중단해 주시기
+          바랍니다. 마지막 업데이트: 2026년 4월.
         </p>
       </div>
     </div>

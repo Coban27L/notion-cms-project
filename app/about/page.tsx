@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
 
@@ -41,7 +41,8 @@ export default function AboutPage() {
         <h1 className="text-4xl font-bold">Next.js 16 스타터킷</h1>
         <p className="text-lg text-muted-foreground max-w-2xl">
           이 스타터킷은 현대적인 웹 개발에 필요한 모든 것을 포함하고 있습니다.
-          검증된 라이브러리만 사용하여 빠르고 안정적인 개발을 시작할 수 있습니다.
+          검증된 라이브러리만 사용하여 빠르고 안정적인 개발을 시작할 수
+          있습니다.
         </p>
       </section>
 
@@ -100,8 +101,8 @@ export default function AboutPage() {
       <section className="space-y-4 rounded-lg border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 p-8">
         <h2 className="text-2xl font-bold">지금 시작하세요</h2>
         <p className="text-muted-foreground">
-          이 스타터킷을 기반으로 당신의 다음 프로젝트를 시작해보세요.
-          모든 기초가 준비되어 있으니 비즈니스 로직에만 집중할 수 있습니다.
+          이 스타터킷을 기반으로 당신의 다음 프로젝트를 시작해보세요. 모든
+          기초가 준비되어 있으니 비즈니스 로직에만 집중할 수 있습니다.
         </p>
         <ul className="space-y-2 text-sm">
           <li>✓ 25개+ shadcn/ui 컴포넌트 포함</li>

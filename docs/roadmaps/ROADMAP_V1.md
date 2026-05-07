@@ -159,7 +159,7 @@
   - ✅ 한글 폰트 임베딩 (Noto Sans KR)
   - ✅ PDF 생성 API Route (`app/api/quotes/[token]/pdf/route.tsx`)
   - ✅ 다운로드 버튼과 PDF 생성 로직 통합 (`components/quote/pdf-download-button.tsx`)
-  - ✅ 파일명 규칙 ("QT-발행일-견적번호_클라이언트명.pdf")
+  - ✅ 파일명 규칙 ("QT-발행일-견적번호\_클라이언트명.pdf")
   - 🔄 Playwright MCP로 PDF 다운로드 E2E 테스트 (진행 중)
     - 테스트 토큰 업데이트 완료
     - 일부 테스트 통과
@@ -246,7 +246,7 @@
     - ✅ Referrer-Policy: strict-origin-when-cross-origin
     - ✅ Permissions-Policy: geolocation=(), microphone=(), camera=()
   - ✅ CORS 정책: Same-origin 기본 설정
-  - ✅ 환경 변수 관리: NEXT_PUBLIC_* 검증
+  - ✅ 환경 변수 관리: NEXT*PUBLIC*\* 검증
   - ✅ 성능 문서화
     - ✅ Core Web Vitals 타겟 설정 (LCP < 2.5s, CLS < 0.1)
     - ✅ 프로덕션 배포 전 체크리스트 작성
@@ -276,13 +276,13 @@
 
 ## 참고: PRD 기능 ↔ Task 매핑
 
-| PRD 기능 ID | 기능명 | 관련 Task |
-|------------|-------|----------|
-| F001 | 노션 견적서 조회 | Task 005 |
-| F002 | 견적서 목록 조회 | Task 004 (UI), Task 005 (API) |
-| F003 | 고유 링크 견적서 접근 | Task 007 |
-| F004 | PDF 다운로드 | Task 008 |
-| F005 | 관리자 인증 | Task 006 |
+| PRD 기능 ID | 기능명                | 관련 Task                     |
+| ----------- | --------------------- | ----------------------------- |
+| F001        | 노션 견적서 조회      | Task 005                      |
+| F002        | 견적서 목록 조회      | Task 004 (UI), Task 005 (API) |
+| F003        | 고유 링크 견적서 접근 | Task 007                      |
+| F004        | PDF 다운로드          | Task 008                      |
+| F005        | 관리자 인증           | Task 006                      |
 
 ## 의존성 다이어그램
 
@@ -332,37 +332,42 @@ Task 011 (배포 준비) ✅
 모든 Task (001-014)가 완료되었습니다.
 
 ### 📊 완료 통계
+
 - ✅ **Core Features** (Task 001-008): 견적서 조회, 로그인, PDF 다운로드
 - ✅ **UI/UX** (Task 003-004): shadcn/ui 컴포넌트, 반응형 디자인
 - ✅ **Advanced Features** (Task 009-011): 성능 최적화, 캐싱, 배포 준비
 - ✅ **Production Ready** (Task 012-014): SEO, 보안, 배포 가이드
 
 ### 📁 생성된 문서
-| 문서 | 용도 |
-|------|------|
-| `docs/PRD.md` | 제품 요구사항 정의 |
-| `docs/ROADMAP.md` | 개발 로드맵 (이 파일) |
-| `docs/DEPLOYMENT.md` | 배포 가이드 |
-| `docs/SECURITY_AUDIT.md` | 보안 감시 체크리스트 |
-| `docs/PRE_DEPLOYMENT_CHECKLIST.md` | 배포 전 최종 체크리스트 |
-| `docs/PRODUCTION_DEPLOYMENT.md` | 프로덕션 배포 상세 가이드 |
-| `docs/MONITORING_SETUP.md` | 모니터링 및 에러 추적 설정 |
+
+| 문서                               | 용도                       |
+| ---------------------------------- | -------------------------- |
+| `docs/PRD.md`                      | 제품 요구사항 정의         |
+| `docs/ROADMAP.md`                  | 개발 로드맵 (이 파일)      |
+| `docs/DEPLOYMENT.md`               | 배포 가이드                |
+| `docs/SECURITY_AUDIT.md`           | 보안 감시 체크리스트       |
+| `docs/PRE_DEPLOYMENT_CHECKLIST.md` | 배포 전 최종 체크리스트    |
+| `docs/PRODUCTION_DEPLOYMENT.md`    | 프로덕션 배포 상세 가이드  |
+| `docs/MONITORING_SETUP.md`         | 모니터링 및 에러 추적 설정 |
 
 ### 🚀 배포 준비 완료
 
 프로덕션 배포를 위해:
 
 1. **로컬 최종 검증**
+
    ```bash
    npm run type-check && npm run lint && npm run build
    ```
 
 2. **배포 전 체크리스트 확인**
+
    ```bash
    # docs/PRE_DEPLOYMENT_CHECKLIST.md 참고
    ```
 
 3. **Vercel 배포**
+
    ```bash
    # GitHub 푸시 → Vercel 자동 배포
    git push origin main
@@ -374,6 +379,7 @@ Task 011 (배포 준비) ✅
    ```
 
 ### 📝 다음 단계 (운영 단계)
+
 - 주간 성능 모니터링
 - 월간 보안 업데이트 확인
 - 노션 데이터베이스 정기 백업

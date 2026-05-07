@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { notion, INVOICE_DB_ID, ITEMS_DB_ID, APIErrorCode, isNotionClientError } from './client';
-import { resolveDataSourceId } from './data-source-resolver';
-import { mapNotionPageToQuote, mapNotionItemToQuoteItem } from './mappers';
-import { withRetry } from './retry';
-import { getMockQuoteByToken } from '@/lib/mock/quotes';
-import type { Quote, QuoteItem } from '@/lib/types/quote';
+import {
+  notion,
+  INVOICE_DB_ID,
+  ITEMS_DB_ID,
+  APIErrorCode,
+  isNotionClientError,
+} from "./client";
+import { resolveDataSourceId } from "./data-source-resolver";
+import { mapNotionPageToQuote, mapNotionItemToQuoteItem } from "./mappers";
+import { withRetry } from "./retry";
+import { getMockQuoteByToken } from "@/lib/mock/quotes";
+import type { Quote, QuoteItem } from "@/lib/types/quote";
 import type {
   NotionPageResponse,
   NotionInvoiceProperties,
   NotionItemProperties,
-} from '@/lib/types/notion';
+} from "@/lib/types/notion";
 
 const SHARE_TOKEN_UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -28,26 +34,33 @@ async function queryAllPages<P>(
   let cursor: string | undefined;
 
   do {
-    const response = await withRetry(() =>
-      notion.dataSources.query({
-        data_source_id: dataSourceId,
-        filter: filter as any,
-        sorts: sorts as any,
-        page_size: 100,
-        start_cursor: cursor,
-      }),
-      { maxRetries: 3 }
+    const response = await withRetry(
+      () =>
+        notion.dataSources.query({
+          data_source_id: dataSourceId,
+          filter: filter as any,
+          sorts: sorts as any,
+          page_size: 100,
+          start_cursor: cursor,
+        }),
+      { maxRetries: 3 },
     );
 
     // 응답의 results는 PageObjectResponse | PartialPageObjectResponse | DataSource* 합집합입니다.
     // 우리가 원하는 것은 'page' 객체이며 properties가 들어있는 형태입니다.
     for (const item of response.results) {
-      if ((item as { object?: string }).object === 'page' && 'properties' in item) {
+      if (
+        (item as { object?: string }).object === "page" &&
+        "properties" in item
+      ) {
         collected.push(item as unknown as NotionPageResponse<P>);
       }
     }
 
-    cursor = response.has_more && response.next_cursor ? response.next_cursor : undefined;
+    cursor =
+      response.has_more && response.next_cursor
+        ? response.next_cursor
+        : undefined;
   } while (cursor);
 
   return collected;
@@ -60,21 +73,21 @@ async function queryAllPages<P>(
  */
 export async function getAllQuotes(): Promise<Quote[]> {
   try {
-    console.log('[Notion] 견적서 목록 조회 시작');
+    console.log("[Notion] 견적서 목록 조회 시작");
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
     const pages = await queryAllPages<NotionInvoiceProperties>(
       dataSourceId,
       undefined,
-      [{ property: '발행일', direction: 'descending' }],
+      [{ property: "발행일", direction: "descending" }],
     );
 
     console.log(`[Notion] ${pages.length}개의 견적서 조회 완료`);
 
     // 취소되지 않은 견적서만 필터링
     const filteredPages = pages.filter((p) => {
-      const statusProp = p.properties['상태'] as any;
-      return statusProp?.select?.name !== '취소';
+      const statusProp = p.properties["상태"] as any;
+      return statusProp?.select?.name !== "취소";
     });
 
     // 각 견적서의 항목 병렬 로드
@@ -82,12 +95,12 @@ export async function getAllQuotes(): Promise<Quote[]> {
       filteredPages.map(async (p) => {
         const items = await getItemsByInvoice(p.id);
         return mapNotionPageToQuote(p, items);
-      })
+      }),
     );
 
     return quotesWithItems;
   } catch (error) {
-    handleNotionError(error, '[Notion] 견적서 목록 조회 실패');
+    handleNotionError(error, "[Notion] 견적서 목록 조회 실패");
     return [];
   }
 }
@@ -97,7 +110,9 @@ export async function getAllQuotes(): Promise<Quote[]> {
  * - 토큰 형식 검증으로 불필요한 API 호출 방지
  * - 상태 '취소' 제외
  */
-export async function getQuoteByToken(shareToken: string): Promise<Quote | null> {
+export async function getQuoteByToken(
+  shareToken: string,
+): Promise<Quote | null> {
   if (!SHARE_TOKEN_UUID_REGEX.test(shareToken)) {
     console.warn(`[Notion] 유효하지 않은 shareToken 형식`);
     return null;
@@ -108,7 +123,7 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     const dataSourceId = await resolveDataSourceId(INVOICE_DB_ID);
 
     const pages = await queryAllPages<NotionInvoiceProperties>(dataSourceId, {
-      property: '공유토큰',
+      property: "공유토큰",
       rich_text: { equals: shareToken },
     });
 
@@ -123,8 +138,8 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
     }
 
     const page = pages[0];
-    const statusProp = page.properties['상태'] as any;
-    if (statusProp?.select?.name === '취소') {
+    const statusProp = page.properties["상태"] as any;
+    if (statusProp?.select?.name === "취소") {
       console.warn(`[Notion] 취소된 견적서 접근 불가`);
       return null;
     }
@@ -148,18 +163,23 @@ export async function getQuoteByToken(shareToken: string): Promise<Quote | null>
  * 견적서에 속한 항목 목록 조회
  * - Items DB의 'Invoice' relation 속성으로 필터
  */
-export async function getItemsByInvoice(invoicePageId: string): Promise<QuoteItem[]> {
+export async function getItemsByInvoice(
+  invoicePageId: string,
+): Promise<QuoteItem[]> {
   try {
     const dataSourceId = await resolveDataSourceId(ITEMS_DB_ID);
 
     const pages = await queryAllPages<NotionItemProperties>(dataSourceId, {
-      property: 'Invoice',
+      property: "Invoice",
       relation: { contains: invoicePageId },
     });
 
     return pages.map((p) => mapNotionItemToQuoteItem(p));
   } catch (error) {
-    handleNotionError(error, `[Notion] 항목 조회 실패 (invoiceId: ${invoicePageId})`);
+    handleNotionError(
+      error,
+      `[Notion] 항목 조회 실패 (invoiceId: ${invoicePageId})`,
+    );
     return [];
   }
 }
@@ -179,7 +199,10 @@ export async function getQuoteById(
     const items = includeItems ? await getItemsByInvoice(pageId) : undefined;
     return mapNotionPageToQuote(page, items);
   } catch (error) {
-    if (isNotionClientError(error) && error.code === APIErrorCode.ObjectNotFound) {
+    if (
+      isNotionClientError(error) &&
+      error.code === APIErrorCode.ObjectNotFound
+    ) {
       return null;
     }
     handleNotionError(error, `[Notion] 페이지 조회 실패 (pageId: ${pageId})`);

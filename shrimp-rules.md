@@ -7,15 +7,18 @@
 ## 1. Project Overview
 
 ### Purpose
+
 - 노션을 CMS로 활용하여 견적서를 발행하고, 클라이언트가 고유 링크로 웹에서 확인 및 PDF로 다운로드할 수 있는 1인 프리랜서 및 소규모 팀용 플랫폼
 
 ### Core Features
+
 - 노션 DB 견적서 자동 렌더링
 - UUID 토큰 기반 공유 링크 (인증 불필요)
 - PDF 다운로드 (한글 폰트 지원)
 - 관리자 대시보드 (환경 변수 인증)
 
 ### Technology Stack
+
 - **Framework**: Next.js 16.2.2 (App Router) + React 19.2.4
 - **Language**: TypeScript 5 (strict mode enabled)
 - **Styling**: Tailwind CSS 4 + shadcn/ui (base-nova)
@@ -133,28 +136,28 @@ app/layout.tsx (루트 레이아웃)
 
 ```typescript
 // 견적 상태 (고정값)
-type QuoteStatus = '발행' | '승인' | '취소';
+type QuoteStatus = "발행" | "승인" | "취소";
 
 // 견적 항목
 interface QuoteItem {
-  name: string;        // 품목명
-  quantity: number;    // 수량
-  unitPrice: number;   // 단가
-  amount: number;      // 금액 (quantity * unitPrice)
+  name: string; // 품목명
+  quantity: number; // 수량
+  unitPrice: number; // 단가
+  amount: number; // 금액 (quantity * unitPrice)
 }
 
 // 견적서 (노션 도메인)
 interface Quote {
-  id: string;          // 노션 페이지 ID
-  title: string;       // 견적서 제목 (예: "QT-2024-001")
-  clientName: string;  // 클라이언트명
+  id: string; // 노션 페이지 ID
+  title: string; // 견적서 제목 (예: "QT-2024-001")
+  clientName: string; // 클라이언트명
   status: QuoteStatus; // 상태
   totalAmount: number; // 총액
-  issuedDate: string;  // 발행일 (ISO 형식)
-  validUntil: string;  // 유효 기간 (ISO 형식)
-  shareToken: string;  // UUID 토큰 (공유 링크용)
-  items: QuoteItem[];  // 항목 배열
-  notes: string;       // 비고
+  issuedDate: string; // 발행일 (ISO 형식)
+  validUntil: string; // 유효 기간 (ISO 형식)
+  shareToken: string; // UUID 토큰 (공유 링크용)
+  items: QuoteItem[]; // 항목 배열
+  notes: string; // 비고
 }
 
 // 견적서 목록 필터링
@@ -181,6 +184,7 @@ interface QuoteListFilters {
 shadcn 컴포넌트는 설치 시점에 프로젝트 내에 생성됨. 직접 수정 금지, 디자인 커스터마이즈는 CSS 변수 사용.
 
 필수 컴포넌트 목록:
+
 - Button, Card, Input, Label, Table, Badge, Select, Form, Dialog, Toast (Sonner)
 
 ### Domain Components (`components/quote/*`)
@@ -208,7 +212,7 @@ interface QuoteItemsTableProps {
 // components/quote/quote-summary.tsx
 interface QuoteSummaryProps {
   totalAmount: number;
-  tax?: number;        // 옵션
+  tax?: number; // 옵션
   grandTotal: number;
 }
 
@@ -243,8 +247,9 @@ interface ShareLinkButtonProps {
 ### 노션 API 래퍼 (`lib/notion/`)
 
 #### `lib/notion/client.ts`
+
 ```typescript
-import { Client } from '@notionhq/client';
+import { Client } from "@notionhq/client";
 
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
@@ -254,9 +259,12 @@ export default notion;
 ```
 
 #### `lib/notion/queries.ts`
+
 ```typescript
 // 모든 견적서 조회 (관리자용)
-export async function getAllQuotes(filters?: QuoteListFilters): Promise<Quote[]> {
+export async function getAllQuotes(
+  filters?: QuoteListFilters,
+): Promise<Quote[]> {
   // 노션 DB 쿼리
 }
 
@@ -272,19 +280,21 @@ export async function getQuoteById(id: string): Promise<Quote | null> {
 ```
 
 #### `lib/notion/mappers.ts`
+
 ```typescript
 // 노션 API 응답 → 도메인 타입 변환
 export function mapNotionPageToQuote(page: PageObjectResponse): Quote {
   return {
     id: page.id,
-    title: page.properties.Title.title[0]?.plain_text ?? '',
-    clientName: page.properties.ClientName.rich_text[0]?.plain_text ?? '',
+    title: page.properties.Title.title[0]?.plain_text ?? "",
+    clientName: page.properties.ClientName.rich_text[0]?.plain_text ?? "",
     // ...
   };
 }
 ```
 
 #### `lib/notion/validators.ts`
+
 ```typescript
 // 노션 응답 유효성 검사
 export function validateQuoteData(data: any): data is Quote {
@@ -299,6 +309,7 @@ export function validateQuoteData(data: any): data is Quote {
 ### API Routes (`app/api/*`)
 
 #### `app/api/quotes/route.ts` (GET)
+
 ```typescript
 export async function GET(request: Request) {
   // 1. 관리자 인증 확인
@@ -310,10 +321,11 @@ export async function GET(request: Request) {
 ```
 
 #### `app/api/quotes/[token]/route.ts` (GET)
+
 ```typescript
 export async function GET(
   request: Request,
-  { params }: { params: { token: string } }
+  { params }: { params: { token: string } },
 ) {
   // 1. 토큰 검증
   // 2. getQuoteByToken(token) 호출
@@ -323,10 +335,11 @@ export async function GET(
 ```
 
 #### `app/api/quotes/[token]/pdf/route.ts` (POST)
+
 ```typescript
 export async function POST(
   request: Request,
-  { params }: { params: { token: string } }
+  { params }: { params: { token: string } },
 ) {
   // 1. 토큰으로 견적서 조회
   // 2. PDF 생성 (한글 폰트)
@@ -354,16 +367,16 @@ export async function GET(request: Request): Promise<Response> {
     const data = await getAllQuotes();
     return Response.json({ success: true, data }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching quotes:', error);
+    console.error("Error fetching quotes:", error);
     return Response.json(
-      { 
-        success: false, 
-        error: { 
-          code: 'NOTION_API_ERROR', 
-          message: '노션 API 호출 실패' 
-        } 
+      {
+        success: false,
+        error: {
+          code: "NOTION_API_ERROR",
+          message: "노션 API 호출 실패",
+        },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -383,8 +396,8 @@ export async function GET(request: Request): Promise<Response> {
 ### next-auth v5 설정 (`lib/auth/config.ts`)
 
 ```typescript
-import { NextAuthConfig } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
+import { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 
 const config = {
   providers: [
@@ -393,16 +406,16 @@ const config = {
         // 1. 환경 변수에서 ADMIN_EMAIL, ADMIN_PASSWORD 로드
         // 2. 입력값과 비교 (비밀번호는 bcrypt 해싱 후 비교)
         // 3. 일치하면 사용자 객체 반환, 아니면 null
-        
+
         const email = credentials?.email as string;
         const password = credentials?.password as string;
-        
+
         if (
           email === process.env.ADMIN_EMAIL &&
           // bcrypt.compare() 또는 직접 비교
           password === process.env.ADMIN_PASSWORD
         ) {
-          return { id: '1', email, name: 'Admin' };
+          return { id: "1", email, name: "Admin" };
         }
         return null;
       },
@@ -427,17 +440,17 @@ NEXTAUTH_URL=http://localhost:3000
 ### 보호 라우트 (`middleware.ts`)
 
 ```typescript
-import { auth } from '@/auth';
+import { auth } from "@/auth";
 
 export const middleware = auth((req) => {
   // /dashboard 접근 시 로그인 확인
-  if (req.nextUrl.pathname.startsWith('/dashboard') && !req.auth) {
-    return Response.redirect(new URL('/login', req.nextUrl.origin));
+  if (req.nextUrl.pathname.startsWith("/dashboard") && !req.auth) {
+    return Response.redirect(new URL("/login", req.nextUrl.origin));
   }
 });
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/quotes/:path*'],
+  matcher: ["/dashboard/:path*", "/api/quotes/:path*"],
 };
 ```
 
@@ -477,6 +490,7 @@ export const config = {
 **원칙**: 최소한의 주석. WHY를 명확히 할 때만.
 
 ❌ **하지 마세요:**
+
 ```typescript
 // 사용자를 가져옴
 const user = await getUser();
@@ -486,6 +500,7 @@ console.log(name);
 ```
 
 ✅ **이렇게:**
+
 ```typescript
 const user = await getUser();
 console.log(name);
@@ -515,14 +530,14 @@ function processQuote(quote: Quote): QuoteItem[] {
 
 ### 네이밍 컨벤션
 
-| 항목 | 규칙 | 예시 |
-|------|------|------|
-| 변수 | camelCase | `clientName`, `totalAmount` |
-| 상수 | UPPER_SNAKE_CASE | `API_KEY`, `DEFAULT_STATUS` |
-| 함수 | camelCase | `getAllQuotes()`, `mapNotionPageToQuote()` |
-| 클래스/인터페이스 | PascalCase | `Quote`, `QuoteItem`, `QuoteCard` |
-| 파일명 | kebab-case | `quote-card.tsx`, `notion-client.ts` |
-| 디렉토리명 | kebab-case | `components/quote/`, `lib/utils/` |
+| 항목              | 규칙             | 예시                                       |
+| ----------------- | ---------------- | ------------------------------------------ |
+| 변수              | camelCase        | `clientName`, `totalAmount`                |
+| 상수              | UPPER_SNAKE_CASE | `API_KEY`, `DEFAULT_STATUS`                |
+| 함수              | camelCase        | `getAllQuotes()`, `mapNotionPageToQuote()` |
+| 클래스/인터페이스 | PascalCase       | `Quote`, `QuoteItem`, `QuoteCard`          |
+| 파일명            | kebab-case       | `quote-card.tsx`, `notion-client.ts`       |
+| 디렉토리명        | kebab-case       | `components/quote/`, `lib/utils/`          |
 
 ---
 
@@ -557,10 +572,10 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register('email')} />
       {errors.email && <span>{errors.email.message}</span>}
-      
+
       <input type="password" {...register('password')} />
       {errors.password && <span>{errors.password.message}</span>}
-      
+
       <button type="submit">로그인</button>
     </form>
   );
@@ -603,6 +618,7 @@ CSS 변수는 `app/globals.css` 에서 정의됨:
 ```
 
 Tailwind에서 사용:
+
 ```tsx
 <div className="bg-background text-foreground">
   {/* 다크 모드에서 자동으로 변경됨 */}
@@ -612,6 +628,7 @@ Tailwind에서 사용:
 ### next-themes 설정
 
 `app/layout.tsx`:
+
 ```typescript
 import { ThemeProvider } from 'next-themes';
 
@@ -654,14 +671,16 @@ export default function RootLayout({
 
 ```typescript
 // lib/contexts/theme.tsx
-import { createContext } from 'react';
+import { createContext } from "react";
 
 interface ThemeContextType {
-  theme: 'light' | 'dark';
-  setTheme: (theme: 'light' | 'dark') => void;
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
 }
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined,
+);
 
 // 사용
 const { theme, setTheme } = useContext(ThemeContext);
@@ -681,15 +700,17 @@ const { theme, setTheme } = useContext(ThemeContext);
 ### 최소한의 주석 원칙
 
 **좋은 주석** (WHY를 설명):
+
 ```typescript
 // 노션 API 응답이 항상 정렬된 순서로 반환되지 않으므로
 // 발행일 기준 내림차순 정렬 필수
 const sortedQuotes = quotes.sort(
-  (a, b) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime()
+  (a, b) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime(),
 );
 ```
 
 **나쁜 주석** (WHAT을 설명, 코드가 이미 명확):
+
 ```typescript
 // 배열 정렬
 const sortedQuotes = quotes.sort(...);
@@ -755,28 +776,28 @@ console.log(user.name);
 #### Playwright 테스트 작성 (예시)
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('견적서 공개 링크 접근', async ({ page }) => {
+test("견적서 공개 링크 접근", async ({ page }) => {
   // 1. 공개 링크 접근
-  await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440000');
-  
+  await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440000");
+
   // 2. 견적서 데이터 렌더링 확인
-  await expect(page.locator('h1')).toContainText('QT-2024-001');
-  await expect(page.locator('text=클라이언트명')).toBeVisible();
-  
+  await expect(page.locator("h1")).toContainText("QT-2024-001");
+  await expect(page.locator("text=클라이언트명")).toBeVisible();
+
   // 3. 항목 테이블 확인
-  const rows = page.locator('table tbody tr');
+  const rows = page.locator("table tbody tr");
   await expect(rows).toHaveCount(3);
-  
+
   // 4. PDF 다운로드 버튼 확인
   const downloadBtn = page.locator('button:has-text("PDF 다운로드")');
   await expect(downloadBtn).toBeVisible();
 });
 
-test('잘못된 토큰 URL 접근 시 404', async ({ page }) => {
-  await page.goto('/quotes/invalid-token', { waitUntil: 'networkidle' });
-  await expect(page.locator('text=찾을 수 없습니다')).toBeVisible();
+test("잘못된 토큰 URL 접근 시 404", async ({ page }) => {
+  await page.goto("/quotes/invalid-token", { waitUntil: "networkidle" });
+  await expect(page.locator("text=찾을 수 없습니다")).toBeVisible();
 });
 ```
 
@@ -798,7 +819,7 @@ test('잘못된 토큰 URL 접근 시 404', async ({ page }) => {
 
 ```typescript
 // app/quotes/[token]/page.tsx
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
@@ -806,9 +827,9 @@ export async function generateMetadata({
   params: { token: string };
 }): Promise<Metadata> {
   const quote = await getQuoteByToken(params.token);
-  
+
   if (!quote) {
-    return { title: '찾을 수 없습니다' };
+    return { title: "찾을 수 없습니다" };
   }
 
   return {
@@ -817,7 +838,7 @@ export async function generateMetadata({
     openGraph: {
       title: `견적서 ${quote.title}`,
       description: quote.clientName,
-      type: 'website',
+      type: "website",
       // og:image는 향후 동적 생성 구현
     },
   };
@@ -841,6 +862,7 @@ app/api/quotes/[token]/route.ts (JSON 응답)
 ### 동시 수정 필수 파일
 
 모든 타입 변경 시:
+
 - `lib/types/quote.ts` (타입 정의)
 - `lib/notion/mappers.ts` (매핑 로직)
 - `components/quote/*` (컴포넌트)
@@ -911,25 +933,25 @@ app/api/quotes/[token]/route.ts (JSON 응답)
 
 ### ❌ 절대 금지
 
-| 항목 | 이유 | 대안 |
-|------|------|------|
-| **다중 주석 블록 (`/** ... */`)** | 과도한 문서화, 유지보수 어려움 | 한 줄 주석 + 구체적 이름 |
-| **enum 사용** | 확장성 떨어짐 | 유니온 타입 (`type Status = '...' \| '...'`) |
-| **dangerouslySetInnerHTML** | XSS 취약점 | 안전한 텍스트 렌더링만 |
-| **하드코딩된 API URL** | 배포 환경별 차이 처리 불가 | 환경 변수 사용 |
-| **any 타입** | 타입 안정성 상실 | unknown + 타입 가드 |
-| **console.log 남기기** | 프로덕션에서 성능 저하 | 개발 시 사용 후 제거 또는 debug 라이브러리 |
-| **전역 변수** | 상태 관리 혼란 | Context API 또는 로컬 상태 |
-| **무한 루프** | 메모리 누수 | 재귀 기저 조건 또는 무한 제너레이터 사용 시 주의 |
-| **비밀번호 평문 저장** | 보안 침해 | bcrypt 해싱 (또는 환경 변수에 해시값 저장) |
-| **Props Drilling (3단계 이상)** | 코드 복잡도 증가 | Context API 또는 컴포넌트 구조 재설계 |
+| 항목                                 | 이유                           | 대안                                             |
+| ------------------------------------ | ------------------------------ | ------------------------------------------------ |
+| **다중 주석 블록 (`/** ... \*/`)\*\* | 과도한 문서화, 유지보수 어려움 | 한 줄 주석 + 구체적 이름                         |
+| **enum 사용**                        | 확장성 떨어짐                  | 유니온 타입 (`type Status = '...' \| '...'`)     |
+| **dangerouslySetInnerHTML**          | XSS 취약점                     | 안전한 텍스트 렌더링만                           |
+| **하드코딩된 API URL**               | 배포 환경별 차이 처리 불가     | 환경 변수 사용                                   |
+| **any 타입**                         | 타입 안정성 상실               | unknown + 타입 가드                              |
+| **console.log 남기기**               | 프로덕션에서 성능 저하         | 개발 시 사용 후 제거 또는 debug 라이브러리       |
+| **전역 변수**                        | 상태 관리 혼란                 | Context API 또는 로컬 상태                       |
+| **무한 루프**                        | 메모리 누수                    | 재귀 기저 조건 또는 무한 제너레이터 사용 시 주의 |
+| **비밀번호 평문 저장**               | 보안 침해                      | bcrypt 해싱 (또는 환경 변수에 해시값 저장)       |
+| **Props Drilling (3단계 이상)**      | 코드 복잡도 증가               | Context API 또는 컴포넌트 구조 재설계            |
 
 ### ❌ 피해야 할 패턴
 
 ```typescript
 // ❌ 과도한 추상화
-const createQuoteValidator = (rules: Rule[]) => 
-  (quote: Quote) => validateQuoteByRules(quote, rules);
+const createQuoteValidator = (rules: Rule[]) => (quote: Quote) =>
+  validateQuoteByRules(quote, rules);
 
 // ✅ 직관적
 function validateQuote(quote: Quote): boolean {
@@ -939,12 +961,12 @@ function validateQuote(quote: Quote): boolean {
 // ❌ 장기 대기
 async function waitForNotionSync() {
   while (true) {
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
 }
 
 // ✅ 명시적 대기
-await new Promise(r => setTimeout(r, 5000)); // 노션 API 동기화 대기
+await new Promise((r) => setTimeout(r, 5000)); // 노션 API 동기화 대기
 ```
 
 ### ❌ 문서화 금지
@@ -1007,13 +1029,15 @@ shadcn/ui 기반인가?
 ```typescript
 // 노션 API 호출 로깅
 const requestId = crypto.randomUUID();
-console.log(JSON.stringify({
-  requestId,
-  timestamp: new Date().toISOString(),
-  action: 'notion_query',
-  database_id: process.env.NOTION_DATABASE_ID,
-  duration_ms: Date.now() - startTime,
-}));
+console.log(
+  JSON.stringify({
+    requestId,
+    timestamp: new Date().toISOString(),
+    action: "notion_query",
+    database_id: process.env.NOTION_DATABASE_ID,
+    duration_ms: Date.now() - startTime,
+  }),
+);
 ```
 
 ### 에러 추적 (Sentry 예정)
@@ -1023,7 +1047,7 @@ try {
   await getQuoteByToken(token);
 } catch (error) {
   Sentry.captureException(error, {
-    tags: { action: 'fetch_quote' },
+    tags: { action: "fetch_quote" },
     extra: { token },
   });
 }
@@ -1037,10 +1061,10 @@ try {
 
 ```tsx
 // ❌ HTML img
-<img src="/image.jpg" alt="..." />
+<img src="/image.jpg" alt="..." />;
 
 // ✅ Next.js Image
-import Image from 'next/image';
+import Image from "next/image";
 
 <Image
   src="/image.jpg"
@@ -1048,14 +1072,14 @@ import Image from 'next/image';
   width={800}
   height={600}
   priority={isBelowFold}
-/>
+/>;
 ```
 
 ### 번들 분할
 
 ```typescript
 // 큰 라이브러리는 동적 import
-const PDFDocument = dynamic(() => import('@react-pdf/renderer'), {
+const PDFDocument = dynamic(() => import("@react-pdf/renderer"), {
   ssr: false,
 });
 ```
