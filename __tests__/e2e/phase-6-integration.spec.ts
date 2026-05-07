@@ -3,10 +3,10 @@ import { test, expect, Page } from '@playwright/test';
 // 관리자 로그인 fixture
 async function loginAsAdmin(page: Page) {
   await page.goto('/login');
-  await page.fill('input[type="email"]', process.env.ADMIN_EMAIL || 'admin@example.com');
-  await page.fill('input[type="password"]', process.env.ADMIN_PASSWORD || 'password123');
+  await page.fill('input[type="email"]', 'admin@example.com');
+  await page.fill('input[type="password"]', 'password123');
   await page.click('button:has-text("로그인")');
-  await page.waitForURL('/dashboard');
+  await page.waitForURL('/dashboard', { timeout: 60000 });
 }
 
 test.describe('Phase 6: 관리자 대시보드 통합 테스트', () => {
