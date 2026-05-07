@@ -141,17 +141,11 @@ export function AdminSidebar() {
     <>
       {/* 모바일: Sheet/Drawer */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger className="md:hidden">
-          <div className="fixed bottom-6 right-6 z-40">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white"
-              aria-label="네비게이션 메뉴 열기"
-            >
-              <Menu className="w-6 h-6" aria-hidden="true" />
-            </Button>
-          </div>
+        <SheetTrigger
+          className="fixed bottom-6 right-6 z-40 md:hidden rounded-full w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center cursor-pointer transition-colors"
+          aria-label="네비게이션 메뉴 열기"
+        >
+          <Menu className="w-6 h-6" aria-hidden="true" />
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">
           <SidebarContent />
