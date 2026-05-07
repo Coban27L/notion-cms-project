@@ -5,34 +5,49 @@ import { getMockQuoteByToken } from '@/lib/mock/quotes';
 import path from 'path';
 import fs from 'fs';
 
-// 폰트 등록: 모듈 로드 시 한 번만 실행
-function registerFonts() {
+// 폰트 등록: 버퍼 기반 로딩
+let fontRegistered = false;
+
+async function registerFontsAsync() {
+  if (fontRegistered) return;
+
   const fontDir = path.join(process.cwd(), 'public/fonts');
   const normalFontPath = path.join(fontDir, 'noto-sans-kr-korean-400-normal.woff2');
   const boldFontPath = path.join(fontDir, 'noto-sans-kr-korean-700-normal.woff2');
 
   try {
+    // Normal 폰트 - base64 데이터 URL로 변환
     if (fs.existsSync(normalFontPath)) {
+      const normalFontBuffer = await fs.promises.readFile(normalFontPath);
+      const normalBase64 = normalFontBuffer.toString('base64');
+      const normalDataUrl = `data:font/woff2;base64,${normalBase64}`;
       Font.register({
         family: 'NotoSansKR',
-        src: normalFontPath,
+        src: normalDataUrl,
         fontWeight: 'normal',
       });
+      console.log('[PDF] Normal 한글 폰트 등록 완료 (base64)');
     }
+
+    // Bold 폰트 - base64 데이터 URL로 변환
     if (fs.existsSync(boldFontPath)) {
+      const boldFontBuffer = await fs.promises.readFile(boldFontPath);
+      const boldBase64 = boldFontBuffer.toString('base64');
+      const boldDataUrl = `data:font/woff2;base64,${boldBase64}`;
       Font.register({
         family: 'NotoSansKR',
-        src: boldFontPath,
+        src: boldDataUrl,
         fontWeight: 'bold',
       });
+      console.log('[PDF] Bold 한글 폰트 등록 완료 (base64)');
     }
+
+    fontRegistered = true;
     console.log('[PDF] 한글 폰트 등록 완료');
   } catch (error) {
-    console.warn('[PDF] 한글 폰트 로딩 실패:', error);
+    console.error('[PDF] 한글 폰트 로딩 실패:', error);
   }
 }
-
-registerFonts();
 
 export async function GET(
   request: Request,
@@ -42,6 +57,9 @@ export async function GET(
 
   try {
     console.log(`[API] PDF 생성 시작 - token: ${token}`);
+
+    // 폰트 등록 (비동기)
+    await registerFontsAsync();
 
     // 견적서 데이터 조회 (Notion API + mock 폴백)
     let quote = await getQuoteByToken(token);
@@ -69,13 +87,19 @@ export async function GET(
     const issuedDate = quote.issuedDate
       ? new Date(quote.issuedDate).toISOString().split('T')[0]
       : new Date().toISOString().split('T')[0];
-    const sanitizedClientName = quote.clientName.replace(/[^가-힣a-zA-Z0-9_-]/g, '');
-    const filename = `QT-${issuedDate}-${quote.id}_${sanitizedClientName}.pdf`;
+
+    // ASCII 파일명 (한글 제거)
+    const sanitizedClientName = quote.clientName.replace(/[^a-zA-Z0-9_-]/g, '') || 'quote';
+    const asciiFilename = `QT-${issuedDate}-${quote.id}_${sanitizedClientName}.pdf`;
+
+    // RFC 5987 인코딩 파일명 (한글 지원)
+    const encodedClientName = encodeURIComponent(quote.clientName);
+    const rfc5987Filename = `QT-${issuedDate}-${quote.id}_${encodedClientName}.pdf`;
 
     return new Response(buffer as any, {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Disposition': `attachment; filename="${asciiFilename}"; filename*=UTF-8''${rfc5987Filename}`,
         'Content-Length': buffer.length.toString(),
       },
     });
