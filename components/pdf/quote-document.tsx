@@ -4,6 +4,7 @@ import {
   Text,
   View,
   StyleSheet,
+  pdf,
 } from '@react-pdf/renderer';
 import { Quote } from '@/lib/types/quote';
 
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderColor: '#e0e0e0',
+    pageBreakInside: 'avoid',
   },
   tableHeader: {
     flexDirection: 'row',
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    pageBreakInside: 'avoid',
   },
   summaryTable: {
     width: '40%',
@@ -173,21 +176,22 @@ interface QuoteDocumentProps {
 
 export function QuoteDocument({ quote }: QuoteDocumentProps) {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-SG', {
-      style: 'currency',
-      currency: 'SGD',
-      minimumFractionDigits: 2,
+    // 한국 원화 포맷: ₩ + 천 단위 콤마
+    const formatted = new Intl.NumberFormat('ko-KR', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
+    return `₩ ${formatted}`;
   };
 
   const formatDate = (date: string | undefined) => {
     if (!date) return '-';
     try {
-      return new Date(date).toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      });
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+      return `${year}년 ${month}월 ${day}일`;
     } catch {
       return date;
     }
@@ -197,9 +201,20 @@ export function QuoteDocument({ quote }: QuoteDocumentProps) {
   const subtotal = items.reduce((sum, item) => sum + (item.amount || 0), 0);
   const tax = quote.totalAmount && quote.totalAmount > subtotal ? quote.totalAmount - subtotal : 0;
 
+  // 한 페이지에 표시할 아이템 수 (약 10개 기준)
+  const ITEMS_PER_PAGE = 10;
+  const itemPages = [];
+  for (let i = 0; i < items.length; i += ITEMS_PER_PAGE) {
+    itemPages.push(items.slice(i, i + ITEMS_PER_PAGE));
+  }
+
+  // 아이템이 없으면 빈 배열 대신 기본값
+  const pagesToRender = itemPages.length > 0 ? itemPages : [[]];
+
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      {pagesToRender.map((pageItems, pageIndex) => (
+        <Page key={pageIndex} size="A4" style={styles.page}>
         {/* 헤더 */}
         <View style={styles.header}>
           <Text style={styles.title}>견적서</Text>
@@ -235,7 +250,7 @@ export function QuoteDocument({ quote }: QuoteDocumentProps) {
               <Text style={[styles.tableCell, styles.currencyCell]}>단가</Text>
               <Text style={[styles.tableCell, styles.currencyCell]}>금액</Text>
             </View>
-            {items.map((item, idx) => (
+            {pageItems.map((item, idx) => (
               <View key={idx} style={styles.tableRow}>
                 <Text style={[styles.tableCell, styles.nameCell]}>{item.name}</Text>
                 <Text style={[styles.tableCell, styles.numberCell]}>{item.quantity}</Text>
@@ -250,28 +265,30 @@ export function QuoteDocument({ quote }: QuoteDocumentProps) {
           </View>
         </View>
 
-        {/* 합계 영역 */}
-        <View style={styles.summarySection}>
-          <View style={styles.summaryTable}>
-            <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>소계</Text>
-              <Text style={styles.summaryValue}>{formatCurrency(subtotal)}</Text>
-            </View>
-            {tax > 0 && (
+        {/* 합계 영역 - 마지막 페이지에만 표시 */}
+        {pageIndex === pagesToRender.length - 1 && (
+          <View style={styles.summarySection}>
+            <View style={styles.summaryTable}>
               <View style={styles.summaryRow}>
-                <Text style={styles.summaryLabel}>세금</Text>
-                <Text style={styles.summaryValue}>{formatCurrency(tax)}</Text>
+                <Text style={styles.summaryLabel}>소계</Text>
+                <Text style={styles.summaryValue}>{formatCurrency(subtotal)}</Text>
               </View>
-            )}
-            <View style={[styles.summaryRow, styles.totalRow]}>
-              <Text style={styles.totalLabel}>합계</Text>
-              <Text style={styles.totalValue}>{formatCurrency(quote.totalAmount || subtotal)}</Text>
+              {tax > 0 && (
+                <View style={styles.summaryRow}>
+                  <Text style={styles.summaryLabel}>세금</Text>
+                  <Text style={styles.summaryValue}>{formatCurrency(tax)}</Text>
+                </View>
+              )}
+              <View style={[styles.summaryRow, styles.totalRow]}>
+                <Text style={styles.totalLabel}>합계</Text>
+                <Text style={styles.totalValue}>{formatCurrency(quote.totalAmount || subtotal)}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        )}
 
-        {/* 비고 */}
-        {quote.notes && (
+        {/* 비고 - 마지막 페이지에만 표시 */}
+        {pageIndex === pagesToRender.length - 1 && quote.notes && (
           <View style={styles.notesSection}>
             <Text style={styles.notesTitle}>비고</Text>
             <Text style={styles.notesText}>{quote.notes}</Text>
@@ -281,8 +298,17 @@ export function QuoteDocument({ quote }: QuoteDocumentProps) {
         {/* 푸터 */}
         <View style={styles.footer}>
           <Text>이 견적서는 공유 링크를 통해 발행되었습니다.</Text>
+          <Text style={{ fontSize: 9, marginTop: 8, color: '#ccc' }}>
+            Generated by Notion CMS Quote System
+          </Text>
+          {pagesToRender.length > 1 && (
+            <Text style={{ fontSize: 9, marginTop: 6, color: '#aaa' }}>
+              페이지 {pageIndex + 1} / {pagesToRender.length}
+            </Text>
+          )}
         </View>
       </Page>
+      ))}
     </Document>
   );
 }

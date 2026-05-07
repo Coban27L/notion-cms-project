@@ -130,6 +130,23 @@ export function generateMockQuotes(): Quote[] {
       ],
       notes: '호스팅 지원 포함',
     },
+    {
+      id: 'page-006',
+      shareToken: '550e8400-e29b-41d4-a716-446655440006',
+      title: 'QT-2024-006',
+      clientName: '다중페이지 테스트',
+      status: '발행',
+      totalAmount: 8300000,
+      issuedDate: '2026-05-07',
+      validUntil: '2026-06-07',
+      items: Array.from({ length: 15 }, (_, i) => ({
+        name: `개발 항목 ${i + 1}`,
+        quantity: 1,
+        unitPrice: 500000 + i * 20000,
+        amount: 500000 + i * 20000,
+      })),
+      notes: '다중 페이지 테스트용 견적서입니다. 15개의 항목이 포함되어 있으며, 페이지 분할 및 합계 영역 렌더링을 검증합니다.',
+    },
   ];
 }
 
