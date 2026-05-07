@@ -58,13 +58,13 @@ export function AdminSidebar() {
     <div className="flex flex-col h-full bg-slate-900 text-white">
       {/* 로고 */}
       <div className="p-6 border-b border-slate-800">
-        <h1 className={`font-bold text-lg ${isCollapsed ? 'hidden md:block text-center' : ''}`}>
+        <h1 className={`font-bold text-lg ${isCollapsed ? 'hidden md:block text-center' : ''}`} title="견적서 관리 시스템">
           {isCollapsed ? '견' : '견적서 관리'}
         </h1>
       </div>
 
       {/* 메뉴 */}
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className="flex-1 p-4 space-y-2" aria-label="주 네비게이션">
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -72,6 +72,8 @@ export function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setIsOpen(false)}
+              aria-current={item.active ? 'page' : undefined}
+              aria-disabled={item.disabled}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                 item.active
                   ? 'bg-blue-600 text-white'
@@ -80,7 +82,7 @@ export function AdminSidebar() {
                     : 'hover:bg-slate-800 text-slate-300'
               } ${item.disabled ? 'pointer-events-none' : ''}`}
             >
-              <Icon className="w-5 h-5 flex-shrink-0" />
+              <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
               {!isCollapsed && <span className="text-sm">{item.label}</span>}
               {item.disabled && !isCollapsed && <span className="text-xs ml-auto text-slate-500">(예정)</span>}
             </Link>
@@ -93,7 +95,7 @@ export function AdminSidebar() {
         {!isCollapsed && session?.user && (
           <div className="bg-slate-800 rounded-lg p-3 space-y-2">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0" aria-hidden="true">
                 <User className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1 min-w-0">
@@ -111,8 +113,9 @@ export function AdminSidebar() {
           onClick={handleLogout}
           variant="ghost"
           className="w-full justify-start gap-3 text-slate-300 hover:text-white hover:bg-slate-800"
+          aria-label="로그아웃"
         >
-          <LogOut className="w-5 h-5" />
+          <LogOut className="w-5 h-5" aria-hidden="true" />
           {!isCollapsed && <span>로그아웃</span>}
         </Button>
       </div>
@@ -124,6 +127,8 @@ export function AdminSidebar() {
           variant="ghost"
           size="sm"
           className="w-full text-xs text-slate-400 hover:text-slate-200"
+          aria-label={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
+          aria-expanded={!isCollapsed}
         >
           {isCollapsed ? '펼치기' : '접기'}
         </Button>
@@ -141,8 +146,9 @@ export function AdminSidebar() {
               variant="ghost"
               size="icon"
               className="rounded-full w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white"
+              aria-label="네비게이션 메뉴 열기"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-6 h-6" aria-hidden="true" />
             </Button>
           </div>
         </SheetTrigger>

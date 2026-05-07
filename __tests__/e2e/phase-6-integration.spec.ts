@@ -346,5 +346,21 @@ test.describe('Phase 6: 관리자 대시보드 통합 테스트', () => {
     // 헤더 제목
     const h1 = page.locator('h1');
     await expect(h1).toContainText('견적서 관리');
+
+    // 활성 메뉴 aria-current 확인
+    const activeMenuItem = page.locator('a[aria-current="page"]');
+    await expect(activeMenuItem).toBeVisible();
+
+    // 테마 토글 버튼 aria-label 확인
+    const themeButton = page.locator('button[aria-label*="모드로"]').first();
+    const themeLabel = await themeButton.getAttribute('aria-label');
+    expect(themeLabel).toBeTruthy();
+
+    // 사이드바 접기/펼치기 버튼 aria-expanded 확인
+    const collapseButton = page.locator('button[aria-label*="사이드바"]').first();
+    if (await collapseButton.isVisible()) {
+      const ariaExpanded = await collapseButton.getAttribute('aria-expanded');
+      expect(ariaExpanded).toBeTruthy();
+    }
   });
 });
