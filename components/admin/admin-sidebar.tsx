@@ -64,7 +64,7 @@ export function AdminSidebar() {
       </div>
 
       {/* 메뉴 */}
-      <nav className="flex-1 p-4 space-y-2" aria-label="주 네비게이션">
+      <nav className="flex-1 p-4 space-y-2" aria-label="주 네비게이션" role="navigation">
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -74,7 +74,8 @@ export function AdminSidebar() {
               onClick={() => setIsOpen(false)}
               aria-current={item.active ? 'page' : undefined}
               aria-disabled={item.disabled}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+              role="menuitem"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-slate-900 ${
                 item.active
                   ? 'bg-blue-600 text-white'
                   : item.disabled

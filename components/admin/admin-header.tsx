@@ -37,7 +37,7 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
   };
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 sticky top-0 z-40 backdrop-blur-sm bg-white/80 dark:bg-slate-950/80">
+    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 sticky top-0 z-40 backdrop-blur-sm bg-white/80 dark:bg-slate-950/80" role="banner">
       <div className="h-full px-6 flex items-center justify-between">
         {/* 좌측: 페이지 제목 + 모바일 햄버거 */}
         <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
             onClick={onMobileMenuToggle}
             aria-label="네비게이션 메뉴 열기"
           >
@@ -67,6 +67,7 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             aria-label={`${theme === 'dark' ? '라이트' : '다크'} 모드로 전환`}
             title={`${theme === 'dark' ? '라이트' : '다크'} 모드로 전환`}
+            className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
           >
             {theme === 'dark' ? (
               <Sun className="w-5 h-5 text-slate-600 dark:text-slate-300" aria-hidden="true" />
@@ -79,7 +80,7 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="relative"
+            className="relative focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
             aria-label="알림 (준비 중)"
             title="알림 (준비 중)"
             disabled
