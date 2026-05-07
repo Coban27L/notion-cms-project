@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * Core Web Vitals 측정 및 리포팅
@@ -141,6 +142,7 @@ export function observeWebVitals(onMetric?: (metric: WebVitalsMetric) => void) {
  * 성능 데이터 전송 (분석용)
  * @param metric Core Web Vitals 메트릭
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function sendMetricToAnalytics(metric: WebVitalsMetric) {
   // 프로덕션: Google Analytics, Sentry, DataDog 등으로 전송
   // 개발: 콘솔에만 출력

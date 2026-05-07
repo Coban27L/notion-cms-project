@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { notion, INVOICE_DB_ID, ITEMS_DB_ID, APIErrorCode, isNotionClientError } from './client';
 import { resolveDataSourceId } from './data-source-resolver';
 import { mapNotionPageToQuote, mapNotionItemToQuoteItem } from './mappers';

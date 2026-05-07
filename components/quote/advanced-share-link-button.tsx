@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Copy, Check, Share2, Link as LinkIcon } from 'lucide-react';
+import { Copy, Check, Link as LinkIcon } from 'lucide-react';
 import { showSuccess, showError } from '@/lib/utils/toast-notifications';
 import { getShareLink } from '@/lib/utils/share-link';
 import { Quote } from '@/lib/types/quote';

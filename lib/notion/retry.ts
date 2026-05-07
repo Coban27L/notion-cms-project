@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * 지수 백오프를 사용한 재시도 로직
  * - 일시적 오류 자동 재시도

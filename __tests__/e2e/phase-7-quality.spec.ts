@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
-  test('Task 021: PDF 한글 폰트 렌더링 - 단일 페이지 PDF 다운로드', async ({ page, context }) => {
+  test('Task 021: PDF 한글 폰트 렌더링 - 단일 페이지 PDF 다운로드', async ({ page }) => {
     // 공유 링크를 통해 견적서 페이지 접근
     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440001');
 
@@ -9,7 +9,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     await expect(page.locator('text=홍길동')).toBeVisible();
 
     // PDF 다운로드 버튼 찾기
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
     await expect(downloadButton).toBeVisible();
 
@@ -23,7 +23,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     expect(filePath).toBeTruthy();
   });
 
-  test('Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성', async ({ page, context }) => {
+  test('Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성', async ({ page }) => {
     // 다중 페이지 테스트용 견적서 접근 (15개 항목)
     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440006');
 
@@ -35,7 +35,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     expect(itemCount).toBeGreaterThan(10);
 
     // PDF 다운로드
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     await page.locator('button:has-text("PDF 다운로드")').click();
     const download = await downloadPromise;
 
@@ -90,12 +90,12 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     await expect(total).toBeVisible();
   });
 
-  test('Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링', async ({ page, context }) => {
+  test('Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링', async ({ page }) => {
     // 다중 페이지 견적서 접근
     await page.goto('/quotes/550e8400-e29b-41d4-a716-446655440006');
 
     // PDF 다운로드
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     await page.locator('button:has-text("PDF 다운로드")').click();
     const download = await downloadPromise;
 
@@ -166,7 +166,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     await expect(page.locator('text=합계')).toBeVisible();
 
     // PDF 다운로드 가능 확인
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
     await expect(downloadButton).toBeVisible();
     await downloadButton.click();
@@ -186,7 +186,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     await expect(page.locator('text=홍길동')).toBeVisible();
 
     // 모바일에서도 PDF 다운로드 가능
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
     await expect(downloadButton).toBeVisible();
     await downloadButton.click();
@@ -213,7 +213,7 @@ test.describe('Phase 7: 품질 개선 및 버그 수정', () => {
     }
 
     // 다크 모드에서도 PDF 다운로드 가능
-    const downloadPromise = context.waitForEvent('download');
+    const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
     await downloadButton.click();
 

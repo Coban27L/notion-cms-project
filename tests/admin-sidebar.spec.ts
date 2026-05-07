@@ -166,7 +166,7 @@ test.describe('AdminSidebar 네비게이션', () => {
     await hamburgerButton.click();
 
     // 드로어 확인
-    let drawer = page.locator('[role="dialog"]');
+    const drawer = page.locator('[role="dialog"]');
     await expect(drawer).toBeVisible();
 
     // 메뉴 클릭

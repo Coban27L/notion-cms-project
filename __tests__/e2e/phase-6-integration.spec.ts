@@ -239,7 +239,7 @@ test.describe('Phase 6: 관리자 대시보드 통합 테스트', () => {
 
     // 사이드바 고정 확인
     const sidebar = page.locator('aside');
-    const sidebarWidth = await sidebar.evaluate((el) => el.offsetWidth);
+    const sidebarWidth = await sidebar.evaluate((el) => (el as HTMLElement).offsetWidth);
     expect(sidebarWidth).toBe(256); // w-64
 
     // 햄버거 메뉴 숨김

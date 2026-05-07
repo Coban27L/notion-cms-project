@@ -1,6 +1,5 @@
 import { unstable_cache } from 'next/cache';
 import { getAllQuotes as _getAllQuotes, getQuoteByToken as _getQuoteByToken, getItemsByInvoice as _getItemsByInvoice } from './queries';
-import type { Quote, QuoteItem } from '@/lib/types/quote';
 
 /**
  * 캐싱된 getAllQuotes
