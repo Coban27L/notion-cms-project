@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { LogOut, BarChart3, Settings, Home } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { LogOut, BarChart3, Settings, Home, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
@@ -11,7 +12,7 @@ import { signOut } from 'next-auth/react';
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -86,6 +87,23 @@ export function AdminSidebar() {
           );
         })}
       </nav>
+
+      {/* 관리자 정보 카드 */}
+      <div className="px-4 py-3 border-t border-slate-800">
+        {!isCollapsed && session?.user && (
+          <div className="bg-slate-800 rounded-lg p-3 space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <User className="w-4 h-4 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-slate-300 truncate">관리자</p>
+                <p className="text-xs text-slate-400 truncate">{session.user.email}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* 로그아웃 */}
       <div className="p-4 border-t border-slate-800 space-y-3">
