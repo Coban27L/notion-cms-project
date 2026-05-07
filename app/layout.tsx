@@ -3,10 +3,8 @@ import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import { RootLayoutContent } from "./layout-content";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "노션 CMS 견적서 시스템 | 견적서쓰",
@@ -52,9 +50,7 @@ export default function RootLayout({
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TooltipProvider>
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
+              <RootLayoutContent>{children}</RootLayoutContent>
               <Toaster />
             </TooltipProvider>
           </ThemeProvider>

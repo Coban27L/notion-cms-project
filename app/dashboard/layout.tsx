@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import { AdminLayout } from '@/components/admin/admin-layout';
 
 export const metadata: Metadata = {
   title: '견적서 대시보드',
@@ -22,10 +23,10 @@ function DashboardSkeleton() {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <AdminLayout>
       <Suspense fallback={<DashboardSkeleton />}>
         {children}
       </Suspense>
-    </div>
+    </AdminLayout>
   );
 }
