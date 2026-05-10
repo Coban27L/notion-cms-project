@@ -1,17 +1,30 @@
 import { getQuoteByToken } from "@/lib/notion/queries";
 import { getMockQuoteByToken } from "@/lib/mock/quotes";
-import puppeteer, { type Browser } from "puppeteer";
-
-let browserInstance: Browser | null = null;
 
 async function getBrowser() {
-  if (browserInstance) {
-    return browserInstance;
+  // 로컬 개발 환경: 전체 puppeteer (Chrome 자동 탐색)
+  if (process.env.NODE_ENV === "development") {
+    const puppeteer = await import("puppeteer");
+    return puppeteer.launch({
+      headless: true,
+      executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || undefined,
+    });
   }
-  browserInstance = await puppeteer.launch({
+
+  // 프로덕션 환경 (Vercel 등 서버리스): puppeteer-core + chromium-min
+  const puppeteer = await import("puppeteer-core");
+  const chromium = await import("@sparticuz/chromium-min");
+
+  const executablePath = await chromium.default.executablePath(
+    "https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar",
+  );
+
+  return puppeteer.default.launch({
+    args: chromium.default.args || [],
+    defaultViewport: { width: 1280, height: 720 },
+    executablePath,
     headless: true,
   });
-  return browserInstance;
 }
 
 export async function GET(
@@ -38,51 +51,59 @@ export async function GET(
 
     // Puppeteer로 PDF 생성
     const browser = await getBrowser();
-    const page = await browser.newPage();
+    let page;
 
-    // 페이지 방문
-    const pageUrl = `${request.url.split("/api/")[0]}/quotes/${token}`;
-    console.log(`[PDF] 페이지 로드 중: ${pageUrl}`);
+    try {
+      page = await browser.newPage();
 
-    await page.goto(pageUrl, {
-      waitUntil: "networkidle2",
-      timeout: 30000,
-    });
+      // 페이지 방문
+      const pageUrl = `${request.url.split("/api/")[0]}/quotes/${token}`;
+      console.log(`[PDF] 페이지 로드 중: ${pageUrl}`);
 
-    // PDF 생성 (Tailwind CSS 포함 렌더링)
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      margin: {
-        top: "20mm",
-        right: "20mm",
-        bottom: "20mm",
-        left: "20mm",
-      },
-      printBackground: true,
-    });
+      await page.goto(pageUrl, {
+        waitUntil: "networkidle2",
+        timeout: 30000,
+      });
 
-    await page.close();
+      // PDF 생성 (Tailwind CSS 포함 렌더링)
+      const pdfBuffer = await page.pdf({
+        format: "A4",
+        margin: {
+          top: "20mm",
+          right: "20mm",
+          bottom: "20mm",
+          left: "20mm",
+        },
+        printBackground: true,
+      });
 
-    console.log(`[PDF] PDF 생성 완료 - 크기: ${pdfBuffer.length}bytes`);
+      console.log(`[PDF] PDF 생성 완료 - 크기: ${pdfBuffer.length}bytes`);
 
-    // 파일명 생성
-    const issuedDate = quote.issuedDate
-      ? new Date(quote.issuedDate).toISOString().split("T")[0]
-      : new Date().toISOString().split("T")[0];
+      // 파일명 생성
+      const issuedDate = quote.issuedDate
+        ? new Date(quote.issuedDate).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0];
 
-    const sanitizedClientName =
-      quote.clientName.replace(/[^a-zA-Z0-9_-]/g, "") || "quote";
-    const asciiFilename = `QT-${issuedDate}-${quote.id}_${sanitizedClientName}.pdf`;
-    const encodedClientName = encodeURIComponent(quote.clientName);
-    const rfc5987Filename = `QT-${issuedDate}-${quote.id}_${encodedClientName}.pdf`;
+      const sanitizedClientName =
+        quote.clientName.replace(/[^a-zA-Z0-9_-]/g, "") || "quote";
+      const asciiFilename = `QT-${issuedDate}-${quote.id}_${sanitizedClientName}.pdf`;
+      const encodedClientName = encodeURIComponent(quote.clientName);
+      const rfc5987Filename = `QT-${issuedDate}-${quote.id}_${encodedClientName}.pdf`;
 
-    return new Response(Buffer.from(pdfBuffer), {
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${asciiFilename}"; filename*=UTF-8''${rfc5987Filename}`,
-        "Content-Length": pdfBuffer.length.toString(),
-      },
-    });
+      return new Response(Buffer.from(pdfBuffer), {
+        headers: {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="${asciiFilename}"; filename*=UTF-8''${rfc5987Filename}`,
+          "Content-Length": pdfBuffer.length.toString(),
+        },
+      });
+    } finally {
+      // 브라우저 리소스 정리
+      if (page) {
+        await page.close();
+      }
+      await browser.close();
+    }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[PDF] PDF 생성 실패:", errorMessage);

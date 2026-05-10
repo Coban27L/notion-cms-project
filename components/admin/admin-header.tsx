@@ -69,6 +69,7 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
             aria-label={`${theme === "dark" ? "라이트" : "다크"} 모드로 전환`}
             title={`${theme === "dark" ? "라이트" : "다크"} 모드로 전환`}
             className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+            suppressHydrationWarning
           >
             {theme === "dark" ? (
               <Sun
@@ -99,15 +100,15 @@ export function AdminHeader({ onMobileMenuToggle }: AdminHeaderProps) {
 
           {/* 사용자 드롭다운 */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="outline-none">
-              <button
+            <DropdownMenuTrigger className="outline-none focus:ring-2 focus:ring-blue-500 rounded">
+              <div
                 className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-blue-500 transition-all"
                 aria-label={`사용자 메뉴: ${session?.user?.email || "관리자"}`}
               >
                 <span className="text-xs font-semibold text-white">
                   {session?.user?.email?.charAt(0).toUpperCase() || "A"}
                 </span>
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               {/* 사용자 정보 */}

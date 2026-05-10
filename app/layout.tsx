@@ -47,7 +47,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className="h-full antialiased font-sans"
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body
+        className="min-h-full flex flex-col bg-background text-foreground"
+        suppressHydrationWarning
+      >
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TooltipProvider>
