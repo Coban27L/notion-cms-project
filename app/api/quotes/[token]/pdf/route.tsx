@@ -61,9 +61,40 @@ export async function GET(
       console.log(`[PDF] 페이지 로드 중: ${pageUrl}`);
 
       await page.goto(pageUrl, {
-        waitUntil: "networkidle2",
+        waitUntil: "networkidle0",
         timeout: 30000,
       });
+
+      // 한글 폰트 명시적 로드 및 강제 렌더링
+      await page.addStyleTag({
+        content: `
+          * {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif !important;
+          }
+          body {
+            font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+          }
+          @font-face {
+            font-family: "Noto Sans KR";
+            src: url("https://fonts.gstatic.com/s/notosanskr/v42/-F6sfjtqLzI2JPCgQBnw7HFQYwhYHg.woff2") format("woff2");
+            font-weight: 400;
+            font-display: block;
+          }
+          @font-face {
+            font-family: "Noto Sans KR";
+            src: url("https://fonts.gstatic.com/s/notosanskr/v42/-F6_fjtqLzI2JPCgQBnw7HFQYwhYHg.woff2") format("woff2");
+            font-weight: 700;
+            font-display: block;
+          }
+        `,
+      });
+
+      // 한글 폰트 로드 대기 및 강제 리페인트
+      await page.evaluate(() => {
+        document.body.style.opacity = "1";
+      });
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("[PDF] 한글 폰트 로드 완료");
 
       // PDF 생성 (Tailwind CSS 포함 렌더링)
       const pdfBuffer = await page.pdf({

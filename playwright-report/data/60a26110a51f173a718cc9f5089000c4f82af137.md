@@ -7,7 +7,7 @@
 # Test info
 
 - Name: phase-7-quality.spec.ts >> Phase 7: 품질 개선 및 버그 수정 >> Task 023: 접근성 개선 - 키보드 네비게이션
-- Location: __tests__/e2e/phase-7-quality.spec.ts:147:7
+- Location: **tests**/e2e/phase-7-quality.spec.ts:147:7
 
 # Error details
 
@@ -22,70 +22,70 @@ Received: null
 
 ```yaml
 - generic [ref=e1]:
-  - banner [ref=e2]:
-    - generic [ref=e3]:
-      - link "노션 CMS" [active] [ref=e4] [cursor=pointer]:
-        - /url: /
-        - img [ref=e5]
-        - text: 노션 CMS
-      - navigation [ref=e8]:
-        - link "홈" [ref=e9] [cursor=pointer]:
-          - /url: /
-        - link "대시보드" [ref=e10] [cursor=pointer]:
-          - /url: /dashboard
-      - generic [ref=e11]:
-        - button "테마 토글" [ref=e12]:
-          - img
-        - link "로그인" [ref=e14] [cursor=pointer]:
-          - /url: /login
-          - button "로그인" [ref=e15]
-  - main [ref=e16]:
-    - generic [ref=e18]:
-      - generic [ref=e20]: 관리자 로그인
-      - generic [ref=e22]:
-        - generic [ref=e23]:
-          - generic [ref=e24]: 이메일
-          - textbox "이메일" [ref=e25]:
-            - /placeholder: admin@example.com
-        - generic [ref=e26]:
-          - generic [ref=e27]: 비밀번호
-          - textbox "비밀번호" [ref=e28]:
-            - /placeholder: ••••••••
-        - button "로그인" [ref=e29]
-  - contentinfo [ref=e30]:
-    - generic [ref=e31]:
-      - generic [ref=e32]:
-        - generic [ref=e33]:
-          - generic [ref=e34]:
-            - img [ref=e35]
-            - text: 노션 CMS
-          - paragraph [ref=e38]: 노션 기반 견적서 발행 및 공유 플랫폼
-        - generic [ref=e39]:
-          - heading "서비스" [level=4] [ref=e40]
-          - list [ref=e41]:
-            - listitem [ref=e42]:
-              - link "홈" [ref=e43] [cursor=pointer]:
+    - banner [ref=e2]:
+        - generic [ref=e3]:
+            - link "노션 CMS" [active] [ref=e4] [cursor=pointer]:
                 - /url: /
-            - listitem [ref=e44]:
-              - link "대시보드" [ref=e45] [cursor=pointer]:
-                - /url: /dashboard
-            - listitem [ref=e46]:
-              - link "관리자 로그인" [ref=e47] [cursor=pointer]:
-                - /url: /login
-        - generic [ref=e48]:
-          - heading "법률" [level=4] [ref=e49]
-          - list [ref=e50]:
-            - listitem [ref=e51]:
-              - link "개인정보 보호" [ref=e52] [cursor=pointer]:
-                - /url: /privacy
-            - listitem [ref=e53]:
-              - link "이용약관" [ref=e54] [cursor=pointer]:
-                - /url: /terms
-      - paragraph [ref=e56]: © 2026 노션 CMS. 모든 권리 보유.
-  - region "Notifications alt+T"
-  - button "Open Next.js Dev Tools" [ref=e62] [cursor=pointer]:
-    - img [ref=e63]
-  - alert [ref=e66]
+                - img [ref=e5]
+                - text: 노션 CMS
+            - navigation [ref=e8]:
+                - link "홈" [ref=e9] [cursor=pointer]:
+                    - /url: /
+                - link "대시보드" [ref=e10] [cursor=pointer]:
+                    - /url: /dashboard
+            - generic [ref=e11]:
+                - button "테마 토글" [ref=e12]:
+                    - img
+                - link "로그인" [ref=e14] [cursor=pointer]:
+                    - /url: /login
+                    - button "로그인" [ref=e15]
+    - main [ref=e16]:
+        - generic [ref=e18]:
+            - generic [ref=e20]: 관리자 로그인
+            - generic [ref=e22]:
+                - generic [ref=e23]:
+                    - generic [ref=e24]: 이메일
+                    - textbox "이메일" [ref=e25]:
+                        - /placeholder: admin@example.com
+                - generic [ref=e26]:
+                    - generic [ref=e27]: 비밀번호
+                    - textbox "비밀번호" [ref=e28]:
+                        - /placeholder: ••••••••
+                - button "로그인" [ref=e29]
+    - contentinfo [ref=e30]:
+        - generic [ref=e31]:
+            - generic [ref=e32]:
+                - generic [ref=e33]:
+                    - generic [ref=e34]:
+                        - img [ref=e35]
+                        - text: 노션 CMS
+                    - paragraph [ref=e38]: 노션 기반 견적서 발행 및 공유 플랫폼
+                - generic [ref=e39]:
+                    - heading "서비스" [level=4] [ref=e40]
+                    - list [ref=e41]:
+                        - listitem [ref=e42]:
+                            - link "홈" [ref=e43] [cursor=pointer]:
+                                - /url: /
+                        - listitem [ref=e44]:
+                            - link "대시보드" [ref=e45] [cursor=pointer]:
+                                - /url: /dashboard
+                        - listitem [ref=e46]:
+                            - link "관리자 로그인" [ref=e47] [cursor=pointer]:
+                                - /url: /login
+                - generic [ref=e48]:
+                    - heading "법률" [level=4] [ref=e49]
+                    - list [ref=e50]:
+                        - listitem [ref=e51]:
+                            - link "개인정보 보호" [ref=e52] [cursor=pointer]:
+                                - /url: /privacy
+                        - listitem [ref=e53]:
+                            - link "이용약관" [ref=e54] [cursor=pointer]:
+                                - /url: /terms
+            - paragraph [ref=e56]: © 2026 노션 CMS. 모든 권리 보유.
+    - region "Notifications alt+T"
+    - button "Open Next.js Dev Tools" [ref=e62] [cursor=pointer]:
+        - img [ref=e63]
+    - alert [ref=e66]
 ```
 
 # Test source
@@ -96,96 +96,96 @@ Received: null
   58  |   }) => {
   59  |     // 견적서 상세 페이지 접근
   60  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  61  | 
+  61  |
   62  |     // 발행일 확인 (한국 포맷: "2024년 3월 15일")
   63  |     const issuedDate = page.locator("text=2024년 3월 15일");
   64  |     await expect(issuedDate).toBeVisible();
-  65  | 
+  65  |
   66  |     // 유효기간도 한국 포맷인지 확인
   67  |     const validDate = page.locator("text=2024년 4월 15일");
   68  |     await expect(validDate).toBeVisible();
   69  |   });
-  70  | 
+  70  |
   71  |   test("Task 022: PDF 레이아웃 개선 - 통화 포맷 검증", async ({ page }) => {
   72  |     // 견적서 상세 페이지 접근
   73  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  74  | 
+  74  |
   75  |     // ₩ 기호와 천 단위 콤마 확인
   76  |     const currencyText = page.locator("text=/₩.+[\d,]+/");
   77  |     await expect(currencyText).toBeVisible();
-  78  | 
+  78  |
   79  |     // 구체적인 금액 확인 (800,000)
   80  |     const specificAmount = page.locator("text=₩ 800,000");
   81  |     await expect(specificAmount).toBeVisible();
   82  |   });
-  83  | 
+  83  |
   84  |   test("Task 022: PDF 레이아웃 개선 - 단일 페이지 문서에서 요약 섹션 표시", async ({
   85  |     page,
   86  |   }) => {
   87  |     // 단일 페이지 견적서 접근
   88  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  89  | 
+  89  |
   90  |     // 합계 영역이 페이지에 표시되는지 확인
   91  |     const summarySection = page.locator("text=합계");
   92  |     await expect(summarySection).toBeVisible();
-  93  | 
+  93  |
   94  |     // 소계와 총액 확인
   95  |     const subtotal = page.locator("text=소계");
   96  |     const total = page.locator("text=1,500,000");
   97  |     await expect(subtotal).toBeVisible();
   98  |     await expect(total).toBeVisible();
   99  |   });
-  100 | 
+  100 |
   101 |   test("Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링", async ({
   102 |     page,
   103 |   }) => {
   104 |     // 다중 페이지 견적서 접근
   105 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440006");
-  106 | 
+  106 |
   107 |     // PDF 다운로드
   108 |     const downloadPromise = page.waitForEvent("download");
   109 |     await page.locator('button:has-text("PDF 다운로드")').click();
   110 |     const download = await downloadPromise;
-  111 | 
+  111 |
   112 |     // 파일이 다중 페이지임을 확인 (간접 검증)
   113 |     const filePath = await download.path();
   114 |     expect(filePath).toBeTruthy();
   115 |   });
-  116 | 
+  116 |
   117 |   test("Task 022: PDF 레이아웃 개선 - 비고 섹션 표시", async ({ page }) => {
   118 |     // 비고가 있는 견적서 접근
   119 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  120 | 
+  120 |
   121 |     // 비고 섹션 확인
   122 |     const notesSection = page.locator("text=비고");
   123 |     await expect(notesSection).toBeVisible();
-  124 | 
+  124 |
   125 |     const notesContent = page.locator("text=결제는 50% 선금");
   126 |     await expect(notesContent).toBeVisible();
   127 |   });
-  128 | 
+  128 |
   129 |   test("Task 022: PDF 레이아웃 개선 - 비고가 없는 견적서", async ({ page }) => {
   130 |     // 비고가 없는 견적서 접근 (page-003)
   131 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440003");
-  132 | 
+  132 |
   133 |     // 페이지는 로드되어야 함
   134 |     await expect(page.locator("text=이순신")).toBeVisible();
   135 |   });
-  136 | 
+  136 |
   137 |   test("Task 023: 접근성 개선 - ARIA 라벨 검증", async ({ page }) => {
   138 |     // 견적서 상세 페이지 접근
   139 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  140 | 
+  140 |
   141 |     // PDF 다운로드 버튼에 aria-label이 있는지 확인
   142 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   143 |     const ariaLabel = await downloadButton.getAttribute("aria-label");
   144 |     expect(ariaLabel).toBeTruthy();
   145 |   });
-  146 | 
+  146 |
   147 |   test("Task 023: 접근성 개선 - 키보드 네비게이션", async ({ page }) => {
   148 |     // 로그인 페이지 접근
   149 |     await page.goto("/login");
-  150 | 
+  150 |
   151 |     // 이메일 입력란 탭으로 포커스
   152 |     await page.keyboard.press("Tab");
   153 |     const focusedElement = await page.evaluate(() =>
@@ -193,7 +193,7 @@ Received: null
   155 |     );
 > 156 |     expect(focusedElement).toBe("email");
       |                            ^ Error: expect(received).toBe(expected) // Object.is equality
-  157 | 
+  157 |
   158 |     // 탭 키로 다음 요소로 이동
   159 |     await page.keyboard.press("Tab");
   160 |     const focusedElement2 = await page.evaluate(() =>
@@ -201,66 +201,66 @@ Received: null
   162 |     );
   163 |     expect(focusedElement2).toBe("password");
   164 |   });
-  165 | 
+  165 |
   166 |   test("Task 024: 회귀 테스트 - 전체 플로우 검증", async ({ page }) => {
   167 |     // 견적서 공유 링크 접근
   168 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  169 | 
+  169 |
   170 |     // 견적서 정보 확인
   171 |     await expect(page.locator("text=QT-2024-001")).toBeVisible();
   172 |     await expect(page.locator("text=홍길동")).toBeVisible();
-  173 | 
+  173 |
   174 |     // 항목 테이블 확인
   175 |     const table = page.locator("table");
   176 |     await expect(table).toBeVisible();
-  177 | 
+  177 |
   178 |     // 합계 영역 확인
   179 |     await expect(page.locator("text=합계")).toBeVisible();
-  180 | 
+  180 |
   181 |     // PDF 다운로드 가능 확인
   182 |     const downloadPromise = page.waitForEvent("download");
   183 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   184 |     await expect(downloadButton).toBeVisible();
   185 |     await downloadButton.click();
-  186 | 
+  186 |
   187 |     const download = await downloadPromise;
   188 |     expect(download.suggestedFilename()).toContain("pdf");
   189 |   });
-  190 | 
+  190 |
   191 |   test("Task 024: 회귀 테스트 - 모바일 반응형 (PDF 다운로드)", async ({
   192 |     page,
   193 |   }) => {
   194 |     // 모바일 뷰포트 설정
   195 |     await page.setViewportSize({ width: 375, height: 667 });
-  196 | 
+  196 |
   197 |     // 견적서 접근
   198 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  199 | 
+  199 |
   200 |     // 콘텐츠 표시 확인
   201 |     await expect(page.locator("text=홍길동")).toBeVisible();
-  202 | 
+  202 |
   203 |     // 모바일에서도 PDF 다운로드 가능
   204 |     const downloadPromise = page.waitForEvent("download");
   205 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   206 |     await expect(downloadButton).toBeVisible();
   207 |     await downloadButton.click();
-  208 | 
+  208 |
   209 |     const download = await downloadPromise;
   210 |     expect(download.suggestedFilename()).toContain("pdf");
   211 |   });
-  212 | 
+  212 |
   213 |   test("Task 024: 회귀 테스트 - 다크 모드에서 PDF 다운로드", async ({
   214 |     page,
   215 |   }) => {
   216 |     // 견적서 접근
   217 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  218 | 
+  218 |
   219 |     // 다크 모드로 전환
   220 |     const htmlElement = page.locator("html");
   221 |     const isDarkMode = await htmlElement.evaluate((el) =>
   222 |       el.classList.contains("dark"),
   223 |     );
-  224 | 
+  224 |
   225 |     if (!isDarkMode) {
   226 |       // 테마 토글 버튼이 있으면 클릭
   227 |       const themeButton = page.locator('button[title*="모드"]').first();
@@ -269,15 +269,15 @@ Received: null
   230 |         await page.waitForTimeout(200);
   231 |       }
   232 |     }
-  233 | 
+  233 |
   234 |     // 다크 모드에서도 PDF 다운로드 가능
   235 |     const downloadPromise = page.waitForEvent("download");
   236 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   237 |     await downloadButton.click();
-  238 | 
+  238 |
   239 |     const download = await downloadPromise;
   240 |     expect(download.suggestedFilename()).toContain("pdf");
   241 |   });
   242 | });
-  243 | 
+  243 |
 ```

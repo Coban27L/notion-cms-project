@@ -7,7 +7,7 @@
 # Test info
 
 - Name: phase-7-quality.spec.ts >> Phase 7: 품질 개선 및 버그 수정 >> Task 022: PDF 레이아웃 개선 - 통화 포맷 검증
-- Location: __tests__/e2e/phase-7-quality.spec.ts:71:7
+- Location: **tests**/e2e/phase-7-quality.spec.ts:71:7
 
 # Error details
 
@@ -29,308 +29,308 @@ Call log:
 
 ```yaml
 - generic [active] [ref=e1]:
-  - banner [ref=e2]:
-    - generic [ref=e3]:
-      - link "노션 CMS" [ref=e4] [cursor=pointer]:
-        - /url: /
-        - img [ref=e5]
-        - text: 노션 CMS
-      - navigation [ref=e8]:
-        - link "홈" [ref=e9] [cursor=pointer]:
-          - /url: /
-        - link "대시보드" [ref=e10] [cursor=pointer]:
-          - /url: /dashboard
-      - generic [ref=e11]:
-        - button "테마 토글" [ref=e12]:
-          - img
-        - link "로그인" [ref=e14] [cursor=pointer]:
-          - /url: /login
-          - button "로그인" [ref=e15]
-  - main [ref=e16]:
-    - generic [ref=e18]:
-      - link "돌아가기" [ref=e20] [cursor=pointer]:
-        - /url: /
-        - button "돌아가기" [ref=e21]:
-          - img
-          - text: 돌아가기
-      - generic [ref=e22]:
-        - heading "견적서 조회" [level=1] [ref=e23]
-        - paragraph [ref=e24]: 견적서의 상세 내용을 확인하실 수 있습니다.
-      - generic [ref=e25]:
-        - generic [ref=e26]:
-          - generic [ref=e27]:
-            - img [ref=e28]
-            - paragraph [ref=e30]: 이 견적서는 유효기간이 만료되었습니다.
-          - generic [ref=e31]:
-            - generic [ref=e32]:
-              - img [ref=e34]
-              - generic [ref=e37]:
-                - paragraph [ref=e38]: 견적서 번호
-                - heading "QT-2024-001" [level=2] [ref=e39]
-            - generic [ref=e40]: 발행
-          - separator [ref=e42]
-          - generic [ref=e43]:
-            - generic [ref=e44]:
-              - img [ref=e46]
-              - generic [ref=e50]:
-                - paragraph [ref=e51]: 클라이언트
-                - paragraph [ref=e52]: 홍길동
-            - generic [ref=e53]:
-              - img [ref=e55]
-              - generic [ref=e57]:
-                - paragraph [ref=e58]: 발행일
-                - paragraph [ref=e59]: 2024년 3월 15일
-            - generic [ref=e60]:
-              - img [ref=e62]
-              - generic [ref=e64]:
-                - paragraph [ref=e65]: 유효기간
-                - paragraph [ref=e66]: 2024년 4월 15일까지(만료됨)
-        - generic [ref=e67]:
-          - heading "견적 항목" [level=3] [ref=e68]
-          - table [ref=e71]:
-            - rowgroup [ref=e72]:
-              - row "품목 수량 단가 금액" [ref=e73]:
-                - columnheader "품목" [ref=e74]
-                - columnheader "수량" [ref=e75]
-                - columnheader "단가" [ref=e76]
-                - columnheader "금액" [ref=e77]
-            - rowgroup [ref=e78]:
-              - row "UI/UX 디자인 1 S$800,000.00 S$800,000.00" [ref=e79]:
-                - cell "UI/UX 디자인" [ref=e80]
-                - cell "1" [ref=e81]
-                - cell "S$800,000.00" [ref=e82]
-                - cell "S$800,000.00" [ref=e83]
-              - row "Frontend 개발 1 S$700,000.00 S$700,000.00" [ref=e84]:
-                - cell "Frontend 개발" [ref=e85]
-                - cell "1" [ref=e86]
-                - cell "S$700,000.00" [ref=e87]
-                - cell "S$700,000.00" [ref=e88]
-        - generic [ref=e89]:
-          - heading "금액 요약" [level=3] [ref=e90]
-          - generic [ref=e92]:
-            - generic [ref=e93]:
-              - generic [ref=e94]: 소계
-              - generic [ref=e95]: S$1,500,000.00
-            - generic [ref=e96]:
-              - generic [ref=e97]: GST (9%)
-              - generic [ref=e98]: S$135,000.00
-            - separator [ref=e99]
-            - generic [ref=e100]:
-              - generic [ref=e101]: 합계
-              - generic [ref=e102]: S$1,635,000.00
-        - generic [ref=e103]:
-          - generic [ref=e104]:
-            - img [ref=e105]
-            - heading "비고" [level=3] [ref=e108]
-          - paragraph [ref=e109]: 결제는 50% 선금, 50% 완료 후 지급
-        - separator [ref=e110]
-        - generic [ref=e111]:
-          - paragraph [ref=e112]: 이 견적서는 공유 링크를 통해 열람 가능합니다.
-          - generic [ref=e113]:
-            - button "공유 링크 복사" [ref=e114]:
-              - generic [ref=e115]:
-                - img
-              - generic [ref=e116]: 링크 복사
-            - button "PDF 다운로드" [ref=e117]:
-              - img
-              - text: PDF 다운로드
-  - contentinfo [ref=e118]:
-    - generic [ref=e119]:
-      - generic [ref=e120]:
-        - generic [ref=e121]:
-          - generic [ref=e122]:
-            - img [ref=e123]
-            - text: 노션 CMS
-          - paragraph [ref=e126]: 노션 기반 견적서 발행 및 공유 플랫폼
-        - generic [ref=e127]:
-          - heading "서비스" [level=4] [ref=e128]
-          - list [ref=e129]:
-            - listitem [ref=e130]:
-              - link "홈" [ref=e131] [cursor=pointer]:
+    - banner [ref=e2]:
+        - generic [ref=e3]:
+            - link "노션 CMS" [ref=e4] [cursor=pointer]:
                 - /url: /
-            - listitem [ref=e132]:
-              - link "대시보드" [ref=e133] [cursor=pointer]:
-                - /url: /dashboard
-            - listitem [ref=e134]:
-              - link "관리자 로그인" [ref=e135] [cursor=pointer]:
-                - /url: /login
-        - generic [ref=e136]:
-          - heading "법률" [level=4] [ref=e137]
-          - list [ref=e138]:
-            - listitem [ref=e139]:
-              - link "개인정보 보호" [ref=e140] [cursor=pointer]:
-                - /url: /privacy
-            - listitem [ref=e141]:
-              - link "이용약관" [ref=e142] [cursor=pointer]:
-                - /url: /terms
-      - paragraph [ref=e144]: © 2026 노션 CMS. 모든 권리 보유.
-  - region "Notifications alt+T"
-  - button "Open Next.js Dev Tools" [ref=e150] [cursor=pointer]:
-    - img [ref=e151]
-  - alert [ref=e154]
+                - img [ref=e5]
+                - text: 노션 CMS
+            - navigation [ref=e8]:
+                - link "홈" [ref=e9] [cursor=pointer]:
+                    - /url: /
+                - link "대시보드" [ref=e10] [cursor=pointer]:
+                    - /url: /dashboard
+            - generic [ref=e11]:
+                - button "테마 토글" [ref=e12]:
+                    - img
+                - link "로그인" [ref=e14] [cursor=pointer]:
+                    - /url: /login
+                    - button "로그인" [ref=e15]
+    - main [ref=e16]:
+        - generic [ref=e18]:
+            - link "돌아가기" [ref=e20] [cursor=pointer]:
+                - /url: /
+                - button "돌아가기" [ref=e21]:
+                    - img
+                    - text: 돌아가기
+            - generic [ref=e22]:
+                - heading "견적서 조회" [level=1] [ref=e23]
+                - paragraph [ref=e24]: 견적서의 상세 내용을 확인하실 수 있습니다.
+            - generic [ref=e25]:
+                - generic [ref=e26]:
+                    - generic [ref=e27]:
+                        - img [ref=e28]
+                        - paragraph [ref=e30]: 이 견적서는 유효기간이 만료되었습니다.
+                    - generic [ref=e31]:
+                        - generic [ref=e32]:
+                            - img [ref=e34]
+                            - generic [ref=e37]:
+                                - paragraph [ref=e38]: 견적서 번호
+                                - heading "QT-2024-001" [level=2] [ref=e39]
+                        - generic [ref=e40]: 발행
+                    - separator [ref=e42]
+                    - generic [ref=e43]:
+                        - generic [ref=e44]:
+                            - img [ref=e46]
+                            - generic [ref=e50]:
+                                - paragraph [ref=e51]: 클라이언트
+                                - paragraph [ref=e52]: 홍길동
+                        - generic [ref=e53]:
+                            - img [ref=e55]
+                            - generic [ref=e57]:
+                                - paragraph [ref=e58]: 발행일
+                                - paragraph [ref=e59]: 2024년 3월 15일
+                        - generic [ref=e60]:
+                            - img [ref=e62]
+                            - generic [ref=e64]:
+                                - paragraph [ref=e65]: 유효기간
+                                - paragraph [ref=e66]: 2024년 4월 15일까지(만료됨)
+                - generic [ref=e67]:
+                    - heading "견적 항목" [level=3] [ref=e68]
+                    - table [ref=e71]:
+                        - rowgroup [ref=e72]:
+                            - row "품목 수량 단가 금액" [ref=e73]:
+                                - columnheader "품목" [ref=e74]
+                                - columnheader "수량" [ref=e75]
+                                - columnheader "단가" [ref=e76]
+                                - columnheader "금액" [ref=e77]
+                        - rowgroup [ref=e78]:
+                            - row "UI/UX 디자인 1 S$800,000.00 S$800,000.00" [ref=e79]:
+                                - cell "UI/UX 디자인" [ref=e80]
+                                - cell "1" [ref=e81]
+                                - cell "S$800,000.00" [ref=e82]
+                                - cell "S$800,000.00" [ref=e83]
+                            - row "Frontend 개발 1 S$700,000.00 S$700,000.00" [ref=e84]:
+                                - cell "Frontend 개발" [ref=e85]
+                                - cell "1" [ref=e86]
+                                - cell "S$700,000.00" [ref=e87]
+                                - cell "S$700,000.00" [ref=e88]
+                - generic [ref=e89]:
+                    - heading "금액 요약" [level=3] [ref=e90]
+                    - generic [ref=e92]:
+                        - generic [ref=e93]:
+                            - generic [ref=e94]: 소계
+                            - generic [ref=e95]: S$1,500,000.00
+                        - generic [ref=e96]:
+                            - generic [ref=e97]: GST (9%)
+                            - generic [ref=e98]: S$135,000.00
+                        - separator [ref=e99]
+                        - generic [ref=e100]:
+                            - generic [ref=e101]: 합계
+                            - generic [ref=e102]: S$1,635,000.00
+                - generic [ref=e103]:
+                    - generic [ref=e104]:
+                        - img [ref=e105]
+                        - heading "비고" [level=3] [ref=e108]
+                    - paragraph [ref=e109]: 결제는 50% 선금, 50% 완료 후 지급
+                - separator [ref=e110]
+                - generic [ref=e111]:
+                    - paragraph [ref=e112]: 이 견적서는 공유 링크를 통해 열람 가능합니다.
+                    - generic [ref=e113]:
+                        - button "공유 링크 복사" [ref=e114]:
+                            - generic [ref=e115]:
+                                - img
+                            - generic [ref=e116]: 링크 복사
+                        - button "PDF 다운로드" [ref=e117]:
+                            - img
+                            - text: PDF 다운로드
+    - contentinfo [ref=e118]:
+        - generic [ref=e119]:
+            - generic [ref=e120]:
+                - generic [ref=e121]:
+                    - generic [ref=e122]:
+                        - img [ref=e123]
+                        - text: 노션 CMS
+                    - paragraph [ref=e126]: 노션 기반 견적서 발행 및 공유 플랫폼
+                - generic [ref=e127]:
+                    - heading "서비스" [level=4] [ref=e128]
+                    - list [ref=e129]:
+                        - listitem [ref=e130]:
+                            - link "홈" [ref=e131] [cursor=pointer]:
+                                - /url: /
+                        - listitem [ref=e132]:
+                            - link "대시보드" [ref=e133] [cursor=pointer]:
+                                - /url: /dashboard
+                        - listitem [ref=e134]:
+                            - link "관리자 로그인" [ref=e135] [cursor=pointer]:
+                                - /url: /login
+                - generic [ref=e136]:
+                    - heading "법률" [level=4] [ref=e137]
+                    - list [ref=e138]:
+                        - listitem [ref=e139]:
+                            - link "개인정보 보호" [ref=e140] [cursor=pointer]:
+                                - /url: /privacy
+                        - listitem [ref=e141]:
+                            - link "이용약관" [ref=e142] [cursor=pointer]:
+                                - /url: /terms
+            - paragraph [ref=e144]: © 2026 노션 CMS. 모든 권리 보유.
+    - region "Notifications alt+T"
+    - button "Open Next.js Dev Tools" [ref=e150] [cursor=pointer]:
+        - img [ref=e151]
+    - alert [ref=e154]
 ```
 
 # Test source
 
 ```ts
   1   | import { test, expect } from "@playwright/test";
-  2   | 
+  2   |
   3   | test.describe("Phase 7: 품질 개선 및 버그 수정", () => {
   4   |   test("Task 021: PDF 한글 폰트 렌더링 - 단일 페이지 PDF 다운로드", async ({
   5   |     page,
   6   |   }) => {
   7   |     // 공유 링크를 통해 견적서 페이지 접근
   8   |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  9   | 
+  9   |
   10  |     // 클라이언트명 확인 (한글)
   11  |     await expect(page.locator("text=홍길동")).toBeVisible();
-  12  | 
+  12  |
   13  |     // PDF 다운로드 버튼 찾기
   14  |     const downloadPromise = page.waitForEvent("download");
   15  |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   16  |     await expect(downloadButton).toBeVisible();
-  17  | 
+  17  |
   18  |     // 다운로드 클릭
   19  |     await downloadButton.click();
   20  |     const download = await downloadPromise;
-  21  | 
+  21  |
   22  |     // 다운로드된 파일 확인
   23  |     expect(download.suggestedFilename()).toContain("pdf");
   24  |     const filePath = await download.path();
   25  |     expect(filePath).toBeTruthy();
   26  |   });
-  27  | 
+  27  |
   28  |   test("Task 022: PDF 레이아웃 개선 - 다중 페이지 PDF 생성", async ({
   29  |     page,
   30  |   }) => {
   31  |     // 다중 페이지 테스트용 견적서 접근 (15개 항목)
   32  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440006");
-  33  | 
+  33  |
   34  |     // 클라이언트명 확인
   35  |     await expect(page.locator("text=다중페이지 테스트")).toBeVisible();
-  36  | 
+  36  |
   37  |     // 항목 목록 확인
   38  |     const itemCount = await page.locator('[role="row"]').count();
   39  |     expect(itemCount).toBeGreaterThan(10);
-  40  | 
+  40  |
   41  |     // PDF 다운로드
   42  |     const downloadPromise = page.waitForEvent("download");
   43  |     await page.locator('button:has-text("PDF 다운로드")').click();
   44  |     const download = await downloadPromise;
-  45  | 
+  45  |
   46  |     // 파일 생성 확인
   47  |     const filePath = await download.path();
   48  |     expect(filePath).toBeTruthy();
-  49  | 
+  49  |
   50  |     // 파일 크기 확인 (다중 페이지이므로 더 큼)
   51  |     const { stat } = await import("fs/promises");
   52  |     const fileStats = await stat(filePath);
   53  |     expect(fileStats.size).toBeGreaterThan(1000000); // > 1MB for multi-page
   54  |   });
-  55  | 
+  55  |
   56  |   test("Task 022: PDF 레이아웃 개선 - 한국 날짜 포맷 검증", async ({
   57  |     page,
   58  |   }) => {
   59  |     // 견적서 상세 페이지 접근
   60  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  61  | 
+  61  |
   62  |     // 발행일 확인 (한국 포맷: "2024년 3월 15일")
   63  |     const issuedDate = page.locator("text=2024년 3월 15일");
   64  |     await expect(issuedDate).toBeVisible();
-  65  | 
+  65  |
   66  |     // 유효기간도 한국 포맷인지 확인
   67  |     const validDate = page.locator("text=2024년 4월 15일");
   68  |     await expect(validDate).toBeVisible();
   69  |   });
-  70  | 
+  70  |
   71  |   test("Task 022: PDF 레이아웃 개선 - 통화 포맷 검증", async ({ page }) => {
   72  |     // 견적서 상세 페이지 접근
   73  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  74  | 
+  74  |
   75  |     // ₩ 기호와 천 단위 콤마 확인
   76  |     const currencyText = page.locator("text=/₩.+[\d,]+/");
 > 77  |     await expect(currencyText).toBeVisible();
       |                                ^ Error: expect(locator).toBeVisible() failed
-  78  | 
+  78  |
   79  |     // 구체적인 금액 확인 (800,000)
   80  |     const specificAmount = page.locator("text=₩ 800,000");
   81  |     await expect(specificAmount).toBeVisible();
   82  |   });
-  83  | 
+  83  |
   84  |   test("Task 022: PDF 레이아웃 개선 - 단일 페이지 문서에서 요약 섹션 표시", async ({
   85  |     page,
   86  |   }) => {
   87  |     // 단일 페이지 견적서 접근
   88  |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  89  | 
+  89  |
   90  |     // 합계 영역이 페이지에 표시되는지 확인
   91  |     const summarySection = page.locator("text=합계");
   92  |     await expect(summarySection).toBeVisible();
-  93  | 
+  93  |
   94  |     // 소계와 총액 확인
   95  |     const subtotal = page.locator("text=소계");
   96  |     const total = page.locator("text=1,500,000");
   97  |     await expect(subtotal).toBeVisible();
   98  |     await expect(total).toBeVisible();
   99  |   });
-  100 | 
+  100 |
   101 |   test("Task 022: PDF 레이아웃 개선 - 다중 페이지 문서 페이지 번호 렌더링", async ({
   102 |     page,
   103 |   }) => {
   104 |     // 다중 페이지 견적서 접근
   105 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440006");
-  106 | 
+  106 |
   107 |     // PDF 다운로드
   108 |     const downloadPromise = page.waitForEvent("download");
   109 |     await page.locator('button:has-text("PDF 다운로드")').click();
   110 |     const download = await downloadPromise;
-  111 | 
+  111 |
   112 |     // 파일이 다중 페이지임을 확인 (간접 검증)
   113 |     const filePath = await download.path();
   114 |     expect(filePath).toBeTruthy();
   115 |   });
-  116 | 
+  116 |
   117 |   test("Task 022: PDF 레이아웃 개선 - 비고 섹션 표시", async ({ page }) => {
   118 |     // 비고가 있는 견적서 접근
   119 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  120 | 
+  120 |
   121 |     // 비고 섹션 확인
   122 |     const notesSection = page.locator("text=비고");
   123 |     await expect(notesSection).toBeVisible();
-  124 | 
+  124 |
   125 |     const notesContent = page.locator("text=결제는 50% 선금");
   126 |     await expect(notesContent).toBeVisible();
   127 |   });
-  128 | 
+  128 |
   129 |   test("Task 022: PDF 레이아웃 개선 - 비고가 없는 견적서", async ({ page }) => {
   130 |     // 비고가 없는 견적서 접근 (page-003)
   131 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440003");
-  132 | 
+  132 |
   133 |     // 페이지는 로드되어야 함
   134 |     await expect(page.locator("text=이순신")).toBeVisible();
   135 |   });
-  136 | 
+  136 |
   137 |   test("Task 023: 접근성 개선 - ARIA 라벨 검증", async ({ page }) => {
   138 |     // 견적서 상세 페이지 접근
   139 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  140 | 
+  140 |
   141 |     // PDF 다운로드 버튼에 aria-label이 있는지 확인
   142 |     const downloadButton = page.locator('button:has-text("PDF 다운로드")');
   143 |     const ariaLabel = await downloadButton.getAttribute("aria-label");
   144 |     expect(ariaLabel).toBeTruthy();
   145 |   });
-  146 | 
+  146 |
   147 |   test("Task 023: 접근성 개선 - 키보드 네비게이션", async ({ page }) => {
   148 |     // 로그인 페이지 접근
   149 |     await page.goto("/login");
-  150 | 
+  150 |
   151 |     // 이메일 입력란 탭으로 포커스
   152 |     await page.keyboard.press("Tab");
   153 |     const focusedElement = await page.evaluate(() =>
   154 |       document.activeElement?.getAttribute("type"),
   155 |     );
   156 |     expect(focusedElement).toBe("email");
-  157 | 
+  157 |
   158 |     // 탭 키로 다음 요소로 이동
   159 |     await page.keyboard.press("Tab");
   160 |     const focusedElement2 = await page.evaluate(() =>
@@ -338,17 +338,17 @@ Call log:
   162 |     );
   163 |     expect(focusedElement2).toBe("password");
   164 |   });
-  165 | 
+  165 |
   166 |   test("Task 024: 회귀 테스트 - 전체 플로우 검증", async ({ page }) => {
   167 |     // 견적서 공유 링크 접근
   168 |     await page.goto("/quotes/550e8400-e29b-41d4-a716-446655440001");
-  169 | 
+  169 |
   170 |     // 견적서 정보 확인
   171 |     await expect(page.locator("text=QT-2024-001")).toBeVisible();
   172 |     await expect(page.locator("text=홍길동")).toBeVisible();
-  173 | 
+  173 |
   174 |     // 항목 테이블 확인
   175 |     const table = page.locator("table");
   176 |     await expect(table).toBeVisible();
-  177 | 
+  177 |
 ```
